@@ -45,3 +45,4 @@ describe("getUserDetailsOrRedirect", () => {
     expect(redirect).toHaveBeenCalledWith("/auth/login")
   })
 })
+
