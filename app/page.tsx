@@ -1,22 +1,24 @@
+import { getUserDetailsOrRedirect } from "@/services/authServiceServer";
+import { Suspense } from "react";
 
-
-
-import { redirect } from "next/navigation";
-
-import { createClient } from "@/lib/supabase/server";
+async function UserDetails() {
+  const userData = await getUserDetailsOrRedirect();
+  return (
+    <pre>
+      {userData}
+    </pre>
+  );
+}
 
 export default async function Home() {
 
-    const supabase = await createClient();
-    const { data, error } = await supabase.auth.getClaims();
-  
-    if (error || !data?.claims) {
-      redirect("/auth/login");
-    }
   return (
     <main className="min-h-screen flex flex-col items-center">
       <h1>Dashboard</h1>
       <p>Welcome to Next.js!</p>
+      <Suspense fallback={<p>Loading user details...</p>}>
+        <UserDetails />
+      </Suspense>
     </main>
   );
 }
