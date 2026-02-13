@@ -7,8 +7,8 @@ export async function getUserDetailsOrRedirect() {
   const { data, error } = await supabase.auth.getClaims();
 
   if (error || !data?.claims) {
-    redirect("/auth/login");
+    return redirect("/auth/login");
   }
 
-  return JSON.stringify(data.claims, null, 2);
+  return data.claims;
 }

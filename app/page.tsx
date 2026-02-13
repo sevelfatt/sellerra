@@ -5,7 +5,7 @@ async function UserDetails() {
   const userData = await getUserDetailsOrRedirect();
   return (
     <pre>
-      {userData}
+      {JSON.stringify(userData, null, 2)}
     </pre>
   );
 }
