@@ -1,14 +1,12 @@
-export const dynamic = 'force-dynamic'
 
-import { unstable_noStore } from 'next/cache'
+
 
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 
 export default async function Home() {
-    unstable_noStore()
-    
+
     const supabase = await createClient();
     const { data, error } = await supabase.auth.getClaims();
   
