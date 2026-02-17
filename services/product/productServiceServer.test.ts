@@ -1,4 +1,4 @@
-import { getAllProductsByUserId, createNewProduct } from "@/services/productServiceServer"
+import { getAllProductsByUserId } from "@/services/product/productServiceServer"
 import { Product } from "@/models/products" // import sesuai kamu "pat  h" // path sesuai kamu
 import { createClient } from "@/lib/supabase/server"
 import { after } from "node:test"
@@ -46,28 +46,3 @@ describe("getAllProductsByUserId", () => {
     })
 })
 
-describe("createNewProduct", () => { 
-    afterEach(() => {
-        jest.clearAllMocks()
-    })
-
-    it("must return 'success' when creating a new product", async () => {
-        const userId = "user-123"
-        const newProduct = new Product()
-        newProduct.name = "New Product"
-        newProduct.description = "A new product description"
-        newProduct.price = 100
-        newProduct.image_path = "/images/new-product.jpg"
-        newProduct.category_id = "category-123"
-        newProduct.user_id = userId
-        
-        const response = { status: 200, statusText: "created" }
-            ; (createClient as jest.Mock).mockReturnValue({
-                from: jest.fn().mockReturnThis(),
-                insert: jest.fn().mockResolvedValue(response),
-            })
-        const result = await createNewProduct(userId, newProduct)
-
-        expect(result).toEqual(response)
-        })
-})

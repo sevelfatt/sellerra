@@ -1,9 +1,9 @@
-import { getUserDetailsOrRedirect } from "@/services/authServiceServer";
+import { requireUser } from "@/services/auth/authServiceServer";
 import { LogoutButton } from "@/components/logout-button";
 import { Suspense } from "react";
 
 async function UserDetails() {
-  const userData = await getUserDetailsOrRedirect();
+  const userData = await requireUser();
   return (
     <pre>
       {JSON.stringify(userData, null, 2)}

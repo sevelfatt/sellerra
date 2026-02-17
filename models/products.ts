@@ -3,6 +3,7 @@ export class Product {
     name: string = "";
     description: string = "";
     price: number = 0;
+    stocks: number = 0;
     image_path: string = "";
     category_id: string = "";
     user_id: string = "";

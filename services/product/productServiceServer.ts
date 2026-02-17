@@ -19,15 +19,3 @@ export async function getAllProductsByUserId(userId: string) {
     return data;
 }
 
-export async function createNewProduct(userId: string, product: Product) {
-    const supabase = await createClient();
-    const { status, statusText} = await supabase
-        .from("products")
-        .insert([{ ...product, user_id: userId }]);
-
-    if (status !== 200 && statusText !== "created") {
-        throw new Error(`Failed to create product: ${statusText}`);
-    }
-    return { status, statusText };
-}
-
