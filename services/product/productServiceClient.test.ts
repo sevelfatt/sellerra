@@ -1,4 +1,4 @@
-import { createNewProduct } from "@/services/product/productServiceClient"
+import { createNewProduct, updateProductById } from "@/services/product/productServiceClient"
 import { Product } from "@/models/products"
 import { createClient } from "@/lib/supabase/client"
 
@@ -66,4 +66,46 @@ describe("createNewProduct", () => {
       createNewProduct(userId, newProduct)
     ).rejects.toThrow("Insert failed")
   })
+})
+
+describe("updateProductById", () => {
+  it("throws error when supabase returns error", async () => {
+    const productId = 1
+    const updatedFields = { name: "Updated Product" }
+
+      ; (createClient as jest.Mock).mockReturnValue({
+        from: jest.fn().mockReturnThis(),
+        update: jest.fn().mockReturnThis(),
+        eq: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        single: jest.fn().mockResolvedValue({ data: null, error: { message: "Update failed" } }),
+      })
+
+    await expect(updateProductById(productId, updatedFields)).rejects.toThrow("Update failed")
+  })
+
+  it("returns updated product when success", async () => {
+    const productId = 1
+    const updatedFields = { name: "Updated Product" }
+    const mockData = {
+      id: productId,
+      name: updatedFields.name,
+      description: "Existing description",
+      price: 100,
+      stocks: 10,
+      user_id: "user-123",
+    }
+
+      ; (createClient as jest.Mock).mockReturnValue({
+        from: jest.fn().mockReturnThis(),
+        update: jest.fn().mockReturnThis(),
+        eq: jest.fn().mockReturnThis(),
+        select: jest.fn().mockReturnThis(),
+        single: jest.fn().mockResolvedValue({ data: mockData, error: null }),
+      })
+
+    const result = await updateProductById(productId, updatedFields)
+
+    expect(result).toEqual(mockData)
+    })
 })

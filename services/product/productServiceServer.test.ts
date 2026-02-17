@@ -1,7 +1,7 @@
-import { getAllProductsByUserId } from "@/services/product/productServiceServer"
+import { getAllProductsByUserId, deleteProductById } from "@/services/product/productServiceServer"
 import { Product } from "@/models/products" // import sesuai kamu "pat  h" // path sesuai kamu
 import { createClient } from "@/lib/supabase/server"
-import { after } from "node:test"
+import { error } from "console"
 
 jest.mock("@/lib/supabase/server")
 
@@ -43,6 +43,29 @@ describe("getAllProductsByUserId", () => {
                 eq: jest.fn().mockResolvedValue({ data: products as Product[], error: error }),
             })
         await expect(getAllProductsByUserId(userId)).rejects.toThrow(error.message)
+    })
+})
+
+describe("deleteProductById", () => {
+    it("throws an error when supabase returns an error", async () => {
+        const productId = 1
+        const error = { message: "An error occurred" }
+            ; (createClient as jest.Mock).mockReturnValue({
+                from: jest.fn().mockReturnThis(),
+                delete: jest.fn().mockReturnThis(),
+                eq: jest.fn().mockResolvedValue({ data: null, error: error }),
+            })
+        await expect(deleteProductById(productId)).rejects.toThrow(error.message)
+    })
+
+    it("deletes the product when productId is provided", async () => {
+        const productId = 1
+            ; (createClient as jest.Mock).mockReturnValue({
+                from: jest.fn().mockReturnThis(),
+                delete: jest.fn().mockReturnThis(),
+                eq: jest.fn().mockResolvedValue({ data: null, error: null }),
+            })
+        await expect(deleteProductById(productId)).resolves.not.toThrow()
     })
 })
 

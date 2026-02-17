@@ -19,3 +19,15 @@ export async function getAllProductsByUserId(userId: string) {
     return data;
 }
 
+export async function deleteProductById(productId: number) {
+    const supabase = await createClient();
+    const { error } = await supabase
+        .from("products")
+        .delete()
+        .eq("id", productId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+}
+

@@ -28,3 +28,22 @@ export async function createNewProduct(userId: string, product: Product) {
     console.log("Product created successfully:", data);
     return data;
 }
+
+export async function updateProductById(productId: number, updatedFields: Partial<Product>) {
+    const supabase = createClient();
+
+    const { data, error } = await supabase
+        .from("products")
+        .update(updatedFields)
+        .eq("id", productId)
+        .select()
+        .single();
+
+    if (error) {
+        console.error("Failed to update product:", error.message);
+        throw new Error(error.message);
+    }
+
+    console.log("Product updated successfully:", data);
+    return data;
+}
