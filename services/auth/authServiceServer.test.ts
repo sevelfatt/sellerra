@@ -1,14 +1,31 @@
-import { requireUser, getCurrentUserId } from "@/services/auth/authServiceServer" // import sesuai kamu "pat  h" // path sesuai kamu
+import { requireUser, getCurrentUserId } from "./authServiceServer"
 import { redirect } from "next/navigation"
 
-jest.mock("@/lib/supabase/server")
+// IMPORTANT: mock dulu sebelum import createClient dipakai
+jest.mock("@/lib/supabase/server", () => ({
+  createClient: jest.fn(),
+}))
+
 jest.mock("next/navigation", () => ({
   redirect: jest.fn(),
 }))
 
-const mockGetUser = jest.fn()
+import { createClient } from "@/lib/supabase/server"
 
-describe("requireUser", () => {
+describe("authServiceServer", () => {
+  const mockGetUser = jest.fn()
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+
+    ;(createClient as jest.Mock).mockResolvedValue({
+      auth: {
+        getUser: mockGetUser,
+      },
+    })
+  })
+
+  describe("requireUser", () => {
     it("returns user when user exists", async () => {
       mockGetUser.mockResolvedValue({
         data: { user: { id: "user-123" } },
@@ -42,4 +59,4 @@ describe("requireUser", () => {
       expect(userId).toBe("abc-999")
     })
   })
-
+})
