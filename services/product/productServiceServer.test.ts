@@ -1,4 +1,4 @@
-import { getAllProductsByUserId, deleteProductById } from "@/services/product/productServiceServer"
+import { getAllProductsByUserId, getProductById} from "@/services/product/productServiceServer"
 import { Product } from "@/models/products" // import sesuai kamu "pat  h" // path sesuai kamu
 import { createClient } from "@/lib/supabase/server"
 import { error } from "console"
@@ -46,26 +46,35 @@ describe("getAllProductsByUserId", () => {
     })
 })
 
-describe("deleteProductById", () => {
+describe("getProductById", () => {
+    it("returns product for the given productId", async () => {
+        const productId = 1
+        const product = { id: productId, name: "Product 1" }
+
+            ; (createClient as jest.Mock).mockReturnValue({
+                from: jest.fn().mockReturnThis(),
+                select: jest.fn().mockReturnThis(),
+                eq: jest.fn().mockReturnThis(),
+                single: jest.fn().mockResolvedValue({ data: product, error: null }),
+            })
+        const result = await getProductById(productId)
+
+        expect(result).toEqual(product)
+    })
     it("throws an error when supabase returns an error", async () => {
         const productId = 1
-        const error = { message: "An error occurred" }
+        const product = null
+        const error = new Error("An error occurred")
             ; (createClient as jest.Mock).mockReturnValue({
                 from: jest.fn().mockReturnThis(),
-                delete: jest.fn().mockReturnThis(),
-                eq: jest.fn().mockResolvedValue({ data: null, error: error }),
+                select: jest.fn().mockReturnThis(),
+                eq: jest.fn().mockReturnThis(),
+                single: jest.fn().mockResolvedValue({ data: product, error: error }),
             })
-        await expect(deleteProductById(productId)).rejects.toThrow(error.message)
-    })
-
-    it("deletes the product when productId is provided", async () => {
-        const productId = 1
-            ; (createClient as jest.Mock).mockReturnValue({
-                from: jest.fn().mockReturnThis(),
-                delete: jest.fn().mockReturnThis(),
-                eq: jest.fn().mockResolvedValue({ data: null, error: null }),
-            })
-        await expect(deleteProductById(productId)).resolves.not.toThrow()
+        await expect(getProductById(productId)).rejects.toThrow(error)
     })
 })
+
+
+
 

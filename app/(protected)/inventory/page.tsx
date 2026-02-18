@@ -1,27 +1,45 @@
 import { Suspense } from 'react'
 import { getAllProductsByUserId } from '@/services/product/productServiceServer'
 import { getCurrentUserId } from '@/services/auth/authServiceServer'
+import Link from 'next/link';
+import DeleteProductButton from '@/components/inventory/deleteProductButton'
+
+function UpdateProductButtonNavigator({ productId }: { productId: number }) {
+  return (
+    <Link href={`/inventory/update/${productId}`}>
+      <button className="text-blue-500 hover:text-blue-700">
+        Update
+      </button>
+    </Link>
+  )
+}
 
 async function ProductsList() {
-    const userId = await getCurrentUserId();
-    const products = await getAllProductsByUserId(userId);
+  const userId = await getCurrentUserId();
+  const products = await getAllProductsByUserId(userId);
+
   return (
     <table className="w-full border-collapse">
       <thead>
         <tr>
-          <th className="border-b border-gray-200 bg-gray-50 p-4">ID</th>
-          <th className="border-b border-gray-200 bg-gray-50 p-4">Name</th>
-          <th className="border-b border-gray-200 bg-gray-50 p-4">Description</th>
-          <th className="border-b border-gray-200 bg-gray-50 p-4">Price</th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         {products.map((product) => (
           <tr key={product.id}>
-            <td className="border-b border-gray-200 p-4">{product.id}</td>
-            <td className="border-b border-gray-200 p-4">{product.name}</td>
-            <td className="border-b border-gray-200 p-4">{product.description}</td>
-            <td className="border-b border-gray-200 p-4">{product.price}</td>
+            <td>{product.id}</td>
+            <td>{product.name}</td>
+            <td>{product.description}</td>
+            <td>{product.price}</td>
+            <td>
+              <DeleteProductButton productId={product.id} />
+              <UpdateProductButtonNavigator productId={product.id} />
+            </td>
           </tr>
         ))}
       </tbody>
@@ -29,7 +47,7 @@ async function ProductsList() {
   );
 }
 
-function page() {
+export default function Page() {
   return (
     <div>
       <h1>Inventory Page</h1>
@@ -39,5 +57,3 @@ function page() {
     </div>
   )
 }
-
-export default page

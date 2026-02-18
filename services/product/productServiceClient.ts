@@ -47,3 +47,31 @@ export async function updateProductById(productId: number, updatedFields: Partia
     console.log("Product updated successfully:", data);
     return data;
 }
+
+export async function deleteProductById(productId: number) {
+    const supabase = await createClient();
+    const { error } = await supabase
+        .from("products")
+        .delete()
+        .eq("id", productId);
+
+    if (error) {
+        console.error("Failed to delete product:", error.message);
+        throw new Error(error.message);
+    }
+    console.log("Product: " + productId + " deleted successfully");
+}
+
+export async function getProductById(productId: number) {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", productId)
+        .single();
+
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data;
+}
