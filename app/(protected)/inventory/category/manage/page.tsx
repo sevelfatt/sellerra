@@ -1,41 +1,32 @@
 import { Suspense } from 'react'
 import { getCurrentUserId } from '@/services/auth/authServiceServer'
 import { getAllCategoriesByUserId } from '@/services/category/categoryServiceServer';
-import { Category } from '@/models/categories';
+import { CategoryTable } from '@/components/inventory/CategoryTable';
 
 async function CategoriesList() {
   const userId = await getCurrentUserId();
-  const categories: Category[] = await getAllCategoriesByUserId(userId);
+  const categories = await getAllCategoriesByUserId(userId);
 
-  return (
-    <table className="w-full border-collapse">
-      <thead>
-        <tr>
-            {categories.length > 0 && Object.keys(categories[0]).map((key) => (
-                <th key={key}>{key}</th>
-            ))}
-        </tr>
-      </thead>
-      <tbody>
-        {categories.map((category) => (
-          <tr key={category.id}>
-            <td>{category.id}</td>
-            <td>{category.title}</td>
-
-            </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+  return <CategoryTable initialCategories={categories} />;
 }
 
 export default function Page() {
   return (
-    <div>
-      <h1>Categories Page</h1>
-      <Suspense fallback={<p>Loading categories...</p>}>
-        <CategoriesList />
-      </Suspense>
+    <div className="container mx-auto py-10 px-4 md:px-6">
+      <div className="flex flex-col gap-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">Inventory Management</h1>
+          <p className="text-muted-foreground">Manage your product categories and inventory structure.</p>
+        </div>
+        
+        <Suspense fallback={
+          <div className="w-full h-64 flex items-center justify-center border rounded-lg animate-pulse bg-muted/20">
+            <p className="text-muted-foreground font-medium">Loading categories...</p>
+          </div>
+        }>
+          <CategoriesList />
+        </Suspense>
+      </div>
     </div>
   )
 }

@@ -14,6 +14,7 @@ export async function createNewProduct(userId: string, product: Product) {
                 description: product.description,
                 price: product.price,
                 stocks: product.stocks ?? 0,
+                category_id: product.category_id,
                 user_id: userId,
             },
         ])

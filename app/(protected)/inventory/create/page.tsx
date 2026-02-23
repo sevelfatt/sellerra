@@ -3,16 +3,12 @@ import ProductInputForm from '@/components/inventory/productInputForm'
 import { getCurrentUserId } from '@/services/auth/authServiceServer'
 
 async function page() {
-
-
   return (
-    <div>
-        <h1>Create Product</h1>
-        <Suspense fallback={<div>Loading...</div>}>
+    <div className="p-6">
+        <Suspense fallback={<div className="h-40 flex items-center justify-center font-medium">Loading form...</div>}>
             <ProductInputContent />
         </Suspense>
     </div>
-    
   )
 }
 

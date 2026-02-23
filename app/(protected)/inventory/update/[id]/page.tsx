@@ -7,9 +7,11 @@ export default function UpdateProductPage(props: {
   params: Promise<{ id: string }>;
 }) {
   return (
-    <Suspense fallback={<div>Loading product...</div>}>
-      <ProductLoader params={props.params} />
-    </Suspense>
+    <div className="p-6">
+      <Suspense fallback={<div className="h-40 flex items-center justify-center font-medium">Loading product...</div>}>
+        <ProductLoader params={props.params} />
+      </Suspense>
+    </div>
   );
 }
 

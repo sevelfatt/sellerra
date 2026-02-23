@@ -14,3 +14,18 @@ export async function getAllCategoriesByUserId(userId: string) {
 
     return data as Category[];
 }
+
+export async function getCategoryById(id: number) {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+        .from("categories")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return data as Category;
+}

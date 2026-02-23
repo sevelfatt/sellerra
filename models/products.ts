@@ -5,7 +5,7 @@ export class Product {
     price: number = 0;
     stocks: number = 0;
     image_path: string = "";
-    category_id: string = "";
+    category_id: number | null = null;
     user_id: string = "";
 
     constructor(init?: Partial<Product>) {
