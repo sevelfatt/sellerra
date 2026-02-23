@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Package, Menu, X, Store } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { AuthButton } from "./auth-button";
 import { ThemeSwitcher } from "./theme-switcher";
 
 const navItems = [
@@ -14,7 +13,7 @@ const navItems = [
   { label: "Inventory", href: "/inventory", icon: Package },
 ];
 
-export function Sidebar() {
+export function Sidebar({ authButton }: { authButton?: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -67,14 +66,13 @@ export function Sidebar() {
             ))}
           </nav>
 
-          <div className="mt-auto pt-4 border-t space-y-4">
+          <div className="mt-auto pt-6 border-t border-border/50 space-y-6">
             <div className="flex items-center justify-between px-2">
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Appearance</span>
               <ThemeSwitcher />
             </div>
-            <div className="px-2 pb-2 overflow-hidden">
-               <Suspense fallback={<div className="h-8 w-full animate-pulse bg-muted rounded-md" />}>
-                 <AuthButton />
-               </Suspense>
+            <div className="px-2 pb-2">
+               {authButton}
             </div>
           </div>
         </div>
