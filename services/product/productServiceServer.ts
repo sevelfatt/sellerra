@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { PostgrestError } from "@supabase/supabase-js";
 import { Product } from "@/models/products";
 
 export async function getAllProductsByUserId(userId: string) {
@@ -32,7 +31,15 @@ export async function getProductById(productId: number) {
     }
     return data;
 }
+export async function getProductsByCategoryId(categoryId: number) {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("category_id", categoryId);
 
-
-
-
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data as Product[];
+}

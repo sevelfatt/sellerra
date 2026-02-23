@@ -6,6 +6,7 @@ import DeleteProductButton from '@/components/inventory/deleteProductButton'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Plus, Package, Pencil } from "lucide-react"
+import { formatRupiah } from '@/lib/utils'
 
 async function ProductsList() {
   const userId = await getCurrentUserId();
@@ -43,7 +44,7 @@ async function ProductsList() {
             <tr key={product.id} className="hover:bg-muted/50 transition-colors">
               <td className="p-4 font-medium">{product.name}</td>
               <td className="p-4 hidden md:table-cell text-muted-foreground max-w-xs truncate">{product.description}</td>
-              <td className="p-4">${product.price.toLocaleString()}</td>
+              <td className="p-4">{formatRupiah(product.price)}</td>
               <td className="p-4">
                 <span className={`px-2 py-1 rounded-full text-xs font-semibold ${product.stocks > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                   {product.stocks} in stock
