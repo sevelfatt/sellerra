@@ -6,12 +6,14 @@ import { getCategoriesByUserId } from '@/services/category/categoryServiceClient
 import { Product } from '@/models/products';
 import { Category } from '@/models/categories';
 import { useRouter } from 'next/navigation';
+import { uploadImage } from '@/services/product/productImageService';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ChevronLeft, Loader2, Save } from "lucide-react"
+import { ChevronLeft, Loader2, Save, Upload, X } from "lucide-react"
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ProductInputForm({ userId }: { userId: string }) {
     const router = useRouter();
@@ -22,6 +24,8 @@ export default function ProductInputForm({ userId }: { userId: string }) {
     const [categoryId, setCategoryId] = useState<string>("");
     const [categories, setCategories] = useState<Category[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -35,17 +39,45 @@ export default function ProductInputForm({ userId }: { userId: string }) {
         fetchCategories();
     }, [userId]);
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeImage = () => {
+        setImageFile(null);
+        setImagePreview(null);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
         try {
+            let imagePath = "";
+            if (imageFile) {
+                const fileExt = imageFile.name.split('.').pop();
+                const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+                const filePath = `${fileName}`;
+                
+                const uploadResult = await uploadImage(imageFile, filePath);
+                imagePath = uploadResult.path;
+            }
+
             const newProduct = new Product({
                 name,
                 description,
                 price: parseInt(price) || 0,
                 stocks: parseInt(stocks) || 0,
                 category_id: categoryId ? parseInt(categoryId) : null,
-                user_id: userId
+                user_id: userId,
+                image_path: imagePath
             });
 
             await createNewProduct(userId, newProduct);
@@ -136,6 +168,48 @@ export default function ProductInputForm({ userId }: { userId: string }) {
                                     </option>
                                 ))}
                             </select>
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="image">Product Image</Label>
+                            <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-6 hover:bg-muted/50 transition-colors relative group">
+                                {imagePreview ? (
+                                    <div className="relative w-full aspect-video rounded-md overflow-hidden bg-muted">
+                                        <Image 
+                                            src={imagePreview} 
+                                            alt="Preview" 
+                                            fill 
+                                            className="object-contain"
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant="destructive"
+                                            size="icon"
+                                            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            onClick={removeImage}
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <label htmlFor="image-upload" className="flex flex-col items-center cursor-pointer space-y-2">
+                                        <div className="p-3 rounded-full bg-primary/10">
+                                            <Upload className="h-6 w-6 text-primary" />
+                                        </div>
+                                        <div className="text-center">
+                                            <span className="text-sm font-medium">Click to upload image</span>
+                                            <p className="text-xs text-muted-foreground mt-1">PNG, JPG or WebP (max 2MB)</p>
+                                        </div>
+                                        <input 
+                                            id="image-upload" 
+                                            type="file" 
+                                            accept="image/*" 
+                                            className="hidden" 
+                                            onChange={handleImageChange}
+                                        />
+                                    </label>
+                                )}
+                            </div>
                         </div>
 
                         <div className="pt-4">
