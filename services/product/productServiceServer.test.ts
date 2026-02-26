@@ -1,6 +1,6 @@
 import { getAllProductsByUserId, getProductById, getProductsByCategoryId } from "@/services/product/productServiceServer";
 import { createClient } from "@/lib/supabase/server";
-import { Product } from "@/models/products";
+import { Product } from "@/models/product";
 
 jest.mock("@/lib/supabase/server");
 

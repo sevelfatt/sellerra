@@ -1,6 +1,6 @@
 import { getAllCategoriesByUserId, getCategoryById } from "./categoryServiceServer";
 import { createClient } from "@/lib/supabase/server";
-import { Category } from "@/models/categories";
+import { Category } from "@/models/category";
 
 jest.mock("@/lib/supabase/server");
 

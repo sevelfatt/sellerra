@@ -1,6 +1,6 @@
 import { createCategory, updateCategory, deleteCategory } from "./categoryServiceClient";
 import { createClient } from "@/lib/supabase/client";
-import { Category } from "@/models/categories";
+import { Category } from "@/models/category";
 
 jest.mock("@/lib/supabase/client");
 

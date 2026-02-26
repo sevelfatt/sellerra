@@ -1,7 +1,7 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { Product } from "@/models/products";
+import { Product } from "@/models/product";
 
 export async function createNewProduct(userId: string, product: Product) {
     const supabase = createClient();

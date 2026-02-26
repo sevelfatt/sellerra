@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { updateProductById } from "@/services/product/productServiceClient";
 import { getCategoriesByUserId } from "@/services/category/categoryServiceClient";
-import { Product } from "@/models/products";
-import { Category } from "@/models/categories";
+import { Product } from "@/models/product";
+import { Category } from "@/models/category";
 import { useRouter } from "next/navigation";
 import { uploadImage, deleteImage, getPublicUrl } from "@/services/product/productImageService";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"

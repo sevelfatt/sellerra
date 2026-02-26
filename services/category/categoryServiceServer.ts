@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { Category } from "@/models/categories";
+import { Category } from "@/models/category";
 
 export async function getAllCategoriesByUserId(userId: string) {
     const supabase = await createClient();

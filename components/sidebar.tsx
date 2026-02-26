@@ -11,6 +11,7 @@ import { ThemeSwitcher } from "./theme-switcher";
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Inventory", href: "/inventory", icon: Package },
+  { label: "Categories", href: "/inventory/category/manage", icon: Store },
 ];
 
 export function Sidebar({ authButton }: { authButton?: React.ReactNode }) {
@@ -55,7 +56,14 @@ export function Sidebar({ authButton }: { authButton?: React.ReactNode }) {
                 onClick={() => setIsOpen(false)}
                 className={cn(
                   "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
-                  pathname === item.href || pathname.startsWith(item.href + "/")
+                  pathname === item.href || 
+                  (item.href !== "/dashboard" && 
+                   pathname.startsWith(item.href + "/") && 
+                   !navItems.some(otherItem => 
+                     otherItem.href !== item.href && 
+                     otherItem.href.startsWith(item.href + "/") && 
+                     pathname.startsWith(otherItem.href)
+                   ))
                     ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground"
                     : "text-muted-foreground"
                 )}

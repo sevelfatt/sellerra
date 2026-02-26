@@ -1,5 +1,5 @@
 import { createNewProduct, deleteProductById, getProductById, updateProductById } from "@/services/product/productServiceClient"
-import { Product } from "@/models/products"
+import { Product } from "@/models/product"
 import { createClient } from "@/lib/supabase/client"
 
 jest.mock("@/lib/supabase/client")

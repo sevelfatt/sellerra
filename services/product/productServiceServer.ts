@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { Product } from "@/models/products";
+import { Product } from "@/models/product";
 
 export async function getAllProductsByUserId(userId: string) {
 

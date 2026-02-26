@@ -1,7 +1,7 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { Category } from "@/models/categories";
+import { Category } from "@/models/category";
 
 export async function createCategory(category: Partial<Category>) {
     const supabase = createClient();

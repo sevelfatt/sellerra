@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Category } from "@/models/categories";
+import { Category } from "@/models/category";
 import { deleteCategory } from "@/services/category/categoryServiceClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
