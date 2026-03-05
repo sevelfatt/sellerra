@@ -15,13 +15,13 @@ import { ChevronLeft, Loader2, Save, Upload, X } from "lucide-react"
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function ProductInputForm({ userId }: { userId: string }) {
+export default function ProductInputForm({ userId, initialProduct }: { userId: string, initialProduct?: Product }) {
     const router = useRouter();
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [stocks, setStocks] = useState("");
-    const [categoryId, setCategoryId] = useState<string>("");
+    const [name, setName] = useState(initialProduct ? `${initialProduct.name} (Copy)` : "");
+    const [description, setDescription] = useState(initialProduct?.description || "");
+    const [price, setPrice] = useState(initialProduct?.price.toString() || "");
+    const [stocks, setStocks] = useState(initialProduct?.stocks.toString() || "");
+    const [categoryId, setCategoryId] = useState<string>(initialProduct?.category_id?.toString() || "");
     const [categories, setCategories] = useState<Category[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -99,8 +99,8 @@ export default function ProductInputForm({ userId }: { userId: string }) {
 
             <Card className="shadow-lg border-2">
                 <CardHeader>
-                    <CardTitle className="text-2xl">Create New Product</CardTitle>
-                    <CardDescription>Add a new item to your store inventory.</CardDescription>
+                    <CardTitle className="text-2xl">{initialProduct ? "Create Product Variant" : "Create New Product"}</CardTitle>
+                    <CardDescription>{initialProduct ? `Create a new variant from ${initialProduct.name}` : "Add a new item to your store inventory."}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">

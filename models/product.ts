@@ -7,6 +7,8 @@ export class Product {
     image_path: string = "";
     category_id: number | null = null;
     user_id: string = "";
+    parent_product_id: number | null = null;
+    variants?: Product[];
 
     constructor(init?: Partial<Product>) {
         Object.assign(this, init);

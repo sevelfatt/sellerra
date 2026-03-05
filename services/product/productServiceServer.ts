@@ -43,3 +43,23 @@ export async function getProductsByCategoryId(categoryId: number) {
     }
     return data as Product[];
 }
+export async function getStockStatistics(userId: string) {
+    const supabase = await createClient();
+    
+    const { data, error } = await supabase
+        .from("products")
+        .select("stocks")
+        .eq("user_id", userId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    const stats = {
+        total: data.length,
+        lowStock: data.filter(p => (p.stocks || 0) > 0 && (p.stocks || 0) <= 5).length,
+        outOfStock: data.filter(p => (p.stocks || 0) <= 0).length
+    };
+
+    return stats;
+}

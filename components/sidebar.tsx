@@ -10,9 +10,12 @@ import { ThemeSwitcher } from "./theme-switcher";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Transactions", href: "/transactions", icon: Store },
+  { label: "Point of Sale", href: "/pos", icon: Store },
   { label: "Inventory", href: "/inventory", icon: Package },
   { label: "Categories", href: "/inventory/category/manage", icon: Store },
 ];
+
 
 export function Sidebar({ authButton }: { authButton?: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);

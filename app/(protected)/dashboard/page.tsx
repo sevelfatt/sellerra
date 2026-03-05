@@ -1,6 +1,10 @@
 import { requireUser } from "@/services/auth/authServiceServer";
 import { Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getMonthlySalesIncome, getWeeklyTransactionHistory } from "@/services/transaction/transactionServiceServer";
+import { getStockStatistics } from "@/services/product/productServiceServer";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { format } from "date-fns";
 
 async function UserWelcome() {
   const user = await requireUser();
@@ -12,61 +16,103 @@ async function UserWelcome() {
   );
 }
 
+async function DashboardStats({ userId }: { userId: string }) {
+  const [monthlyIncome, stockStats] = await Promise.all([
+    getMonthlySalesIncome(userId),
+    getStockStatistics(userId)
+  ]);
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Monthly Sales Income</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">
+            {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(monthlyIncome)}
+          </div>
+          <p className="text-xs text-muted-foreground">Total revenue this month</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Low Stock Items</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold text-yellow-600">{stockStats.lowStock}</div>
+          <p className="text-xs text-muted-foreground">Products with low inventory (1-5)</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold text-red-600">{stockStats.outOfStock}</div>
+          <p className="text-xs text-muted-foreground">Products with zero inventory</p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+async function TransactionHistory({ userId }: { userId: string }) {
+  const transactions = await getWeeklyTransactionHistory(userId);
+
+  return (
+    <div className="flex flex-col gap-4">
+      <h2 className="text-xl font-semibold">Weekly Transaction History</h2>
+      <Card>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Date</TableHead>
+              <TableHead>Customer</TableHead>
+              <TableHead className="text-right">Total Price</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {transactions.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                  No transactions found in the last 7 days.
+                </TableCell>
+              </TableRow>
+            ) : (
+              transactions.map((trans) => (
+                <TableRow key={trans.id}>
+                  <TableCell>{format(new Date(trans.created_at), "dd MMM yyyy HH:mm")}</TableCell>
+                  <TableCell>{(trans.customers as { name: string } | null)?.name || "Guest"}</TableCell>
+                  <TableCell className="text-right font-medium">
+                    {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(trans.total_price)}
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </Card>
+    </div>
+  );
+}
+
 export default async function DashboardPage() {
+  const user = await requireUser();
+  
   return (
     <div className="flex-1 w-full flex flex-col gap-12 max-w-5xl mx-auto p-5">
       <Suspense fallback={<div>Loading welcome message...</div>}>
         <UserWelcome />
       </Suspense>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Products</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">128</div>
-            <p className="text-xs text-muted-foreground">+20.1% from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Low Stock Items</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">-4 since yesterday</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">3</div>
-            <p className="text-xs text-muted-foreground">+1 since last week</p>
-          </CardContent>
-        </Card>
-      </div>
+      <Suspense fallback={<div className="grid grid-cols-1 md:grid-cols-3 gap-6"><div className="h-32 bg-muted animate-pulse rounded-lg" /><div className="h-32 bg-muted animate-pulse rounded-lg" /><div className="h-32 bg-muted animate-pulse rounded-lg" /></div>}>
+        <DashboardStats userId={user.id} />
+      </Suspense>
 
-      <div className="flex flex-col gap-4">
-        <h2 className="text-xl font-semibold">Recent Activity</h2>
-        <Card>
-          <CardContent className="p-0">
-            <div className="divide-y">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="p-4 flex justify-between items-center hover:bg-muted/50 transition-colors">
-                  <div>
-                    <p className="font-medium">Product {i} updated</p>
-                    <p className="text-xs text-muted-foreground">2 hours ago</p>
-                  </div>
-                  <div className="text-sm font-semibold text-primary">View</div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <Suspense fallback={<div className="h-64 bg-muted animate-pulse rounded-lg" />}>
+        <TransactionHistory userId={user.id} />
+      </Suspense>
     </div>
   );
 }

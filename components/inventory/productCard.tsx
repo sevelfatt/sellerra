@@ -3,7 +3,7 @@
 import { Product } from "@/models/product";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Pencil, Package, Eye } from "lucide-react";
+import { Pencil, Package, Eye, Copy } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { formatRupiah } from "@/lib/utils";
@@ -52,9 +52,14 @@ export default function ProductCard({ product }: ProductCardProps) {
             </CardContent>
             
             <CardFooter className="p-4 pt-0 gap-2 grid grid-cols-2">
-                <Link href={`/inventory/product/${product.id}`} className="col-span-2 mb-2">
+                <Link href={`/inventory/product/${product.id}`} className="col-span-2">
                     <Button variant="outline" size="sm" className="w-full">
                         <Eye className="h-4 w-4 mr-1" /> View Details
+                    </Button>
+                </Link>
+                <Link href={`/inventory/duplicate/${product.id}`}>
+                    <Button variant="outline" size="sm" className="w-full">
+                        <Copy className="h-4 w-4 mr-1" /> Duplicate
                     </Button>
                 </Link>
                 <Link href={`/inventory/update/${product.id}`}>
@@ -62,7 +67,9 @@ export default function ProductCard({ product }: ProductCardProps) {
                         <Pencil className="h-4 w-4 mr-1" /> Edit
                     </Button>
                 </Link>
-                <DeleteProductButton productId={product.id} />
+                <div className="col-span-2">
+                    <DeleteProductButton productId={product.id} />
+                </div>
             </CardFooter>
         </Card>
     );
