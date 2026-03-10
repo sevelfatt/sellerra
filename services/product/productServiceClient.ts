@@ -16,6 +16,7 @@ export async function createNewProduct(userId: string, product: Product) {
                 stocks: product.stocks ?? 0,
                 category_id: product.category_id,
                 user_id: userId,
+                parent_product_id: product.parent_product_id,
             },
         ])
         .select()

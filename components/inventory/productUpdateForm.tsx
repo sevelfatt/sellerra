@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ChevronLeft, Loader2, Save, Upload, X } from "lucide-react"
+import { ChevronLeft, Loader2, Save, Upload, X, Plus } from "lucide-react"
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -227,7 +227,7 @@ export default function ProductUpdateForm({ product }: { product: Product }) {
                             </div>
                         </div>
 
-                        <div className="pt-4">
+                        <div className="pt-4 space-y-4">
                             <Button 
                                 type="submit" 
                                 className="w-full h-11 text-base font-semibold transition-all hover:scale-[1.01] active:scale-[0.99]"
@@ -245,6 +245,41 @@ export default function ProductUpdateForm({ product }: { product: Product }) {
                                     </>
                                 )}
                             </Button>
+
+                            {!product.parent_product_id && (
+                                <div className="pt-6 border-t">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-lg font-semibold">Product Variants</h3>
+                                        <Link href={`/inventory/add-variant/${product.id}`}>
+                                            <Button type="button" variant="outline" size="sm">
+                                                <Plus className="h-4 w-4 mr-1" /> Add Variant
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                    
+                                    {product.variants && product.variants.length > 0 ? (
+                                        <div className="grid grid-cols-1 gap-2">
+                                            {product.variants.map((v) => (
+                                                <div key={v.id} className="flex items-center justify-between p-3 rounded-md border bg-muted/30">
+                                                    <div>
+                                                        <p className="font-medium">{v.name}</p>
+                                                        <p className="text-xs text-muted-foreground">{v.stocks} in stock • Rp {v.price.toLocaleString()}</p>
+                                                    </div>
+                                                    <Link href={`/inventory/update/${v.id}`}>
+                                                        <Button type="button" variant="ghost" size="sm">
+                                                            Edit
+                                                        </Button>
+                                                    </Link>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-sm text-muted-foreground text-center py-4 bg-muted/10 rounded-md border border-dashed">
+                                            No variants created for this product yet.
+                                        </p>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </form>
                 </CardContent>

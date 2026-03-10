@@ -4,7 +4,7 @@ import { formatRupiah } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Package, Pencil, Tag, ShoppingCart, Info } from "lucide-react";
+import { ArrowLeft, Package, Pencil, Tag, ShoppingCart, Info, Plus } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { getPublicUrl } from "@/services/product/productImageService";
@@ -126,12 +126,58 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                                     {product.stocks} units
                                 </span>
                             </div>
+                            {product.parent_product_id && (
+                                <div className="flex items-center justify-between py-2 border-b">
+                                    <span className="text-muted-foreground">Parent Product</span>
+                                    <Link href={`/inventory/product/${product.parent_product_id}`} className="text-primary hover:underline">
+                                        View Parent
+                                    </Link>
+                                </div>
+                            )}
                             <div className="flex items-center justify-between py-2">
                                 <span className="text-muted-foreground">Product ID</span>
                                 <span className="text-xs text-muted-foreground font-mono">#{product.id}</span>
                             </div>
                         </CardContent>
                     </Card>
+
+                    {!product.parent_product_id && (
+                        <Card>
+                            <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                    <Package className="h-5 w-5 text-muted-foreground" />
+                                    Variants
+                                </CardTitle>
+                                <Link href={`/inventory/add-variant/${product.id}`}>
+                                    <Button size="sm" variant="outline">
+                                        <Plus className="h-3 w-3 mr-1" /> Add
+                                    </Button>
+                                </Link>
+                            </CardHeader>
+                            <CardContent>
+                                {product.variants && product.variants.length > 0 ? (
+                                    <div className="divide-y">
+                                        {product.variants.map((v) => (
+                                            <div key={v.id} className="py-2 flex items-center justify-between">
+                                                <div>
+                                                    <p className="text-sm font-medium">{v.name}</p>
+                                                    <p className="text-xs text-muted-foreground">{v.stocks} in stock</p>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <span className="text-sm font-bold text-primary">{formatRupiah(v.price)}</span>
+                                                    <Link href={`/inventory/product/${v.id}`}>
+                                                        <Button variant="ghost" size="sm" className="h-7 px-2">Details</Button>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-sm text-muted-foreground text-center py-4">No variants available.</p>
+                                )}
+                            </CardContent>
+                        </Card>
+                    )}
                 </div>
             </div>
         </div>

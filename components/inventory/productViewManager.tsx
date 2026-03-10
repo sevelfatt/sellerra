@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Product } from "@/models/product";
 import { Category } from "@/models/category";
 import ProductViewToggle from "./productViewToggle";
@@ -8,7 +8,7 @@ import ProductCard from "./productCard";
 import { formatRupiah } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Pencil, Filter } from "lucide-react";
+import { Pencil, Filter, Layers, ChevronDown, ChevronRight } from "lucide-react";
 import DeleteProductButton from "./deleteProductButton";
 
 interface ProductViewManagerProps {
@@ -18,11 +18,29 @@ interface ProductViewManagerProps {
 
 export default function ProductViewManager({ products, categories }: ProductViewManagerProps) {
     const [view, setView] = useState<"list" | "card">("list");
+    const [expandedProducts, setExpandedProducts] = useState<number[]>([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState<string>("all");
 
+    const toggleExpand = (productId: number) => {
+        setExpandedProducts(prev => 
+            prev.includes(productId) 
+                ? prev.filter(id => id !== productId) 
+                : [...prev, productId]
+        );
+    };
+
+    // Grouping logic
+    const parentProducts = products.filter(p => !p.parent_product_id);
+    const variants = products.filter(p => p.parent_product_id);
+
+    const processedProducts = parentProducts.map(parent => ({
+        ...parent,
+        variants: variants.filter(v => v.parent_product_id === parent.id)
+    }));
+
     const filteredProducts = selectedCategoryId === "all" 
-        ? products 
-        : products.filter(p => p.category_id?.toString() === selectedCategoryId);
+        ? processedProducts 
+        : processedProducts.filter(p => p.category_id?.toString() === selectedCategoryId);
 
     return (
         <div className="space-y-4">
@@ -63,31 +81,75 @@ export default function ProductViewManager({ products, categories }: ProductView
                         </thead>
                         <tbody className="divide-y">
                             {filteredProducts.map((product) => (
-                                <tr key={product.id} className="hover:bg-muted/50 transition-colors">
-                                    <td className="p-4 font-medium">{product.name}</td>
-                                    <td className="p-4 hidden md:table-cell text-muted-foreground max-w-xs truncate">{product.description}</td>
-                                    <td className="p-4 text-primary font-medium">{formatRupiah(product.price)}</td>
-                                    <td className="p-4">
-                                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${product.stocks > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                            {product.stocks} in stock
-                                        </span>
-                                    </td>
-                                    <td className="p-4 text-right">
-                                        <div className="flex justify-end gap-2">
-                                            <Link href={`/inventory/update/${product.id}`}>
-                                                <Button variant="ghost" size="sm">
-                                                    <Pencil className="h-4 w-4 mr-1" /> Edit
-                                                </Button>
-                                            </Link>
-                                            <Link href={`/inventory/product/${product.id}`}>
-                                                <Button variant="ghost" size="sm">
-                                                    Details
-                                                </Button>
-                                            </Link>
-                                            <DeleteProductButton productId={product.id} />
-                                        </div>
-                                    </td>
-                                </tr>
+                                <React.Fragment key={product.id}>
+                                    <tr className="hover:bg-muted/50 transition-colors group">
+                                        <td className="p-4">
+                                            <div className="flex items-center gap-2">
+                                                {product.variants && product.variants.length > 0 && (
+                                                    <button 
+                                                        onClick={() => toggleExpand(product.id)}
+                                                        className="p-1 hover:bg-muted rounded text-muted-foreground"
+                                                    >
+                                                        {expandedProducts.includes(product.id) ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                                                    </button>
+                                                )}
+                                                <span className="font-medium">{product.name}</span>
+                                                {product.variants && product.variants.length > 0 && (
+                                                    <span className="flex items-center text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-bold">
+                                                        {product.variants.length} variations
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </td>
+                                        <td className="p-4 hidden md:table-cell text-muted-foreground max-w-xs truncate">{product.description}</td>
+                                        <td className="p-4 text-primary font-medium">{formatRupiah(product.price)}</td>
+                                        <td className="p-4">
+                                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${product.stocks > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                                {product.stocks} in stock
+                                            </span>
+                                        </td>
+                                        <td className="p-4 text-right">
+                                            <div className="flex justify-end gap-2">
+                                                <Link href={`/inventory/update/${product.id}`}>
+                                                    <Button variant="ghost" size="sm">
+                                                        <Pencil className="h-4 w-4 mr-1" /> Edit
+                                                    </Button>
+                                                </Link>
+                                                <Link href={`/inventory/product/${product.id}`}>
+                                                    <Button variant="ghost" size="sm">
+                                                        Details
+                                                    </Button>
+                                                </Link>
+                                                <DeleteProductButton productId={product.id} />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {expandedProducts.includes(product.id) && product.variants && product.variants.map((variant) => (
+                                        <tr key={variant.id} className="bg-muted/20 text-muted-foreground text-xs">
+                                            <td className="p-4 pl-12 border-l-2 border-primary/30">
+                                                <div className="flex items-center gap-2">
+                                                    <Layers className="h-3 w-3" />
+                                                    {variant.name}
+                                                </div>
+                                            </td>
+                                            <td className="p-4 hidden md:table-cell truncate max-w-xs">{variant.description}</td>
+                                            <td className="p-4">{formatRupiah(variant.price)}</td>
+                                            <td className="p-4">
+                                                <span className={`${variant.stocks > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                                    {variant.stocks} stock
+                                                </span>
+                                            </td>
+                                            <td className="p-4 text-right">
+                                                <div className="flex justify-end gap-2">
+                                                    <Link href={`/inventory/update/${variant.id}`}>
+                                                        <Button variant="ghost" size="sm" className="h-7 text-[10px]">Edit</Button>
+                                                    </Link>
+                                                    <DeleteProductButton productId={variant.id} />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </React.Fragment>
                             ))}
                         </tbody>
                     </table>

@@ -58,7 +58,7 @@ describe("getProductById", () => {
         });
         const result = await getProductById(productId);
 
-        expect(result).toEqual(product);
+        expect(result).toEqual({ ...product, variants: [] });
     });
     it("throws an error when supabase returns an error", async () => {
         const productId = 1;

@@ -77,7 +77,8 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
                 stocks: parseInt(stocks) || 0,
                 category_id: categoryId ? parseInt(categoryId) : null,
                 user_id: userId,
-                image_path: imagePath
+                image_path: imagePath,
+                parent_product_id: initialProduct?.id || null
             });
 
             await createNewProduct(userId, newProduct);
@@ -99,8 +100,8 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
 
             <Card className="shadow-lg border-2">
                 <CardHeader>
-                    <CardTitle className="text-2xl">{initialProduct ? "Create Product Variant" : "Create New Product"}</CardTitle>
-                    <CardDescription>{initialProduct ? `Create a new variant from ${initialProduct.name}` : "Add a new item to your store inventory."}</CardDescription>
+                    <CardTitle className="text-2xl">{initialProduct ? `Create Variant for ${initialProduct.name}` : "Create New Product"}</CardTitle>
+                    <CardDescription>{initialProduct ? `Adding a new variation (size, color, etc.) to ${initialProduct.name}` : "Add a new item to your store inventory."}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">

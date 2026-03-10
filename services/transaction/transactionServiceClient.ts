@@ -104,3 +104,55 @@ export async function getTransactionById(transactionId: number) {
         items: itemsData,
     };
 }
+
+export async function deleteTransactionById(transactionId: number) {
+    const supabase = createClient();
+
+    // 1. Fetch transaction items to restore stock
+    const { data: items, error: fetchError } = await supabase
+        .from("transaction_items")
+        .select("product_id, amount")
+        .eq("transaction_id", transactionId);
+
+    if (fetchError) {
+        throw new Error(`Failed to fetch items for transaction ${transactionId}: ${fetchError.message}`);
+    }
+
+    // 2. Restore stocks
+    for (const item of items) {
+        const { data: product, error: productError } = await supabase
+            .from("products")
+            .select("stocks")
+            .eq("id", item.product_id)
+            .single();
+
+        if (productError) {
+            console.error(`Failed to fetch stock for product ${item.product_id}:`, productError.message);
+            continue;
+        }
+
+        const newStock = (product.stocks || 0) + item.amount;
+
+        const { error: updateError } = await supabase
+            .from("products")
+            .update({ stocks: newStock })
+            .eq("id", item.product_id);
+
+        if (updateError) {
+            console.error(`Failed to restore stock for product ${item.product_id}:`, updateError.message);
+        }
+    }
+
+    // 3. Delete the transaction (cascade will handle items if configured, but let's be explicit if needed or trust DB)
+    // Assuming Supabase FK is set to CASCADE delete items.
+    const { error: deleteError } = await supabase
+        .from("transactions")
+        .delete()
+        .eq("id", transactionId);
+
+    if (deleteError) {
+        throw new Error(`Failed to delete transaction ${transactionId}: ${deleteError.message}`);
+    }
+
+    return true;
+}

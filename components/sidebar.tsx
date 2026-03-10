@@ -3,18 +3,20 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, Menu, X, Store } from "lucide-react";
+import { LayoutDashboard, Package, Menu, X, Store, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Financial Reports", href: "/reports", icon: TrendingUp },
   { label: "Transactions", href: "/transactions", icon: Store },
   { label: "Point of Sale", href: "/pos", icon: Store },
   { label: "Inventory", href: "/inventory", icon: Package },
   { label: "Categories", href: "/inventory/category/manage", icon: Store },
 ];
+
 
 
 export function Sidebar({ authButton }: { authButton?: React.ReactNode }) {

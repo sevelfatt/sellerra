@@ -28,7 +28,15 @@ export default function POSManager({ products, categories, customers, userId }: 
     const router = useRouter();
 
     const filteredProducts = useMemo(() => {
-        return products.filter((p) => {
+        const parents = products.filter(p => !p.parent_product_id);
+        const children = products.filter(p => p.parent_product_id);
+
+        const grouped = parents.map(parent => ({
+            ...parent,
+            variants: children.filter(child => child.parent_product_id === parent.id)
+        }));
+
+        return grouped.filter((p) => {
             const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesCategory = selectedCategory ? p.category_id === selectedCategory : true;
             return matchesSearch && matchesCategory;

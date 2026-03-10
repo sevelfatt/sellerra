@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/client";
 import { customer } from "@/models/customer";
 
-export async function createNewCustomer(userId: string, name: string) {
+export async function createNewCustomer(userId: string, name: string, whatsappNumber: string = "") {
     const supabase = createClient();
 
     const { data, error } = await supabase
@@ -12,6 +12,7 @@ export async function createNewCustomer(userId: string, name: string) {
             {
                 name: name,
                 user_id: userId,
+                whatsapp_number: whatsappNumber
             },
         ])
         .select()
@@ -19,6 +20,24 @@ export async function createNewCustomer(userId: string, name: string) {
 
     if (error) {
         console.error("Failed to create customer:", error.message);
+        throw new Error(error.message);
+    }
+
+    return new customer(data);
+}
+
+export async function updateCustomer(customerId: number, updates: Partial<customer>) {
+    const supabase = createClient();
+
+    const { data, error } = await supabase
+        .from("customers")
+        .update(updates)
+        .eq("id", customerId)
+        .select()
+        .single();
+
+    if (error) {
+        console.error("Failed to update customer:", error.message);
         throw new Error(error.message);
     }
 

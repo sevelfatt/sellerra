@@ -2,7 +2,6 @@ import { createClient } from "@/lib/supabase/server";
 import { Product } from "@/models/product";
 
 export async function getAllProductsByUserId(userId: string) {
-
     if (!userId) {
         throw new Error("User ID is required");
     }
@@ -15,12 +14,12 @@ export async function getAllProductsByUserId(userId: string) {
     if (error) {
         throw new Error(error.message);
     }
-    return data;
+    return data as Product[];
 }
 
 export async function getProductById(productId: number) {
     const supabase = await createClient();
-    const { data, error } = await supabase
+    const { data: product, error } = await supabase
         .from("products")
         .select("*")
         .eq("id", productId)
@@ -29,8 +28,36 @@ export async function getProductById(productId: number) {
     if (error) {
         throw new Error(error.message);
     }
-    return data;
+
+    // Fetch variants
+    const { data: variants, error: variantError } = await supabase
+        .from("products")
+        .select("*")
+        .eq("parent_product_id", productId);
+
+    if (variantError) {
+        console.error("Error fetching variants:", variantError.message);
+    }
+
+    return {
+        ...product,
+        variants: variants || []
+    } as Product;
 }
+
+export async function getVariantsByProductId(productId: number) {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("parent_product_id", productId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data as Product[];
+}
+
 export async function getProductsByCategoryId(categoryId: number) {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -43,6 +70,7 @@ export async function getProductsByCategoryId(categoryId: number) {
     }
     return data as Product[];
 }
+
 export async function getStockStatistics(userId: string) {
     const supabase = await createClient();
     

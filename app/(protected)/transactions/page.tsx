@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import Link from "next/link";
+import DeleteTransactionButton from "@/components/transactions/DeleteTransactionButton";
+
 
 interface PageProps {
   searchParams: Promise<{
@@ -125,12 +127,13 @@ export default async function TransactionsPage({ searchParams }: PageProps) {
               <TableHead>Date</TableHead>
               <TableHead>Customer</TableHead>
               <TableHead className="text-right">Total Price</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {transactions.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={3} className="text-center py-10 text-muted-foreground">
+                <TableCell colSpan={4} className="text-center py-10 text-muted-foreground">
                   No transactions found matching your filters.
                 </TableCell>
               </TableRow>
@@ -144,9 +147,17 @@ export default async function TransactionsPage({ searchParams }: PageProps) {
                   <TableCell className="text-right font-bold text-primary">
                     {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(trans.total_price)}
                   </TableCell>
+                  <TableCell className="text-right flex justify-end gap-2">
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/transactions/${trans.id}/invoice`}>View Invoice</Link>
+                    </Button>
+                    <DeleteTransactionButton transactionId={trans.id} />
+                  </TableCell>
+
                 </TableRow>
               ))
             )}
+
           </TableBody>
         </Table>
       </Card>
