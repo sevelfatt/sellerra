@@ -5,7 +5,9 @@ import {
     getTopCustomersReportData 
 } from "@/services/transaction/transactionServiceServer";
 import { getCustomersByUserId } from "@/services/customer/customerServiceServer";
+import { getTotalExpenses } from "@/services/expense/expenseServiceServer";
 import { requireUser } from "@/services/auth/authServiceServer";
+
 import IncomeChart from "@/components/reports/IncomeChart";
 import StockChart from "@/components/reports/StockChart";
 import TimeRangeFilters from "@/components/reports/TimeRangeFilters";
@@ -28,11 +30,12 @@ async function ReportsDashboard({
     customerId?: number;
     customers: { id: number; name: string }[];
 }) {
-    const [globalIncome, globalTopProducts, globalTopCustomers, stockData] = await Promise.all([
+    const [globalIncome, globalTopProducts, globalTopCustomers, stockData, totalExpenses] = await Promise.all([
         getIncomeReportData(userId, startDate, endDate),
         getTopProductsReportData(userId, startDate, endDate),
         getTopCustomersReportData(userId, startDate, endDate),
-        getStockReportData(userId)
+        getStockReportData(userId),
+        getTotalExpenses(userId, startDate, endDate)
     ]);
 
     // Secondary fetch for customer-specific data if a customer is selected
@@ -42,6 +45,7 @@ async function ReportsDashboard({
 
     const totalIncome = globalIncome.reduce((sum: number, item: { income: number }) => sum + item.income, 0);
     const totalStocks = stockData.reduce((sum: number, item: { stocks: number }) => sum + item.stocks, 0);
+
 
     return (
         <div className="space-y-12">
@@ -63,6 +67,29 @@ async function ReportsDashboard({
                             </div>
                         </CardContent>
                     </Card>
+
+                    <Card>
+                        <CardHeader className="pb-2">
+                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Expenses (Period)</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-bold text-red-600">
+                                {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalExpenses)}
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="bg-primary/5">
+                        <CardHeader className="pb-2">
+                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Clean Income</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-black text-primary">
+                                {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalIncome - totalExpenses)}
+                            </div>
+                        </CardContent>
+                    </Card>
+
                     <Card>
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Inventory Stock</CardTitle>
@@ -74,6 +101,7 @@ async function ReportsDashboard({
                         </CardContent>
                     </Card>
                 </div>
+
 
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                     <IncomeChart data={globalIncome} />

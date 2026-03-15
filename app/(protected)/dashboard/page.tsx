@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getMonthlySalesIncome, getWeeklyTransactionHistory } from "@/services/transaction/transactionServiceServer";
 import { getStockStatistics } from "@/services/product/productServiceServer";
+import { getTotalExpenses } from "@/services/expense/expenseServiceServer";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format } from "date-fns";
 
@@ -17,22 +18,38 @@ async function UserWelcome() {
 }
 
 async function DashboardStats({ userId }: { userId: string }) {
-  const [monthlyIncome, stockStats] = await Promise.all([
+  const startOfMonth = new Date();
+  startOfMonth.setDate(1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  const [monthlyIncome, stockStats, monthlyExpenses] = await Promise.all([
     getMonthlySalesIncome(userId),
-    getStockStatistics(userId)
+    getStockStatistics(userId),
+    getTotalExpenses(userId, startOfMonth.toISOString())
   ]);
+  const NumberFormat = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' });
+  const cleanIncome = monthlyIncome - monthlyExpenses;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Monthly Sales Income</CardTitle>
+          <CardTitle className="text-sm font-medium">Monthly Clean Income</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(monthlyIncome)}
+            {NumberFormat.format(cleanIncome)}
           </div>
-          <p className="text-xs text-muted-foreground">Total revenue this month</p>
+          <div className="flex flex-col space-y-  5">
+            <div className="flex flex-row items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-green-500"></div>
+              <span className="text-xs text-muted-foreground">{NumberFormat.format(monthlyIncome)} </span>
+            </div>
+            <div className="flex flex-row items-center gap-2">
+              <div className="h-2 w-2 rounded-full bg-red-500"></div>
+              <span className="text-xs text-muted-foreground">{NumberFormat.format(monthlyExpenses)} </span>
+            </div>
+          </div>
         </CardContent>
       </Card>
       <Card>

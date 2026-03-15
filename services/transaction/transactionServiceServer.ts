@@ -1,5 +1,12 @@
+"use server";
+
 import { createClient } from "@/lib/supabase/server";
-import type { transaction, transactionItem } from "@/models/transaction";
+import type { transaction, transactionItem, TransactionWithCustomer } from "@/models/transaction";
+import type { Product } from "@/models/product";
+
+
+
+
 
 export async function getTransactionById(transactionId: number) {
     const supabase = await createClient();
@@ -44,7 +51,8 @@ export async function getMonthlySalesIncome(userId: string) {
         throw new Error(error.message);
     }
 
-    return data.reduce((sum, trans) => sum + (trans.total_price || 0), 0);
+    return data.reduce((sum: number, trans: { total_price: number | null }) => sum + (trans.total_price || 0), 0);
+
 }
 
 export async function getWeeklyTransactionHistory(userId: string) {
@@ -149,9 +157,13 @@ export async function getTransactionDetails(transactionId: number) {
     }
 
     return {
-        transaction: transactionData,
-        items: itemsData,
+        transaction: transactionData as TransactionWithCustomer,
+        customerData: (transactionData as TransactionWithCustomer)?.customers,
+        itemsWithProducts: itemsData as (transactionItem & { product: Product })[],
     };
+
+
+
 }
 
 export async function getIncomeReportData(userId: string, startDate?: string, endDate?: string, customerId?: number) {
@@ -206,7 +218,7 @@ export async function getIncomeReportData(userId: string, startDate?: string, en
         dailyIncome[dateStr] = 0;
     }
 
-    data.forEach((trans) => {
+    data.forEach((trans: { created_at: string, total_price: number | null }) => {
         const dateStr = new Date(trans.created_at).toISOString().split('T')[0];
         if (dailyIncome[dateStr] !== undefined) {
             dailyIncome[dateStr] += trans.total_price || 0;
@@ -229,7 +241,8 @@ export async function getStockReportData(userId: string) {
         throw new Error(error.message);
     }
 
-    return data.map(p => ({
+    return data.map((p: { name: string, stocks: number | null }) => ({
+
         name: p.name,
         stocks: p.stocks || 0
     }));
@@ -261,8 +274,12 @@ export async function getTopProductsReportData(userId: string, startDate?: strin
 
     const productStats: Record<string, { name: string, quantity: number, revenue: number }> = {};
 
-    data.forEach((item: any) => {
-        const name = item.product?.name || "Unknown Product";
+    data.forEach((item) => {
+        const typedItem = item as unknown as { amount: number, total_price: number, product: { name: string } };
+        const name = typedItem.product?.name || "Unknown Product";
+
+
+
         if (!productStats[name]) {
             productStats[name] = { name, quantity: 0, revenue: 0 };
         }
@@ -295,8 +312,11 @@ export async function getTopCustomersReportData(userId: string, startDate?: stri
 
     const customerStats: Record<string, { name: string, spend: number }> = {};
 
-    data.forEach((trans: any) => {
-        const name = trans.customer?.name || "Cash Customer";
+    data.forEach((trans) => {
+        const typedTrans = trans as unknown as { total_price: number, customer: { name: string } | null };
+        const name = typedTrans.customer?.name || "Cash Customer";
+
+
         if (!customerStats[name]) {
             customerStats[name] = { name, spend: 0 };
         }

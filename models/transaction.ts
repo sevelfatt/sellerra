@@ -1,3 +1,6 @@
+import type { customer } from "./customer";
+import type { Product } from "./product";
+
 export class transaction {
     id: number = 0;
     customer_id: number = 0;
@@ -9,6 +12,11 @@ export class transaction {
         Object.assign(this, init);
     }
 }
+
+export type TransactionWithCustomer = transaction & {
+    customers: customer | null;
+};
+
 
 export class transactionItem {
     id: number = 0;
@@ -22,3 +30,8 @@ export class transactionItem {
         Object.assign(this, init);
     }
 }
+
+export type TransactionItemWithProduct = transactionItem & {
+    product: Product | null;
+};
+
