@@ -32,7 +32,7 @@ export default function ExpenseForm({ userId }: { userId: string }) {
             router.refresh();
         } catch (error) {
             console.error("Failed to create expense:", error);
-            alert("Failed to create expense. Please try again.");
+            alert("Gagal mencatat pengeluaran. Silakan coba lagi.");
         } finally {
             setLoading(false);
         }
@@ -43,23 +43,23 @@ export default function ExpenseForm({ userId }: { userId: string }) {
             <CardHeader className="bg-muted/30">
                 <CardTitle className="text-lg flex items-center gap-2">
                     <Plus className="h-5 w-5 text-primary" />
-                    Record New Expense
+                    Catat Pengeluaran Baru
                 </CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="expense-name">Expense Name</Label>
+                        <Label htmlFor="expense-name">Nama Pengeluaran</Label>
                         <Input
                             id="expense-name"
-                            placeholder="e.g. Electricity, Rent, Raw Materials"
+                            placeholder="misalnya: Listrik, Sewa, Bahan Baku"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="expense-amount">Amount (IDR)</Label>
+                        <Label htmlFor="expense-amount">Jumlah (Rp)</Label>
                         <Input
                             id="expense-amount"
                             type="number"
@@ -70,7 +70,7 @@ export default function ExpenseForm({ userId }: { userId: string }) {
                         />
                     </div>
                     <Button type="submit" className="w-full" disabled={loading}>
-                        {loading ? "Saving..." : "Save Expense"}
+                        {loading ? "Menyimpan..." : "Simpan Pengeluaran"}
                     </Button>
                 </form>
             </CardContent>

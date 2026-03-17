@@ -11,8 +11,8 @@ async function UserWelcome() {
   const user = await requireUser();
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="text-2xl font-bold">Welcome back, {user.email}</h1>
-      <p className="text-muted-foreground text-sm">Here&apos;s what&apos;s happening in your account today.</p>
+      <h1 className="text-2xl font-bold">Selamat datang kembali, {user.email}</h1>
+      <p className="text-muted-foreground text-sm">Berikut ringkasan aktivitas akun Anda hari ini.</p>
     </div>
   );
 }
@@ -34,7 +34,7 @@ async function DashboardStats({ userId }: { userId: string }) {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Monthly Clean Income</CardTitle>
+          <CardTitle className="text-sm font-medium">Pendapatan Bersih Bulanan</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
@@ -54,20 +54,20 @@ async function DashboardStats({ userId }: { userId: string }) {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Low Stock Items</CardTitle>
+          <CardTitle className="text-sm font-medium">Stok Barang Menipis</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-yellow-600">{stockStats.lowStock}</div>
-          <p className="text-xs text-muted-foreground">Products with low inventory (1-5)</p>
+          <p className="text-xs text-muted-foreground">Produk dengan stok sedikit (1-5)</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
+          <CardTitle className="text-sm font-medium">Stok Habis</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-red-600">{stockStats.outOfStock}</div>
-          <p className="text-xs text-muted-foreground">Products with zero inventory</p>
+          <p className="text-xs text-muted-foreground">Produk dengan stok kosong</p>
         </CardContent>
       </Card>
     </div>
@@ -79,28 +79,28 @@ async function TransactionHistory({ userId }: { userId: string }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold">Weekly Transaction History</h2>
+      <h2 className="text-xl font-semibold">Riwayat Transaksi Mingguan</h2>
       <Card>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead>Customer</TableHead>
-              <TableHead className="text-right">Total Price</TableHead>
+              <TableHead>Tanggal</TableHead>
+              <TableHead>Pelanggan</TableHead>
+              <TableHead className="text-right">Total Harga</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {transactions.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                  No transactions found in the last 7 days.
+                  Tidak ada transaksi dalam 7 hari terakhir.
                 </TableCell>
               </TableRow>
             ) : (
               transactions.map((trans) => (
                 <TableRow key={trans.id}>
                   <TableCell>{format(new Date(trans.created_at), "dd MMM yyyy HH:mm")}</TableCell>
-                  <TableCell>{(trans.customers as { name: string } | null)?.name || "Guest"}</TableCell>
+                  <TableCell>{(trans.customers as { name: string } | null)?.name || "Tamu"}</TableCell>
                   <TableCell className="text-right font-medium">
                     {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(trans.total_price)}
                   </TableCell>
@@ -119,7 +119,7 @@ export default async function DashboardPage() {
   
   return (
     <div className="flex-1 w-full flex flex-col gap-12 max-w-5xl mx-auto p-5">
-      <Suspense fallback={<div>Loading welcome message...</div>}>
+      <Suspense fallback={<div>Memuat pesan selamat datang...</div>}>
         <UserWelcome />
       </Suspense>
 

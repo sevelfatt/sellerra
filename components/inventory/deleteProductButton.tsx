@@ -13,7 +13,7 @@ export default function DeleteProductButton({ productId }: { productId: number }
     const handleDelete = async (e: React.MouseEvent) => {
         try {
             e.preventDefault();
-            if (!confirm("Are you sure you want to delete this product?")) return;
+            if (!confirm("Apakah Anda yakin ingin menghapus produk ini?")) return;
             
             setIsDeleting(true);
             await deleteProductById(productId);
@@ -34,7 +34,7 @@ export default function DeleteProductButton({ productId }: { productId: number }
             className="text-destructive hover:text-destructive hover:bg-destructive/10"
         >
             <Trash2 className="h-4 w-4 mr-1" />
-            {isDeleting ? "Deleting..." : "Delete"}
+            {isDeleting ? "Menghapus..." : "Hapus"}
         </Button>
     );
 }

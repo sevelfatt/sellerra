@@ -19,7 +19,7 @@ export async function AuthButton() {
           <User className="h-5 w-5" />
         </div>
         <div className="flex flex-col min-w-0 flex-1">
-          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest leading-none mb-1">Active Account</span>
+          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest leading-none mb-1">Akun Aktif</span>
           <span className="text-sm font-semibold truncate text-foreground leading-tight" title={user.email}>
             {user.email}
           </span>
@@ -34,13 +34,13 @@ export async function AuthButton() {
       <Button asChild size="lg" variant="outline" className="w-full justify-start font-bold border-2 transition-all hover:scale-[1.02] active:scale-[0.98]">
         <Link href="/auth/login" className="flex items-center w-full">
           <LogIn className="h-4 w-4 mr-2" />
-          Sign in
+          Masuk
         </Link>
       </Button>
       <Button asChild size="lg" variant="default" className="w-full justify-start font-bold shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]">
         <Link href="/auth/sign-up" className="flex items-center w-full">
           <UserPlus className="h-4 w-4 mr-2" />
-          Sign up
+          Daftar
         </Link>
       </Button>
     </div>

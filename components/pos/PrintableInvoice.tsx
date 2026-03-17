@@ -29,27 +29,27 @@ export default function PrintableInvoice({ transaction, itemsWithProducts, custo
                     <CardHeader className="flex flex-row items-center justify-between border-b bg-muted/5">
                         <div>
                             <CardTitle className="text-2xl font-black italic tracking-tighter text-primary">SELLERRA</CardTitle>
-                            <p className="text-xs text-muted-foreground">Store ID: {transaction.user_id.split('-')[0]}</p>
+                            <p className="text-xs text-muted-foreground">ID Toko: {transaction.user_id.split('-')[0]}</p>
                         </div>
                         <div className="text-right">
-                            <p className="font-bold">INVOICE</p>
+                            <p className="font-bold">STRUK</p>
                             <p className="text-xs text-muted-foreground">{date}</p>
                         </div>
                     </CardHeader>
                     <CardContent className="p-8 space-y-8">
                         <div className="grid grid-cols-2 gap-8">
                             <div>
-                                <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-2">Billed To</p>
-                                <p className="font-bold text-lg">{customerData ? customerData.name : "Walk-in Customer"}</p>
+                                <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest mb-2">Ditagihkan Ke</p>
+                                <p className="font-bold text-lg">{customerData ? customerData.name : "Pelanggan Langsung"}</p>
                             </div>
                         </div>
 
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b text-left text-xs text-muted-foreground uppercase tracking-wider">
-                                    <th className="py-3 font-medium">Description</th>
-                                    <th className="py-3 font-medium text-center">Qty</th>
-                                    <th className="py-3 font-medium text-right">Unit Price</th>
+                                    <th className="py-3 font-medium">Deskripsi</th>
+                                    <th className="py-3 font-medium text-center">Jml</th>
+                                    <th className="py-3 font-medium text-right">Harga Satuan</th>
                                     <th className="py-3 font-medium text-right">Total</th>
                                 </tr>
                             </thead>
@@ -71,17 +71,17 @@ export default function PrintableInvoice({ transaction, itemsWithProducts, custo
                                 <span>Rp {transaction.total_price.toLocaleString('id-ID')}</span>
                             </div>
                             <div className="flex justify-between text-sm">
-                                <span className="text-muted-foreground">Tax (0%)</span>
+                                <span className="text-muted-foreground">Pajak (0%)</span>
                                 <span>Rp 0</span>
                             </div>
                             <div className="flex justify-between text-xl font-bold border-t pt-4">
-                                <span>Total Amount</span>
+                                <span>Total Keseluruhan</span>
                                 <span className="text-primary">Rp {transaction.total_price.toLocaleString('id-ID')}</span>
                             </div>
                         </div>
                     </CardContent>
                     <CardFooter className="bg-muted/5 border-t justify-center p-6 italic text-xs text-muted-foreground">
-                        Thank you for your purchase!
+                        Terima kasih atas pembelian Anda!
                     </CardFooter>
                 </Card>
             </div>
@@ -102,7 +102,7 @@ export default function PrintableInvoice({ transaction, itemsWithProducts, custo
                 
                 <Link href="/pos" className="flex-1">
                     <Button className="w-full gap-2">
-                        <ShoppingBag className="h-4 w-4" /> New Transaction
+                        <ShoppingBag className="h-4 w-4" /> Transaksi Baru
                     </Button>
                 </Link>
             </div>

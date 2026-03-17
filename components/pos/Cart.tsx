@@ -19,7 +19,7 @@ export default function Cart({ items, onRemove, onUpdateQuantity }: CartProps) {
     if (items.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center h-40 text-muted-foreground italic">
-                Cart is empty
+                Keranjang kosong
             </div>
         );
     }
@@ -63,7 +63,7 @@ export default function Cart({ items, onRemove, onUpdateQuantity }: CartProps) {
                         </div>
                         {item.quantity >= item.product.stocks && (
                             <p className="text-[10px] text-destructive font-medium mt-1">
-                                Stock limit reached ({item.product.stocks})
+                                Batas stok tercapai ({item.product.stocks})
                             </p>
                         )}
 

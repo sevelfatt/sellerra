@@ -58,7 +58,7 @@ export default function CheckoutPage() {
             router.push(`/pos/invoice/${result.id}`);
         } catch (error) {
             console.error("Checkout failed:", error);
-            alert("Checkout failed. Please try again.");
+            alert("Pembayaran gagal. Silakan coba lagi.");
             setIsSubmitting(false);
         }
     };
@@ -75,14 +75,14 @@ export default function CheckoutPage() {
         <div className="max-w-3xl mx-auto p-6 space-y-6">
             <Button variant="ghost" className="gap-2" onClick={() => router.back()}>
                 <ArrowLeft className="h-4 w-4" />
-                Back to POS
+                Kembali ke Kasir
             </Button>
 
             <div className="grid gap-6 md:grid-cols-3">
                 <div className="md:col-span-2 space-y-6">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Order Summary</CardTitle>
+                            <CardTitle>Ringkasan Pesanan</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             {data.cart.map((item) => (
@@ -103,7 +103,7 @@ export default function CheckoutPage() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Customer Details</CardTitle>
+                            <CardTitle>Detail Pelanggan</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="flex items-center gap-3">
@@ -111,9 +111,9 @@ export default function CheckoutPage() {
                                     <Receipt className="h-6 w-6 text-muted-foreground" />
                                 </div>
                                 <div>
-                                    <p className="font-semibold">{data.customer?.name || "Walk-in Customer"}</p>
+                                    <p className="font-semibold">{data.customer?.name || "Pelanggan Langsung"}</p>
                                     <p className="text-sm text-muted-foreground">
-                                        {data.customer ? `Customer ID: ${data.customer.id}` : "No specific customer selected"}
+                                        {data.customer ? `ID Pelanggan: ${data.customer.id}` : "Tidak ada pelanggan spesifik yang dipilih"}
                                     </p>
                                 </div>
                             </div>
@@ -124,10 +124,10 @@ export default function CheckoutPage() {
                 <div className="space-y-6">
                     <Card className="bg-primary/5 border-primary/20 sticky top-6">
                         <CardHeader>
-                            <CardTitle>Payment Total</CardTitle>
+                            <CardTitle>Total Pembayaran</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4 text-center py-6">
-                            <p className="text-muted-foreground">Grand Total</p>
+                            <p className="text-muted-foreground">Total Keseluruhan</p>
                             <p className="text-4xl font-black text-primary">
                                 Rp {data.totalAmount.toLocaleString('id-ID')}
                             </p>
@@ -142,12 +142,12 @@ export default function CheckoutPage() {
                                 {isSubmitting ? (
                                     <>
                                         <Loader2 className="h-5 w-5 animate-spin" />
-                                        Processing...
+                                        Memproses...
                                     </>
                                 ) : (
                                     <>
                                         <CheckCircle2 className="h-5 w-5" />
-                                        Complete Payment
+                                        Selesaikan Pembayaran
                                     </>
                                 )}
                             </Button>

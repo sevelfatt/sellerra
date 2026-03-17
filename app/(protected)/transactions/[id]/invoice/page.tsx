@@ -32,9 +32,9 @@ export default async function InvoicePage({ params }: PageProps) {
                         </Link>
                     </Button>
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">Invoice #{transaction.id}</h1>
+                        <h1 className="text-2xl font-bold tracking-tight">Struk #{transaction.id}</h1>
                         <p className="text-muted-foreground text-sm">
-                            Transaction on {format(new Date(transaction.created_at!), "dd MMM yyyy HH:mm")}
+                            Transaksi pada {format(new Date(transaction.created_at!), "dd MMM yyyy HH:mm")}
                         </p>
                     </div>
                 </div>

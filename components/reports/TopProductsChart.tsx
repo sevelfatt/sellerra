@@ -8,7 +8,7 @@ interface TopProductsChartProps {
     title?: string;
 }
 
-export default function TopProductsChart({ data, title = "Top Selling Products" }: TopProductsChartProps) {
+export default function TopProductsChart({ data, title = "Produk Terlaris" }: TopProductsChartProps) {
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
     const formatCurrency = (value: number) => {
@@ -24,7 +24,7 @@ export default function TopProductsChart({ data, title = "Top Selling Products" 
         <Card className="col-span-full lg:col-span-3">
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
-                <CardDescription>Highest revenue generators</CardDescription>
+                <CardDescription>Penghasil pendapatan tertinggi</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="h-[350px] w-full">
@@ -51,7 +51,7 @@ export default function TopProductsChart({ data, title = "Top Selling Products" 
                             <Tooltip 
                                 formatter={(value: number | string | readonly (number | string)[] | undefined) => [
                                     formatCurrency(Number(Array.isArray(value) ? value[0] : value) || 0), 
-                                    "Total Spend"
+                                    "Total Pengeluaran"
                                 ]}
                                 cursor={{ fill: 'transparent' }}
                                 contentStyle={{ 

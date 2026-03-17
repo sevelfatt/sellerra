@@ -52,7 +52,7 @@ export default function DownloadInvoiceButton({ invoiceId, targetRef }: Download
             pdf.save(`invoice-${invoiceId.padStart(6, '0')}.pdf`);
         } catch (error) {
             console.error("PDF Generation failed:", error);
-            alert("Failed to generate PDF. Please try again.");
+            alert("Gagal membuat PDF. Silakan coba lagi.");
         } finally {
             setIsGenerating(false);
         }
@@ -68,12 +68,12 @@ export default function DownloadInvoiceButton({ invoiceId, targetRef }: Download
             {isGenerating ? (
                 <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Generating...
+                    Membuat...
                 </>
             ) : (
                 <>
                     <Download className="h-4 w-4" />
-                    Download PDF
+                    Unduh PDF
                 </>
             )}
         </Button>

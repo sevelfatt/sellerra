@@ -27,7 +27,7 @@ export function CategoryForm({ initialData, userId }: CategoryFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) {
-      setError("Title is required");
+      setError("Judul wajib diisi");
       return;
     }
 
@@ -43,7 +43,7 @@ export function CategoryForm({ initialData, userId }: CategoryFormProps) {
       router.push("/inventory/category/manage");
       router.refresh();
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      const errorMessage = err instanceof Error ? err.message : "Terjadi kesalahan. Silakan coba lagi.";
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -60,21 +60,21 @@ export function CategoryForm({ initialData, userId }: CategoryFormProps) {
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             </Link>
-            <CardTitle>{isEdit ? "Edit Category" : "Create New Category"}</CardTitle>
+            <CardTitle>{isEdit ? "Edit Kategori" : "Buat Kategori Baru"}</CardTitle>
           </div>
           <CardDescription>
             {isEdit 
-              ? `Update the details for category ID: ${initialData.id}` 
-              : "Add a new category to organize your inventory."}
+              ? `Perbarui detail untuk kategori ID: ${initialData.id}` 
+              : "Tambahkan kategori baru untuk mengatur inventaris Anda."}
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Category Title</Label>
+              <Label htmlFor="title">Judul Kategori</Label>
               <Input
                 id="title"
-                placeholder="e.g. Electronics, Clothing..."
+                placeholder="mis. Elektronik, Pakaian..."
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 disabled={isLoading}
@@ -86,12 +86,12 @@ export function CategoryForm({ initialData, userId }: CategoryFormProps) {
           <CardFooter className="flex justify-between border-t pt-6 bg-muted/20">
             <Link href="/inventory/category/manage">
               <Button variant="outline" type="button" disabled={isLoading}>
-                Cancel
+                Batal
               </Button>
             </Link>
             <Button type="submit" disabled={isLoading} className="gap-2">
               {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-              {isEdit ? "Save Changes" : "Create Category"}
+              {isEdit ? "Simpan Perubahan" : "Buat Kategori"}
             </Button>
           </CardFooter>
         </form>

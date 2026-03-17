@@ -13,8 +13,8 @@ export default function StockChart({ data }: StockChartProps) {
     return (
         <Card className="col-span-full lg:col-span-2">
             <CardHeader>
-                <CardTitle>Current Inventory</CardTitle>
-                <CardDescription>Stock levels per product</CardDescription>
+                <CardTitle>Inventaris Saat Ini</CardTitle>
+                <CardDescription>Tingkat stok per produk</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="h-[350px] w-full">

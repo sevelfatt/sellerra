@@ -80,7 +80,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
                 <div className="absolute top-2 right-2 z-10">
                     <span className={`px-2 py-1 rounded-full text-xs font-semibold ${currentProduct.stocks > 0 ? 'bg-green-100/90 text-green-700 shadow-sm' : 'bg-red-100/90 text-red-700 shadow-sm'}`}>
-                        {currentProduct.stocks} in stock
+                        {currentProduct.stocks} stok
                     </span>
                 </div>
             </div>
@@ -91,7 +91,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     {allVariants.length > 1 && (
                         <div className="flex items-center text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded gap-1">
                             <Layers className="h-3 w-3" />
-                            {currentIndex === 0 ? "Main" : `Var ${currentIndex}`}
+                            {currentIndex === 0 ? "Utama" : `Var ${currentIndex}`}
                         </div>
                     )}
                 </div>
@@ -102,14 +102,14 @@ export default function ProductCard({ product }: ProductCardProps) {
             
             <CardContent className="p-4 pt-0 flex-grow">
                 <p className="text-sm text-muted-foreground line-clamp-2">
-                    {currentProduct.description || "No description provided."}
+                    {currentProduct.description || "Tidak ada deskripsi."}
                 </p>
             </CardContent>
             
             <CardFooter className="p-4 pt-0 gap-2 grid grid-cols-2">
                 <Link href={`/inventory/product/${currentProduct.id}`} className="col-span-2">
                     <Button variant="outline" size="sm" className="w-full">
-                        <Eye className="h-4 w-4 mr-1" /> View Details
+                        <Eye className="h-4 w-4 mr-1" /> Lihat Detail
                     </Button>
                 </Link>
                 <Link href={`/inventory/update/${currentProduct.id}`} className="col-span-1">

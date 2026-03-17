@@ -11,8 +11,8 @@ export default async function ExpensesPage() {
     return (
         <div className="flex-1 w-full flex flex-col gap-8 max-w-6xl mx-auto p-5">
             <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold tracking-tight">Expense Management</h1>
-                <p className="text-muted-foreground">Manage your business expenses to track your clean income.</p>
+                <h1 className="text-3xl font-bold tracking-tight">Manajemen Pengeluaran</h1>
+                <p className="text-muted-foreground">Kelola pengeluaran bisnis Anda untuk melacak pendapatan bersih.</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -20,7 +20,7 @@ export default async function ExpensesPage() {
                     <ExpenseForm userId={user.id} />
                 </div>
                 <div className="lg:col-span-2 space-y-4">
-                    <h2 className="text-xl font-bold px-1">Recent Expenses</h2>
+                    <h2 className="text-xl font-bold px-1">Pengeluaran Terbaru</h2>
                     <Suspense fallback={<div className="h-64 w-full bg-muted animate-pulse rounded-xl" />}>
                         <ExpenseList expenses={expenses} />
                     </Suspense>

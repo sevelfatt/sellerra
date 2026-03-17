@@ -52,7 +52,7 @@ export default function ProductViewManager({ products, categories }: ProductView
                         value={selectedCategoryId}
                         onChange={(e) => setSelectedCategoryId(e.target.value)}
                     >
-                        <option value="all">All Categories</option>
+                        <option value="all">Semua Kategori</option>
                         {categories.map((category) => (
                             <option key={category.id} value={category.id}>
                                 {category.title}
@@ -65,18 +65,18 @@ export default function ProductViewManager({ products, categories }: ProductView
 
             {filteredProducts.length === 0 ? (
                 <div className="flex flex-col items-center justify-center p-12 text-center bg-muted/10 rounded-lg border border-dashed">
-                    <p className="text-muted-foreground">No products found in this category.</p>
+                    <p className="text-muted-foreground">Tidak ada produk ditemukan di kategori ini.</p>
                 </div>
             ) : view === "list" ? (
                 <div className="rounded-md border overflow-hidden">
                     <table className="w-full text-sm">
                         <thead className="bg-muted/50 border-b">
                             <tr className="text-left font-medium text-muted-foreground">
-                                <th className="p-4">Name</th>
-                                <th className="p-4 hidden md:table-cell">Description</th>
-                                <th className="p-4">Price</th>
-                                <th className="p-4">Stocks</th>
-                                <th className="p-4 text-right">Actions</th>
+                                <th className="p-4">Nama</th>
+                                <th className="p-4 hidden md:table-cell">Deskripsi</th>
+                                <th className="p-4">Harga</th>
+                                <th className="p-4">Stok</th>
+                                <th className="p-4 text-right">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y">
@@ -96,7 +96,7 @@ export default function ProductViewManager({ products, categories }: ProductView
                                                 <span className="font-medium">{product.name}</span>
                                                 {product.variants && product.variants.length > 0 && (
                                                     <span className="flex items-center text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-bold">
-                                                        {product.variants.length} variations
+                                                        {product.variants.length} variasi
                                                     </span>
                                                 )}
                                             </div>
@@ -105,7 +105,7 @@ export default function ProductViewManager({ products, categories }: ProductView
                                         <td className="p-4 text-primary font-medium">{formatRupiah(product.price)}</td>
                                         <td className="p-4">
                                             <span className={`px-2 py-1 rounded-full text-xs font-semibold ${product.stocks > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                                {product.stocks} in stock
+                                                {product.stocks} stok
                                             </span>
                                         </td>
                                         <td className="p-4 text-right">

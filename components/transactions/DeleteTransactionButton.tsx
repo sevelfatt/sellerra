@@ -13,14 +13,14 @@ export default function DeleteTransactionButton({ transactionId }: { transaction
     const handleDelete = async (e: React.MouseEvent) => {
         try {
             e.preventDefault();
-            if (!confirm("Are you sure you want to delete this transaction? This will also restore product stocks.")) return;
+            if (!confirm("Apakah Anda yakin ingin menghapus transaksi ini? Ini juga akan memulihkan stok produk.")) return;
             
             setIsDeleting(true);
             await deleteTransactionById(transactionId);
             router.refresh();
         } catch (error) {
             console.error("Error deleting transaction:", error);
-            alert("Failed to delete transaction. Please try again.");
+            alert("Gagal menghapus transaksi. Silakan coba lagi.");
         } finally {
             setIsDeleting(false);
         }
@@ -35,7 +35,7 @@ export default function DeleteTransactionButton({ transactionId }: { transaction
             className="text-destructive hover:text-destructive hover:bg-destructive/10"
         >
             <Trash2 className="h-4 w-4 mr-1" />
-            {isDeleting ? "Deleting..." : "Delete"}
+            {isDeleting ? "Menghapus..." : "Hapus"}
         </Button>
     );
 }

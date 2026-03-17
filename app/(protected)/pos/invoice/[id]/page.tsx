@@ -39,8 +39,8 @@ async function InvoiceContent({ id }: { id: string }) {
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-4">
                     <Check className="h-8 w-8" />
                 </div>
-                <h1 className="text-3xl font-extrabold tracking-tight">Transaction Successful!</h1>
-                <p className="text-muted-foreground">Invoice #{transaction.id.toString().padStart(6, '0')}</p>
+                <h1 className="text-3xl font-extrabold tracking-tight">Transaksi Berhasil!</h1>
+                <p className="text-muted-foreground">Struk #{transaction.id.toString().padStart(6, '0')}</p>
             </div>
             
             <PrintableInvoice 
@@ -57,7 +57,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
     const { id } = await params;
     return (
         <div className="min-h-screen bg-muted/20 p-6">
-            <Suspense fallback={<div className="h-full flex items-center justify-center font-medium">Loading invoice...</div>}>
+            <Suspense fallback={<div className="h-full flex items-center justify-center font-medium">Memuat struk...</div>}>
                 <InvoiceContent id={id} />
             </Suspense>
         </div>

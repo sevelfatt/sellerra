@@ -85,7 +85,7 @@ function POSProductCard({ product, onSelect }: { product: Product; onSelect: (pr
                 {currentProduct.stocks <= 0 && (
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
                         <span className="bg-destructive text-destructive-foreground px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-xl ring-2 ring-white/20">
-                            Out of Stock
+                            Stok Habis
                         </span>
                     </div>
                 )}
@@ -101,7 +101,7 @@ function POSProductCard({ product, onSelect }: { product: Product; onSelect: (pr
                     {allVariants.length > 1 && (
                         <div className="flex items-center text-[8px] bg-muted px-1 rounded gap-0.5 text-muted-foreground whitespace-nowrap">
                             <Layers className="h-2 w-2" />
-                            {currentIndex === 0 ? "Default" : `V${currentIndex}`}
+                            {currentIndex === 0 ? "Utama" : `V${currentIndex}`}
                         </div>
                     )}
                 </div>
@@ -110,11 +110,11 @@ function POSProductCard({ product, onSelect }: { product: Product; onSelect: (pr
                 </p>
                 <div className="flex items-center justify-between mt-1">
                     <p className="text-[10px] text-muted-foreground">
-                        Stock: {currentProduct.stocks}
+                        Stok: {currentProduct.stocks}
                     </p>
                     {currentProduct.stocks > 0 && currentProduct.stocks <= 5 && (
                         <span className="text-[10px] text-orange-500 font-bold animate-pulse">
-                            Low Stock!
+                            Stok Menipis!
                         </span>
                     )}
                 </div>
@@ -127,7 +127,7 @@ export default function ProductList({ products, onSelect }: ProductListProps) {
     if (products.length === 0) {
         return (
             <div className="h-40 flex items-center justify-center text-muted-foreground border border-dashed rounded-lg">
-                No products found
+                Tidak ada produk
             </div>
         );
     }

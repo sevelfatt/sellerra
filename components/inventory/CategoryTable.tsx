@@ -25,7 +25,7 @@ export function CategoryTable({ initialCategories }: CategoryTableProps) {
   );
 
   const handleDelete = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this category?")) return;
+    if (!confirm("Apakah Anda yakin ingin menghapus kategori ini?")) return;
 
     setIsDeleting(id);
     try {
@@ -34,7 +34,7 @@ export function CategoryTable({ initialCategories }: CategoryTableProps) {
       router.refresh();
     } catch (error) {
       console.error("Delete category error:", error);
-      alert("Failed to delete category");
+      alert("Gagal menghapus kategori");
     } finally {
       setIsDeleting(null);
     }
@@ -43,10 +43,10 @@ export function CategoryTable({ initialCategories }: CategoryTableProps) {
   return (
     <Card className="shadow-lg border-neutral-200 dark:border-neutral-800">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
-        <CardTitle className="text-2xl font-bold tracking-tight">Manage Categories</CardTitle>
+        <CardTitle className="text-2xl font-bold tracking-tight">Kelola Kategori</CardTitle>
         <Link href="/inventory/category/manage/create">
           <Button className="bg-primary hover:bg-primary/90">
-            <Plus className="mr-2 h-4 w-4" /> Add Category
+            <Plus className="mr-2 h-4 w-4" /> Tambah Kategori
           </Button>
         </Link>
       </CardHeader>
@@ -55,7 +55,7 @@ export function CategoryTable({ initialCategories }: CategoryTableProps) {
           <div className="relative w-full max-w-sm">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search categories..."
+              placeholder="Cari kategori..."
               className="pl-8"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -67,8 +67,8 @@ export function CategoryTable({ initialCategories }: CategoryTableProps) {
             <thead className="bg-muted/50 text-muted-foreground font-medium border-b">
               <tr>
                 <th className="h-12 px-4 text-left align-middle">ID</th>
-                <th className="h-12 px-4 text-left align-middle">Title</th>
-                <th className="h-12 px-4 text-right align-middle">Actions</th>
+                <th className="h-12 px-4 text-left align-middle">Judul</th>
+                <th className="h-12 px-4 text-right align-middle">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -100,7 +100,7 @@ export function CategoryTable({ initialCategories }: CategoryTableProps) {
               ) : (
                 <tr>
                   <td colSpan={3} className="h-24 text-center text-muted-foreground">
-                    No categories found.
+                    Tidak ada kategori ditemukan.
                   </td>
                 </tr>
               )}

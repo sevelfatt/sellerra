@@ -13,7 +13,7 @@ export default function ExpenseList({ expenses }: { expenses: expense[] }) {
     const [isDeleting, setIsDeleting] = useState<number | null>(null);
 
     const handleDelete = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this expense?")) return;
+        if (!confirm("Apakah Anda yakin ingin menghapus pengeluaran ini?")) return;
         
         setIsDeleting(id);
         try {
@@ -21,7 +21,7 @@ export default function ExpenseList({ expenses }: { expenses: expense[] }) {
             router.refresh();
         } catch (error) {
             console.error("Failed to delete expense:", error);
-            alert("Failed to delete expense.");
+            alert("Gagal menghapus pengeluaran.");
         } finally {
             setIsDeleting(null);
         }
@@ -32,7 +32,7 @@ export default function ExpenseList({ expenses }: { expenses: expense[] }) {
             <Card className="bg-muted/20 border-dashed border-2">
                 <CardContent className="flex flex-col items-center justify-center p-12 text-center text-muted-foreground">
                     <AlertCircle className="h-10 w-10 mb-4 opacity-20" />
-                    <p>No expenses recorded yet.</p>
+                    <p>Belum ada pengeluaran yang dicatat.</p>
                 </CardContent>
             </Card>
         );

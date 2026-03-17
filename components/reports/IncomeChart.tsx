@@ -29,8 +29,8 @@ export default function IncomeChart({ data }: IncomeChartProps) {
     return (
         <Card className="col-span-full lg:col-span-3">
             <CardHeader>
-                <CardTitle>Income Trend</CardTitle>
-                <CardDescription>Daily income for the last 30 days</CardDescription>
+                <CardTitle>Tren Pendapatan</CardTitle>
+                <CardDescription>Pendapatan harian untuk 30 hari terakhir</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="h-[350px] w-full">
@@ -61,7 +61,7 @@ export default function IncomeChart({ data }: IncomeChartProps) {
                             <Tooltip 
                                 formatter={(value: number | string | readonly (number | string)[] | undefined) => [
                                     formatCurrency(Array.isArray(value) ? value[0] : value), 
-                                    "Income"
+                                    "Pendapatan"
                                 ]}
                                 labelFormatter={(label) => format(parseISO(label), "dd MMMM yyyy")}
                                 contentStyle={{ 

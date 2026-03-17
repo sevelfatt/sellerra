@@ -37,18 +37,18 @@ export default function WhatsAppShareButton({
             `• ${item.product.name} (${item.amount}x) - Rp ${item.total_price.toLocaleString('id-ID')}`
         ).join('\n');
 
-        const message = `INVOICE #${transaction.id.toString().padStart(6, '0')}*
-SELLERRA*
+        const message = `*STRUK #${transaction.id.toString().padStart(6, '0')}*
+SELLERRA
 
-Date:* ${date}
-Customer:* ${customerData.name}
+*Tanggal:* ${date}
+*Pelanggan:* ${customerData.name}
 
-*Items:*
+*Barang:*
 ${itemList}
 
-*Total Amount: Rp ${transaction.total_price.toLocaleString('id-ID')}*
+*Total Keseluruhan: Rp ${transaction.total_price.toLocaleString('id-ID')}*
 
-Thank you for your purchase!`;
+Terima kasih atas pembelian Anda!`;
 
         // Clean phone number: remove non-digits
         const phoneNumber = customerData.whatsapp_number.replace(/\D/g, '');
@@ -88,12 +88,12 @@ Thank you for your purchase!`;
             {isRedirecting ? (
                 <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Redirecting...
+                    Mengarahkan...
                 </>
             ) : (
                 <>
                     <MessageSquare className="h-4 w-4" />
-                    Send via WhatsApp
+                    Kirim via WhatsApp
                 </>
             )}
         </Button>

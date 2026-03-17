@@ -95,22 +95,22 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
     return (
         <div className="max-w-2xl mx-auto space-y-4 p-6">
             <Link href="/inventory" className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors">
-                <ChevronLeft className="h-4 w-4 mr-1" /> Back to Inventory
+                <ChevronLeft className="h-4 w-4 mr-1" /> Kembali ke Inventaris
             </Link>
 
             <Card className="shadow-lg border-2">
                 <CardHeader>
-                    <CardTitle className="text-2xl">{initialProduct ? `Create Variant for ${initialProduct.name}` : "Create New Product"}</CardTitle>
-                    <CardDescription>{initialProduct ? `Adding a new variation (size, color, etc.) to ${initialProduct.name}` : "Add a new item to your store inventory."}</CardDescription>
+                    <CardTitle className="text-2xl">{initialProduct ? `Buat Variasi untuk ${initialProduct.name}` : "Buat Produk Baru"}</CardTitle>
+                    <CardDescription>{initialProduct ? `Menambahkan variasi baru (ukuran, warna, dll.) untuk ${initialProduct.name}` : "Tambahkan item baru ke inventaris toko Anda."}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-2">
-                            <Label htmlFor="product-name">Product Name</Label>
+                            <Label htmlFor="product-name">Nama Produk</Label>
                             <Input 
                                 id="product-name"
                                 type="text" 
-                                placeholder="e.g. Premium Coffee Beans" 
+                                placeholder="mis. Biji Kopi Premium" 
                                 value={name} 
                                 onChange={(e) => setName(e.target.value)} 
                                 required 
@@ -119,11 +119,11 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="description">Description</Label>
+                            <Label htmlFor="description">Deskripsi</Label>
                             <textarea 
                                 id="description"
                                 className="flex min-h-[100px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                                placeholder="Describe your product in detail..." 
+                                placeholder="Deskripsikan produk Anda secara detail..." 
                                 value={description} 
                                 onChange={(e) => setDescription(e.target.value)} 
                             />
@@ -131,7 +131,7 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="price">Price (Rp)</Label>
+                                <Label htmlFor="price">Harga (Rp)</Label>
                                 <Input 
                                     id="price"
                                     type="number" 
@@ -142,7 +142,7 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="stocks">Initial Stock</Label>
+                                <Label htmlFor="stocks">Stok Awal</Label>
                                 <Input 
                                     id="stocks"
                                     type="number" 
@@ -155,14 +155,14 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="category">Category</Label>
+                            <Label htmlFor="category">Kategori</Label>
                             <select 
                                 id="category"
                                 className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" 
                                 value={categoryId} 
                                 onChange={(e) => setCategoryId(e.target.value)}
                             >
-                                <option value="">Select a category</option>
+                                <option value="">Pilih kategori</option>
                                 {categories.map((category) => (
                                     <option key={category.id} value={category.id}>
                                         {category.title}
@@ -172,7 +172,7 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="image">Product Image</Label>
+                            <Label htmlFor="image">Gambar Produk</Label>
                             <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-6 hover:bg-muted/50 transition-colors relative group">
                                 {imagePreview ? (
                                     <div className="relative w-full aspect-video rounded-md overflow-hidden bg-muted">
@@ -198,7 +198,7 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
                                             <Upload className="h-6 w-6 text-primary" />
                                         </div>
                                         <div className="text-center">
-                                            <span className="text-sm font-medium">Click to upload image</span>
+                                            <span className="text-sm font-medium">Klik untuk mengunggah gambar</span>
                                             <p className="text-xs text-muted-foreground mt-1">PNG, JPG or WebP (max 2MB)</p>
                                         </div>
                                         <input 
@@ -222,12 +222,12 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
                                 {isLoading ? (
                                     <>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Creating...
+                                        Membuat...
                                     </>
                                 ) : (
                                     <>
                                         <Save className="mr-2 h-4 w-4" />
-                                        Create Product
+                                        Buat Produk
                                     </>
                                 )}
                             </Button>

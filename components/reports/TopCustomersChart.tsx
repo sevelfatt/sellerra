@@ -22,8 +22,8 @@ export default function TopCustomersChart({ data }: TopCustomersChartProps) {
     return (
         <Card className="col-span-full lg:col-span-2">
             <CardHeader>
-                <CardTitle>Top Customers</CardTitle>
-                <CardDescription>Highest spending customers</CardDescription>
+                <CardTitle>Pelanggan Teratas</CardTitle>
+                <CardDescription>Pelanggan dengan pengeluaran tertinggi</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="h-[350px] w-full">
@@ -47,7 +47,7 @@ export default function TopCustomersChart({ data }: TopCustomersChartProps) {
                             <Tooltip 
                                 formatter={(value: number | string | readonly (number | string)[] | undefined) => [
                                     formatCurrency(Number(Array.isArray(value) ? value[0] : value) || 0), 
-                                    "Total Spend"
+                                    "Total Pengeluaran"
                                 ]}
                                 cursor={{ fill: 'hsl(var(--muted))', opacity: 0.4 }}
                                 contentStyle={{ 

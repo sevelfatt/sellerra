@@ -23,7 +23,7 @@ export function LogoutButton() {
       className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
     >
       <LogOut className="h-4 w-4 mr-2" />
-      Logout
+      Keluar
     </Button>
   );
 }

@@ -52,14 +52,14 @@ async function ReportsDashboard({
             {/* Section 1: Global Business Overview */}
             <div className="space-y-8">
                 <div className="flex flex-col gap-4">
-                    <h2 className="text-2xl font-bold tracking-tight">Global Business Overview</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Ringkasan Bisnis Global</h2>
                     <TimeRangeFilters />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Card>
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Income (Period)</CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Pendapatan (Periode)</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-bold text-primary">
@@ -70,7 +70,7 @@ async function ReportsDashboard({
 
                     <Card>
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Expenses (Period)</CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Pengeluaran (Periode)</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-bold text-red-600">
@@ -81,7 +81,7 @@ async function ReportsDashboard({
 
                     <Card className="bg-primary/5">
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Clean Income</CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Pendapatan Bersih</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-black text-primary">
@@ -92,11 +92,11 @@ async function ReportsDashboard({
 
                     <Card>
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Inventory Stock</CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Stok Inventaris</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-bold text-blue-600">
-                                {totalStocks.toLocaleString('id-ID')} Units
+                                {totalStocks.toLocaleString('id-ID')} Unit
                             </div>
                         </CardContent>
                     </Card>
@@ -109,7 +109,7 @@ async function ReportsDashboard({
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                    <TopProductsChart data={globalTopProducts} title="Most Popular Products (Global)" />
+                    <TopProductsChart data={globalTopProducts} title="Produk Terpopuler (Global)" />
                     <TopCustomersChart data={globalTopCustomers} />
                 </div>
             </div>
@@ -119,7 +119,7 @@ async function ReportsDashboard({
             {/* Section 2: Customer Insights */}
             <div className="space-y-8 pb-10">
                 <div className="flex flex-col gap-4">
-                    <h2 className="text-2xl font-bold tracking-tight">Customer Insights</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Wawasan Pelanggan</h2>
                     <CustomerFilter customers={customers} />
                 </div>
 
@@ -127,20 +127,20 @@ async function ReportsDashboard({
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                         <TopProductsChart 
                             data={customerTopProducts} 
-                            title={`Top Products for ${customers.find(c => c.id === customerId)?.name || 'Selected Customer'}`} 
+                            title={`Produk Teratas untuk ${customers.find(c => c.id === customerId)?.name || 'Pelanggan Terpilih'}`} 
                         />
                         <Card className="col-span-full lg:col-span-2 bg-muted/30">
                             <CardHeader>
-                                <CardTitle>Customer Value Analysis</CardTitle>
+                                <CardTitle>Analisis Nilai Pelanggan</CardTitle>
                             </CardHeader>
                             <CardContent className="flex items-center justify-center p-12 text-center text-muted-foreground">
-                                <p>Detailed purchasing habits and preferred categories for this customer are shown here based on the selected time period.</p>
+                                <p>Kebiasaan pembelian mendetail dan kategori pilihan untuk pelanggan ini ditampilkan di sini berdasarkan periode waktu yang dipilih.</p>
                             </CardContent>
                         </Card>
                     </div>
                 ) : (
                     <div className="h-40 flex items-center justify-center border-2 border-dashed rounded-xl text-muted-foreground">
-                        Select a customer to view specific purchasing insights.
+                        Pilih pelanggan untuk melihat wawasan pembelian spesifik.
                     </div>
                 )}
             </div>
@@ -163,8 +163,8 @@ export default async function ReportsPage({
     return (
         <div className="flex-1 w-full flex flex-col gap-8 max-w-6xl mx-auto p-5">
             <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold tracking-tight">Financial Report</h1>
-                <p className="text-muted-foreground">Detailed overview of your business performance and inventory.</p>
+                <h1 className="text-3xl font-bold tracking-tight">Laporan Keuangan</h1>
+                <p className="text-muted-foreground">Gambaran rinci tentang kinerja bisnis dan inventaris Anda.</p>
             </div>
 
             <Suspense fallback={<div className="h-96 w-full bg-muted animate-pulse rounded-xl" />}>

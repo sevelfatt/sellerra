@@ -9,13 +9,13 @@ import { Button } from "@/components/ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Financial Reports", href: "/reports", icon: TrendingUp },
-  { label: "Expenses", href: "/expenses", icon: Package },
-  { label: "Transactions", href: "/transactions", icon: Store },
-  { label: "Point of Sale", href: "/pos", icon: Store },
-  { label: "Inventory", href: "/inventory", icon: Package },
-  { label: "Categories", href: "/inventory/category/manage", icon: Store },
+  { label: "Beranda", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Laporan Keuangan", href: "/reports", icon: TrendingUp },
+  { label: "Pengeluaran", href: "/expenses", icon: Package },
+  { label: "Transaksi", href: "/transactions", icon: Store },
+  { label: "Kasir (POS)", href: "/pos", icon: Store },
+  { label: "Inventaris", href: "/inventory", icon: Package },
+  { label: "Kategori", href: "/inventory/category/manage", icon: Store },
 ];
 
 
@@ -82,7 +82,7 @@ export function Sidebar({ authButton }: { authButton?: React.ReactNode }) {
 
           <div className="mt-auto pt-6 border-t border-border/50 space-y-6">
             <div className="flex items-center justify-between px-2">
-              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Appearance</span>
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Tampilan</span>
               <ThemeSwitcher />
             </div>
             <div className="px-2 pb-2">

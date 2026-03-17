@@ -17,11 +17,11 @@ async function ProductsList() {
     return (
       <div className="flex flex-col items-center justify-center p-8 text-center bg-muted/20 rounded-lg border border-dashed">
         <Package className="h-12 w-12 text-muted-foreground mb-4" />
-        <h3 className="font-semibold text-lg">No products found</h3>
-        <p className="text-muted-foreground mb-4">You haven&apos;t added any products yet.</p>
+        <h3 className="font-semibold text-lg">Tidak ada produk ditemukan</h3>
+        <p className="text-muted-foreground mb-4">Anda belum menambahkan produk apa pun.</p>
         <Link href="/inventory/create">
           <Button variant="outline">
-            <Plus className="mr-2 h-4 w-4" /> Add your first product
+            <Plus className="mr-2 h-4 w-4" /> Tambah produk pertama
           </Button>
         </Link>
       </div>
@@ -36,18 +36,18 @@ export default function Page() {
     <div className="space-y-6 p-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Inventory</h1>
-          <p className="text-muted-foreground">Manage your product catalog and stock levels.</p>
+          <h1 className="text-3xl font-bold tracking-tight">Inventaris</h1>
+          <p className="text-muted-foreground">Kelola katalog produk dan tingkat stok Anda.</p>
         </div>
         <div className="flex gap-2">
           <Link href="/inventory/category/manage">
             <Button variant="outline">
-              Manage Categories
+              Kelola Kategori
             </Button>
           </Link>
           <Link href="/inventory/create">
             <Button>
-              <Plus className="mr-2 h-4 w-4" /> Add Product
+              <Plus className="mr-2 h-4 w-4" /> Tambah Produk
             </Button>
           </Link>
         </div>
@@ -55,10 +55,10 @@ export default function Page() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Products</CardTitle>
+          <CardTitle>Produk</CardTitle>
         </CardHeader>
         <CardContent>
-          <Suspense fallback={<div className="h-40 flex items-center justify-center font-medium">Loading products...</div>}>
+          <Suspense fallback={<div className="h-40 flex items-center justify-center font-medium">Memuat produk...</div>}>
             <ProductsList />
           </Suspense>
         </CardContent>

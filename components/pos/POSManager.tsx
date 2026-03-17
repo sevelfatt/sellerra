@@ -101,11 +101,11 @@ export default function POSManager({ products, categories, customers, userId }: 
                     <div className="flex items-center justify-between">
                         <h1 className="text-xl font-bold flex items-center gap-2">
                             <ShoppingCart className="h-5 w-5 text-primary" />
-                            Point of Sale
+                            Kasir (POS)
                         </h1>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <User className="h-4 w-4" />
-                            {selectedCustomer ? selectedCustomer.name : "Walk-in Customer"}
+                            {selectedCustomer ? selectedCustomer.name : "Pelanggan Langsung"}
                         </div>
                     </div>
                     
@@ -113,7 +113,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input 
-                                placeholder="Search products..." 
+                                placeholder="Cari produk..." 
                                 className="pl-9"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -128,7 +128,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                             onClick={() => setSelectedCategory(null)}
                             className="whitespace-nowrap rounded-full"
                         >
-                            All
+                            Semua
                         </Button>
                         {categories.map((cat: { id: number; title: string }) => (
                             <Button 
@@ -152,7 +152,7 @@ export default function POSManager({ products, categories, customers, userId }: 
             <div className="w-full lg:w-96 flex flex-col bg-background shadow-xl z-10 border-t lg:border-t-0">
                 <div className="p-4 border-b">
                     <h2 className="font-semibold flex items-center gap-2">
-                        Customer
+                        Pelanggan
                     </h2>
                     <div className="mt-2">
                         <CustomerSelection 
@@ -165,7 +165,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-4 bg-muted/5">
-                    <h2 className="font-semibold mb-4">Cart ({cart.length})</h2>
+                    <h2 className="font-semibold mb-4">Keranjang ({cart.length})</h2>
                     <Cart 
                         items={cart} 
                         onRemove={removeFromCart} 
@@ -176,7 +176,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                 <div className="p-6 border-t bg-background">
                     {!selectedCustomer && cart.length > 0 && (
                         <p className="text-[10px] text-destructive font-medium mb-3 text-center animate-bounce">
-                            Please select a customer to proceed
+                            Harap pilih pelanggan untuk melanjutkan
                         </p>
                     )}
                     <div className="flex justify-between items-center mb-4">
@@ -190,7 +190,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                         disabled={cart.length === 0 || !selectedCustomer}
                         onClick={handleCheckout}
                     >
-                        Review Order
+                        Tinjau Pesanan
                         <ArrowRight className="h-5 w-5" />
                     </Button>
                 </div>

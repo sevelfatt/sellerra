@@ -77,7 +77,7 @@ export default function CustomerSelection({ userId, customers, selected, onSelec
                                 <div className="flex items-center gap-1">
                                     <Phone className="h-3 w-3 text-muted-foreground" />
                                     <p className="text-[10px] text-muted-foreground">
-                                        {selected.whatsapp_number || "No WhatsApp"}
+                                        {selected.whatsapp_number || "Tidak ada WhatsApp"}
                                     </p>
                                     <button 
                                         onClick={() => {
@@ -130,10 +130,10 @@ export default function CustomerSelection({ userId, customers, selected, onSelec
     if (isAddingNew) {
         return (
             <div className="space-y-2 p-3 border rounded-lg bg-muted/20 animate-in fade-in slide-in-from-top-2">
-                <p className="text-xs font-semibold text-muted-foreground mb-1">Add New Customer</p>
+                <p className="text-xs font-semibold text-muted-foreground mb-1">Tambah Pelanggan Baru</p>
                 <div className="space-y-2">
                     <Input 
-                        placeholder="Full Name" 
+                        placeholder="Nama Lengkap" 
                         value={newName}
                         onChange={(e) => setNewName(e.target.value)}
                         autoFocus
@@ -142,7 +142,7 @@ export default function CustomerSelection({ userId, customers, selected, onSelec
                     <div className="relative">
                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                         <Input 
-                            placeholder="WhatsApp (Optional)" 
+                            placeholder="WhatsApp (Opsional)" 
                             value={newWhatsApp}
                             onChange={(e) => setNewWhatsApp(e.target.value)}
                             className="h-9 pl-9"
@@ -151,9 +151,9 @@ export default function CustomerSelection({ userId, customers, selected, onSelec
                 </div>
                 <div className="flex gap-2">
                     <Button className="flex-1" size="sm" onClick={handleCreateCustomer} disabled={isSubmitting || !newName.trim()}>
-                        {isSubmitting ? "Creating..." : "Save & Select"}
+                        {isSubmitting ? "Menyimpan..." : "Simpan & Pilih"}
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => setIsAddingNew(false)}>Cancel</Button>
+                    <Button variant="outline" size="sm" onClick={() => setIsAddingNew(false)}>Batal</Button>
                 </div>
             </div>
         );
@@ -169,7 +169,7 @@ export default function CustomerSelection({ userId, customers, selected, onSelec
                         onClick={() => setIsSearching(true)}
                     >
                         <Search className="h-4 w-4" />
-                        Search customers...
+                        Cari pelanggan...
                     </Button>
                     <Button variant="secondary" size="icon" className="h-10 w-10 shrink-0" onClick={() => setIsAddingNew(true)}>
                         <Plus className="h-4 w-4" />
@@ -180,7 +180,7 @@ export default function CustomerSelection({ userId, customers, selected, onSelec
                     <div className="p-2 border-b flex items-center gap-2">
                         <Search className="h-4 w-4 text-muted-foreground" />
                         <Input 
-                            placeholder="Type to search..." 
+                            placeholder="Ketik untuk mencari..." 
                             className="border-none focus-visible:ring-0 h-8 p-0"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -192,7 +192,7 @@ export default function CustomerSelection({ userId, customers, selected, onSelec
                     </div>
                     <div className="max-h-48 overflow-y-auto p-1">
                         {filteredCustomers.length === 0 ? (
-                            <p className="p-3 text-xs text-center text-muted-foreground">No customers found</p>
+                            <p className="p-3 text-xs text-center text-muted-foreground">Pelanggan tidak ditemukan</p>
                         ) : (
                             filteredCustomers.map(c => (
                                 <button
