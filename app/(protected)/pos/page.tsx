@@ -23,7 +23,7 @@ async function POSContent() {
 
 export default function POSPage() {
     return (
-        <div className="flex flex-col h-[calc(100vh-4rem)] lg:h-screen overflow-hidden">
+        <div className="flex flex-col min-h-[calc(100vh-4rem)] lg:h-[calc(100vh)] lg:overflow-hidden">
             <Suspense fallback={<div className="flex-1 flex items-center justify-center font-medium">Memuat Kasir (POS)...</div>}>
                 <POSContent />
             </Suspense>

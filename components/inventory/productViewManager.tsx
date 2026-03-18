@@ -68,8 +68,8 @@ export default function ProductViewManager({ products, categories }: ProductView
                     <p className="text-muted-foreground">Tidak ada produk ditemukan di kategori ini.</p>
                 </div>
             ) : view === "list" ? (
-                <div className="rounded-md border overflow-hidden">
-                    <table className="w-full text-sm">
+                <div className="rounded-md border overflow-x-auto">
+                    <table className="w-full text-sm min-w-[600px]">
                         <thead className="bg-muted/50 border-b">
                             <tr className="text-left font-medium text-muted-foreground">
                                 <th className="p-4">Nama</th>

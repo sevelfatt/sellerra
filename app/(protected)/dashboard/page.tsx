@@ -80,7 +80,7 @@ async function TransactionHistory({ userId }: { userId: string }) {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-xl font-semibold">Riwayat Transaksi Mingguan</h2>
-      <Card>
+      <Card className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -118,7 +118,7 @@ export default async function DashboardPage() {
   const user = await requireUser();
   
   return (
-    <div className="flex-1 w-full flex flex-col gap-12 max-w-5xl mx-auto p-5">
+    <div className="flex-1 w-full flex flex-col gap-12 max-w-5xl mx-auto">
       <Suspense fallback={<div>Memuat pesan selamat datang...</div>}>
         <UserWelcome />
       </Suspense>
