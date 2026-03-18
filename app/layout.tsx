@@ -19,6 +19,8 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
+import { Suspense } from "react";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,7 +35,13 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          {children}
+          <div className="min-h-screen bg-background">
+            <main>
+              <Suspense fallback={<div className="flex items-center justify-center min-h-[50vh]">Loading...</div>}>
+                {children}
+              </Suspense>
+            </main>
+          </div>
         </ThemeProvider>
       </body>
     </html>

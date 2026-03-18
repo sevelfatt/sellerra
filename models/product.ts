@@ -1,0 +1,16 @@
+export class Product {
+    id: number = 0;
+    name: string = "";
+    description: string = "";
+    price: number = 0;
+    stocks: number = 0;
+    image_path: string = "";
+    category_id: number | null = null;
+    user_id: string = "";
+    parent_product_id: number | null = null;
+    variants?: Product[];
+
+    constructor(init?: Partial<Product>) {
+        Object.assign(this, init);
+    }
+}

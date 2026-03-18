@@ -1,14 +1,14 @@
-import type { Config } from 'jest'
 import nextJest from 'next/jest.js'
+import type { Config } from 'jest'
 
-const createJestConfig = nextJest({
-  dir: './',
-})
+const createJestConfig = nextJest({ dir: './' })
 
 const config: Config = {
-  coverageProvider: 'v8',
   testEnvironment: 'jsdom',
-
+  coverageProvider: 'v8',   // ✔ you already chose this
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+  },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
