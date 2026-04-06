@@ -6,13 +6,12 @@ import { getStockStatistics } from "@/services/product/productServiceServer";
 import { getTotalExpenses } from "@/services/expense/expenseServiceServer";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format } from "date-fns";
+import {ArrowUp, ArrowDown} from "lucide-react";
 
 async function UserWelcome() {
-  const user = await requireUser();
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="text-2xl font-bold">Selamat datang kembali, {user.email}</h1>
-      <p className="text-muted-foreground text-sm">Berikut ringkasan aktivitas akun Anda hari ini.</p>
+      <h1 className="text-5xl font-bold">Dashboard</h1>
     </div>
   );
 }
@@ -31,42 +30,44 @@ async function DashboardStats({ userId }: { userId: string }) {
   const cleanIncome = monthlyIncome - monthlyExpenses;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <Card>
+    <div className="flex flex-wrap gap-4">
+      <Card className="w-fit">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Pendapatan Bersih Bulanan</CardTitle>
+          <CardTitle className="text-lg text-gray-600 font-medium">Laba Bersih Sebulan terakhir</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">
+          <div className="text-4xl font-semibold">
             {NumberFormat.format(cleanIncome)}
           </div>
-          <div className="flex flex-col space-y-  5">
+          <div className="flex flex-col mt-4">
             <div className="flex flex-row items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-green-500"></div>
-              <span className="text-xs text-muted-foreground">{NumberFormat.format(monthlyIncome)} </span>
+              <ArrowUp className="h-7 w-7 rounded-full text-green-500" />
+              <span className="text-lg text-gray-600">Pemasukan: </span>
+              <span className="text-lg text-muted-foreground">{NumberFormat.format(monthlyIncome)} </span>
             </div>
             <div className="flex flex-row items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-red-500"></div>
-              <span className="text-xs text-muted-foreground">{NumberFormat.format(monthlyExpenses)} </span>
+              <ArrowDown className="h-7 w-7 rounded-full text-red-500" />
+              <span className="text-lg text-gray-600">Pengeluaran: </span>  
+              <span className="text-lg text-muted-foreground">{NumberFormat.format(monthlyExpenses)} </span>
             </div>
           </div>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Stok Barang Menipis</CardTitle>
+          <CardTitle className="text-lg text-gray-600 font-medium">Stok Barang Menipis</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-yellow-600">{stockStats.lowStock}</div>
+          <div className="text-3xl font-bold text-black">{stockStats.lowStock} Produk</div>
           <p className="text-xs text-muted-foreground">Produk dengan stok sedikit (1-5)</p>
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Stok Habis</CardTitle>
+          <CardTitle className="text-lg text-gray-600 font-medium">Stok Habis</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-red-600">{stockStats.outOfStock}</div>
+          <div className="text-3xl font-bold text-black">{stockStats.outOfStock} Produk</div>
           <p className="text-xs text-muted-foreground">Produk dengan stok kosong</p>
         </CardContent>
       </Card>
@@ -118,7 +119,7 @@ export default async function DashboardPage() {
   const user = await requireUser();
   
   return (
-    <div className="flex-1 w-full flex flex-col gap-12 max-w-5xl mx-auto">
+    <div className="flex-1 w-full flex flex-col gap-12 mx-auto">
       <Suspense fallback={<div>Memuat pesan selamat datang...</div>}>
         <UserWelcome />
       </Suspense>

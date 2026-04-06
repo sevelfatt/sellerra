@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, Menu, X, Store, TrendingUp } from "lucide-react";
+import { LayoutDashboard, Package, Menu, X, Store, TrendingUp, ScrollText, ShoppingCart, Archive } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
@@ -12,10 +12,10 @@ const navItems = [
   { label: "Beranda", href: "/dashboard", icon: LayoutDashboard },
   { label: "Laporan Keuangan", href: "/reports", icon: TrendingUp },
   { label: "Pengeluaran", href: "/expenses", icon: Package },
-  { label: "Transaksi", href: "/transactions", icon: Store },
-  { label: "Kasir (POS)", href: "/pos", icon: Store },
+  { label: "Transaksi", href: "/transactions", icon: ScrollText },
+  { label: "Kasir (POS)", href: "/pos", icon: ShoppingCart},
   { label: "Inventaris", href: "/inventory", icon: Package },
-  { label: "Kategori", href: "/inventory/category/manage", icon: Store },
+  { label: "Kategori", href: "/inventory/category/manage", icon: Archive },
 ];
 
 
@@ -46,8 +46,8 @@ export function Sidebar({ authButton }: { authButton?: React.ReactNode }) {
           isOpen ? "translate-x-0 w-full" : "-translate-x-full"
         )}
       >
-        <div className="flex flex-col h-full p-4">
-          <div className="flex items-center gap-2 px-2 py-6 mb-4 lg:mb-8">
+        <div className="flex flex-col h-full">
+          <div className="flex items-center gap-2 px-6 py-6 mb-4 lg:mb-8">
             <Store className="h-8 w-8 text-primary" />
             <Link href="/" className="font-bold text-2xl tracking-tight" onClick={() => setIsOpen(false)}>
               Sellerra
@@ -56,27 +56,22 @@ export function Sidebar({ authButton }: { authButton?: React.ReactNode }) {
 
           <nav className="flex-1 space-y-1">
             {navItems.map((item) => (
+              <div className="flex flex-row items-center" key={item.href}>
+              {isCurrentPath(pathname, item.href) && <div className="w-3 mr-2 h-10 rounded-r-xl bg-primary" />}
               <Link
-                key={item.href}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
                 className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
-                  pathname === item.href || 
-                  (item.href !== "/dashboard" && 
-                   pathname.startsWith(item.href + "/") && 
-                   !navItems.some(otherItem => 
-                     otherItem.href !== item.href && 
-                     otherItem.href.startsWith(item.href + "/") && 
-                     pathname.startsWith(otherItem.href)
-                   ))
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground"
-                    : "text-muted-foreground"
+                  "flex text-md items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors",
+                  isCurrentPath(pathname, item.href)
+                    ? "text-black font-medium"
+                    : "text-gray-700 font-normal ml-5"
                 )}
               >
-                <item.icon className="h-5 w-5" />
+                <item.icon className={`h-6 w-6 ${isCurrentPath(pathname, item.href) ? "text-primary" : "text-gray-700"}`} />
                 {item.label}
               </Link>
+              </div>
             ))}
           </nav>
 
@@ -101,4 +96,15 @@ export function Sidebar({ authButton }: { authButton?: React.ReactNode }) {
       )}
     </>
   );
+}
+
+function isCurrentPath(pathname: string, href: string) {
+  return pathname === href || 
+  (href !== "/dashboard" && 
+   pathname.startsWith(href + "/") && 
+   !navItems.some(otherItem => 
+     otherItem.href !== href && 
+     otherItem.href.startsWith(href + "/") && 
+     pathname.startsWith(otherItem.href)
+   ))
 }
