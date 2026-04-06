@@ -6,12 +6,9 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -57,63 +54,52 @@ export function SignUpForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6 w-full fade-in zoom-in duration-500 animate-in", className)} {...props}>
-      <Card className="border shadow-2xl drop-shadow-sm rounded-xl overflow-hidden backdrop-blur-md bg-background/90 md:border-none md:shadow-none md:bg-transparent md:backdrop-blur-none transition-all">
-        <CardHeader className="px-6 md:px-0 pt-8 pb-4">
-          <CardTitle className="text-2xl">Daftar</CardTitle>
-          <CardDescription>Buat akun baru</CardDescription>
+    <div className={cn("flex flex-col gap-6 w-full max-w-md fade-in zoom-in duration-500 animate-in", className)} {...props}>
+      <Card className=" flex flex-col space-y-7 border shadow-2xl drop-shadow-sm rounded-xl overflow-hidden backdrop-blur-md bg-background/90 md:border-none md:shadow-none md:bg-transparent md:backdrop-blur-none transition-all">
+        <CardHeader className="pt-8 pb-4 flex flex-row justify-between">
+          <h1 className="text-3xl text-gray-700">Daftar</h1>
+          <Link
+            href="/auth/login"
+            className="underline underline-offset-4 text-blue-600"
+          >
+            Masuk
+          </Link>
         </CardHeader>
-        <CardContent className="px-6 md:px-0 pb-8">
+        <CardContent className="flex flex-col space-y-6 text-lg">
           <form onSubmit={handleSignUp} className="space-y-2">
             <div className="flex flex-col gap-5">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
+              <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="Email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-11"
+                  className="text-2xl transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-4 px-3"
                 />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Kata Sandi</Label>
-                </div>
                 <Input
                   id="password"
                   type="password"
+                  placeholder="Kata Sandi"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-11"
+                  className="text-2xl transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-4 px-3"
                 />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="repeat-password">Ulangi Kata Sandi</Label>
-                </div>
                 <Input
                   id="repeat-password"
                   type="password"
+                  placeholder="Ulangi Kata Sandi"
                   required
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
-                  className="transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-11"
+                  className="text-2xl transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-4 px-3"
                 />
-              </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
+              <div />
               <Button type="submit" className="w-full h-11 mt-2 text-base transition-all active:scale-[0.98] hover:shadow-md" disabled={isLoading}>
                 {isLoading ? "Membuat akun..." : "Daftar"}
               </Button>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Sudah punya akun?{" "}
-              <Link href="/auth/login" className="underline underline-offset-4">
-                Masuk
-              </Link>
             </div>
           </form>
         </CardContent>
