@@ -48,7 +48,7 @@ export function SignUpForm({
         },
       });
       if (error) throw error;
-      router.push("/auth/sign-up-success");
+      router.push("/auth/login");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -57,15 +57,15 @@ export function SignUpForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
+    <div className={cn("flex flex-col gap-6 w-full fade-in zoom-in duration-500 animate-in", className)} {...props}>
+      <Card className="border shadow-2xl drop-shadow-sm rounded-xl overflow-hidden backdrop-blur-md bg-background/90 md:border-none md:shadow-none md:bg-transparent md:backdrop-blur-none transition-all">
+        <CardHeader className="px-6 md:px-0 pt-8 pb-4">
           <CardTitle className="text-2xl">Daftar</CardTitle>
           <CardDescription>Buat akun baru</CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSignUp}>
-            <div className="flex flex-col gap-6">
+        <CardContent className="px-6 md:px-0 pb-8">
+          <form onSubmit={handleSignUp} className="space-y-2">
+            <div className="flex flex-col gap-5">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -75,6 +75,7 @@ export function SignUpForm({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-11"
                 />
               </div>
               <div className="grid gap-2">
@@ -87,6 +88,7 @@ export function SignUpForm({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-11"
                 />
               </div>
               <div className="grid gap-2">
@@ -99,10 +101,11 @@ export function SignUpForm({
                   required
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
+                  className="transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-11"
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" className="w-full h-11 mt-2 text-base transition-all active:scale-[0.98] hover:shadow-md" disabled={isLoading}>
                 {isLoading ? "Membuat akun..." : "Daftar"}
               </Button>
             </div>
