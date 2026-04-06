@@ -6,11 +6,14 @@ import { getStockStatistics } from "@/services/product/productServiceServer";
 import { getTotalExpenses } from "@/services/expense/expenseServiceServer";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format } from "date-fns";
-import {ArrowUp, ArrowDown} from "lucide-react";
+import {ArrowUp, ArrowDown, Package} from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 async function UserWelcome() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-row space-x-2 items-center">
+      <div className="bg-primary h-12 w-1 rounded-full" />
       <h1 className="text-5xl font-bold">Dashboard</h1>
     </div>
   );
@@ -31,7 +34,7 @@ async function DashboardStats({ userId }: { userId: string }) {
 
   return (
     <div className="flex flex-wrap gap-4">
-      <Card className="w-fit">
+      <Card className="w-full sm:w-fit">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-lg text-gray-600 font-medium">Laba Bersih Sebulan terakhir</CardTitle>
         </CardHeader>
@@ -53,7 +56,8 @@ async function DashboardStats({ userId }: { userId: string }) {
           </div>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="flex flex-row w-full sm:w-fit justify-between">
+        <div>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-lg text-gray-600 font-medium">Stok Barang Menipis</CardTitle>
         </CardHeader>
@@ -61,8 +65,13 @@ async function DashboardStats({ userId }: { userId: string }) {
           <div className="text-3xl font-bold text-black">{stockStats.lowStock} Produk</div>
           <p className="text-xs text-muted-foreground">Produk dengan stok sedikit (1-5)</p>
         </CardContent>
+        </div>
+        <div className="bg-yellow-500/20 w-fit h-fit p-3 mt-5 mr-5 rounded-3xl" >
+          <Package className="h-12 w-12 text-yellow-500" />
+        </div>
       </Card>
-      <Card>
+      <Card className="flex flex-row w-full sm:w-fit justify-between">
+        <div>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-lg text-gray-600 font-medium">Stok Habis</CardTitle>
         </CardHeader>
@@ -70,6 +79,10 @@ async function DashboardStats({ userId }: { userId: string }) {
           <div className="text-3xl font-bold text-black">{stockStats.outOfStock} Produk</div>
           <p className="text-xs text-muted-foreground">Produk dengan stok kosong</p>
         </CardContent>
+                </div>
+        <div className="bg-red-500/20 w-fit h-fit p-3 mt-5 mr-5 rounded-3xl" >
+          <Package className="h-12 w-12 text-red-500" />
+        </div>
       </Card>
     </div>
   );
@@ -79,15 +92,19 @@ async function TransactionHistory({ userId }: { userId: string }) {
   const transactions = await getWeeklyTransactionHistory(userId);
 
   return (
-    <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold">Riwayat Transaksi Mingguan</h2>
-      <Card className="overflow-x-auto">
+    <Card className="flex flex-col gap-4 p-4 w-full">
+      <div className="flex flex-row w-full justify-between">
+        <h2 className="text-xl font-semibold">Transaksi Seminggu Terakhir</h2>
+        <Link href="/transactions" className="text-blue-500 hover:underline">Lihat Semua</Link>
+      </div>
+      <div className="overflow-x-auto">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-gray-100">
             <TableRow>
               <TableHead>Tanggal</TableHead>
               <TableHead>Pelanggan</TableHead>
               <TableHead className="text-right">Total Harga</TableHead>
+              <TableHead className="text-right"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -105,13 +122,20 @@ async function TransactionHistory({ userId }: { userId: string }) {
                   <TableCell className="text-right font-medium">
                     {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(trans.total_price)}
                   </TableCell>
+                  <TableCell>
+                    <Link href={`/transactions/${trans.id}`}>
+                      <Button variant="outline" size="sm">
+                        Detail
+                      </Button>
+                    </Link>
+                  </TableCell>
                 </TableRow>
               ))
             )}
           </TableBody>
         </Table>
-      </Card>
-    </div>
+      </div>
+    </Card>
   );
 }
 
@@ -119,7 +143,7 @@ export default async function DashboardPage() {
   const user = await requireUser();
   
   return (
-    <div className="flex-1 w-full flex flex-col gap-12 mx-auto">
+    <div className="flex-1 flex flex-col gap-12 mx-auto w-fit">
       <Suspense fallback={<div>Memuat pesan selamat datang...</div>}>
         <UserWelcome />
       </Suspense>

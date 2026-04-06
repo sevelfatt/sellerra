@@ -7,7 +7,7 @@ async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   await requireUser();
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-background">
+    <div className="flex flex-col lg:flex-row min-h-screen">
       <Sidebar 
         authButton={
           <Suspense fallback={<div className="h-8 w-full animate-pulse bg-muted rounded-md" />}>
