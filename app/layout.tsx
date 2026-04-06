@@ -35,7 +35,7 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <div className="min-h-screen bg-background">
+          <div className="min-h-screen bg-gray-100">
             <main>
               <Suspense fallback={<div className="flex items-center justify-center min-h-[50vh]">Loading...</div>}>
                 {children}
