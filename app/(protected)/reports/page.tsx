@@ -161,7 +161,7 @@ export default async function ReportsPage({
     const customers = await getCustomersByUserId(user.id);
 
     return (
-        <div className="flex-1 w-full flex flex-col gap-8 max-w-6xl mx-auto p-5">
+        <div className="flex-1 w-full flex flex-col gap-8 max-w-6xl mx-auto">
             <div className="flex flex-col gap-2">
                 <h1 className="text-3xl font-bold tracking-tight">Laporan Keuangan</h1>
                 <p className="text-muted-foreground">Gambaran rinci tentang kinerja bisnis dan inventaris Anda.</p>

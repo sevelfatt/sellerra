@@ -6,12 +6,9 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -47,61 +44,51 @@ export function LoginForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl">Masuk</CardTitle>
-          <CardDescription>
-            Masukkan email Anda di bawah ini untuk masuk ke akun Anda
-          </CardDescription>
+    <div className={cn("flex flex-col gap-6 w-full max-w-md fade-in zoom-in duration-500 animate-in", className)} {...props}>
+      <Card className=" flex flex-col space-y-7 border shadow-2xl drop-shadow-sm rounded-xl overflow-hidden backdrop-blur-md bg-background/90 md:border-none md:shadow-none md:bg-transparent md:backdrop-blur-none transition-all">
+        <CardHeader className="pt-8 pb-4 flex flex-row justify-between">
+          <h1 className="text-3xl text-gray-700">Masuk</h1>
+          <Link
+            href="/auth/sign-up"
+            className="underline underline-offset-4 text-blue-600"
+          >
+            Daftar
+          </Link>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin}>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+        <CardContent className="flex flex-col space-y-6 text-lg">
+          <form onSubmit={handleLogin} className="space-y-2">
+            <div className="flex flex-col gap-5">
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="Email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="text-2xl transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-4 px-3"
                 />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Kata Sandi</Label>
-                  <Link
-                    href="/auth/forgot-password"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Lupa kata sandi Anda?
-                  </Link>
-                </div>
                 <Input
                   id="password"
                   type="password"
+                  placeholder="Kata Sandi"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="text-2xl transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-4 px-3"
                 />
-              </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <div></div>
+              <Button type="submit" className="w-full h-11 mt-2 text-base transition-all active:scale-[0.98] hover:shadow-md" disabled={isLoading}>
                 {isLoading ? "Sedang masuk..." : "Masuk"}
               </Button>
             </div>
-            <div className="mt-4 text-center text-sm">
-              Belum punya akun?{" "}
-              <Link
-                href="/auth/sign-up"
-                className="underline underline-offset-4"
-              >
-                Daftar
-              </Link>
-            </div>
           </form>
+          <Link
+            href="/auth/forgot-password"
+            className="ml-auto mt-6 inline-block text-base underline-offset-4 hover:underline"
+          >
+            Lupa kata sandi Anda?
+          </Link>
         </CardContent>
       </Card>
     </div>
