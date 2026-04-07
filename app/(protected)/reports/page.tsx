@@ -16,7 +16,7 @@ import TopProductsChart from "@/components/reports/TopProductsChart";
 import TopCustomersChart from "@/components/reports/TopCustomersChart";
 import { Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Wallet } from "lucide-react";
+import { Package, Wallet } from "lucide-react";
 
 async function ReportsDashboard({ 
     userId, 
@@ -85,23 +85,29 @@ async function ReportsDashboard({
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-primary/5">
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Pendapatan Bersih</CardTitle>
+                    <Card>
+                        <CardHeader className="flex flex-row items-center space-x-3 w-2/3">
+                            <div className="p-3 rounded-2xl h-fit bg-blue-100">
+                                <Wallet className="text-blue-500 w-6 h-6" />
+                            </div>
+                            <CardTitle className="text-lg font-semibold leading-tight w-1/2">Pendapatan Bersih (Periode)</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-black text-primary">
+                            <div className="text-3xl font-bold">
                                 {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalIncome - totalExpenses)}
                             </div>
                         </CardContent>
                     </Card>
 
                     <Card>
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Stok Inventaris</CardTitle>
+                        <CardHeader className="flex flex-row items-center space-x-3 w-2/3">
+                            <div className="p-3 rounded-2xl h-fit bg-green-100">
+                                <Package className="text-green-500 w-6 h-6" />
+                            </div>
+                            <CardTitle className="text-lg font-semibold leading-tight w-1/2">Total Stok Inventaris</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-bold text-blue-600">
+                            <div className="text-3xl font-bold text-green-600">
                                 {totalStocks.toLocaleString('id-ID')} Unit
                             </div>
                         </CardContent>
