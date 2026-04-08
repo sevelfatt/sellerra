@@ -50,12 +50,12 @@ export function LoginForm({
           <h1 className="text-lg md:text-xl lg:text-2xl text-gray-700">Masuk</h1>
           <Link
             href="/auth/sign-up"
-            className="underline text-xs md:text-sm lg:text-base underline-offset-4 text-blue-600"
+            className="underline text-xs md:text-base underline-offset-4 text-blue-600"
           >
             Daftar
           </Link>
         </CardHeader>
-        <CardContent className="flex flex-col space-y-6 text-sm md:text-base lg:text-lg">
+        <CardContent className="flex flex-col space-y-6 text-sm md:text-lg">
           <form onSubmit={handleLogin} className="space-y-2">
             <div className="flex flex-col gap-5">
                 <Input
@@ -65,7 +65,7 @@ export function LoginForm({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="text-sm md:text-base lg:text-lg transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-2 px-2 md:py-4 md:px-3"
+                  className="text-sm md:text-lg transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-2 px-2 md:py-4 md:px-3"
                 />
                 <Input
                   id="password"
@@ -74,7 +74,7 @@ export function LoginForm({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="text-sm md:text-base lg:text-lg transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-2 px-2 md:py-4 md:px-3"
+                  className="text-sm md:text-lg transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-2 px-2 md:py-4 md:px-3"
                 />
               {error && <p className="text-sm text-red-500">{error}</p>}
               <div></div>
@@ -85,7 +85,7 @@ export function LoginForm({
           </form>
           <Link
             href="/auth/forgot-password"
-            className="ml-auto mt-6 inline-block text-base underline-offset-4 hover:underline"
+            className="ml-auto mt-6 inline-block text-xs md:text-base underline-offset-4 hover:underline"
           >
             Lupa kata sandi Anda?
           </Link>
