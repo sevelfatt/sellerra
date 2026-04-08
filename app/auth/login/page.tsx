@@ -2,7 +2,7 @@ import { LoginForm } from "@/components/login-form";
 
 export default function Page() {
   return (
-    <div className="min-h-svh w-full p-10">
+    <div className="min-h-svh w-full mx-auto py-10 md:p-10 ">
       <div className="flex flex-col md:flex-row w-full h-full justify-center items-center space-x-16">
         <div className="bg-primary w-1/2  max-w-lg rounded-xl h-fit hidden md:block px-8 py-12">
           <div className="w-full h-fit bg-sky-100/25 rounded-xl border p-5  border-white/25 backdrop-blur-sm">
