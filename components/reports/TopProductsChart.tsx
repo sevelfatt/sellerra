@@ -11,20 +11,11 @@ interface TopProductsChartProps {
 export default function TopProductsChart({ data, title = "Produk Terlaris" }: TopProductsChartProps) {
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
-    const formatCurrency = (value: number) => {
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        }).format(value);
-    };
-
     return (
         <Card className="col-span-full lg:col-span-3">
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
-                <CardDescription>Penghasil pendapatan tertinggi</CardDescription>
+                <CardDescription>Berdasarkan jumlah stok yang dibeli</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="h-[350px] w-full">
@@ -33,11 +24,12 @@ export default function TopProductsChart({ data, title = "Produk Terlaris" }: To
                             <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="hsl(var(--muted-foreground))" opacity={0.1} />
                             <XAxis 
                                 type="number" 
-                                tickFormatter={(value) => `Rp ${value/1000}k`}
+                                tickFormatter={(value) => value}
                                 stroke="hsl(var(--muted-foreground))"
                                 fontSize={12}
                                 tickLine={false}
                                 axisLine={false}
+                                allowDecimals={false}
                             />
                             <YAxis 
                                 dataKey="name" 
@@ -50,8 +42,8 @@ export default function TopProductsChart({ data, title = "Produk Terlaris" }: To
                             />
                             <Tooltip 
                                 formatter={(value: number | string | readonly (number | string)[] | undefined) => [
-                                    formatCurrency(Number(Array.isArray(value) ? value[0] : value) || 0), 
-                                    "Total Pengeluaran"
+                                    `${Number(Array.isArray(value) ? value[0] : value) || 0} Unit`, 
+                                    "Jumlah Dibeli"
                                 ]}
                                 cursor={{ fill: 'transparent' }}
                                 contentStyle={{ 
@@ -62,7 +54,7 @@ export default function TopProductsChart({ data, title = "Produk Terlaris" }: To
                                 }}
                             />
                             <Bar 
-                                dataKey="revenue" 
+                                dataKey="quantity" 
                                 radius={[0, 4, 4, 0]} 
                                 barSize={30}
                             >

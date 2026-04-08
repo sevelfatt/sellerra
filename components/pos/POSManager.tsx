@@ -25,6 +25,7 @@ export default function POSManager({ products, categories, customers, userId }: 
     const [selectedCustomer, setSelectedCustomer] = useState<customer | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+    const [discountPercentage, setDiscountPercentage] = useState<number>(0);
     const router = useRouter();
 
     const filteredProducts = useMemo(() => {
@@ -79,7 +80,9 @@ export default function POSManager({ products, categories, customers, userId }: 
     };
 
 
-    const totalAmount = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+    const subTotalAmount = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+    const discountValue = Math.round((subTotalAmount * discountPercentage) / 100);
+    const totalAmount = subTotalAmount - discountValue;
 
     const handleCheckout = () => {
         if (cart.length === 0) return;
@@ -87,6 +90,9 @@ export default function POSManager({ products, categories, customers, userId }: 
         const checkoutData = {
             cart,
             customer: selectedCustomer,
+            subTotalAmount,
+            discountPercentage,
+            discountValue,
             totalAmount
         };
         
@@ -179,14 +185,39 @@ export default function POSManager({ products, categories, customers, userId }: 
                             Harap pilih pelanggan untuk melanjutkan
                         </p>
                     )}
-                    <div className="flex justify-between items-center mb-4">
-                        <span className="text-muted-foreground">Total</span>
-                        <span className="text-2xl font-bold">
+                    
+                    <div className="flex justify-between items-center mb-2">
+                        <span className="text-muted-foreground text-sm font-medium">Diskon (%)</span>
+                        <div className="relative">
+                            <Input 
+                                type="number" 
+                                min="0" 
+                                max="100" 
+                                value={discountPercentage === 0 ? '' : discountPercentage} 
+                                placeholder="0"
+                                onChange={(e) => setDiscountPercentage(Math.min(100, Math.max(0, Number(e.target.value) || 0)))} 
+                                className="w-20 h-8 text-right bg-muted/20 pr-6" 
+                            />
+                            <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">%</span>
+                        </div>
+                    </div>
+
+                    {discountPercentage > 0 && (
+                        <div className="flex justify-between items-center mb-2 text-sm text-destructive font-medium">
+                            <span>Nominal Diskon</span>
+                            <span>- Rp {discountValue.toLocaleString('id-ID')}</span>
+                        </div>
+                    )}
+
+                    <div className="flex justify-between items-center mb-4 mt-2 pt-2 border-t border-dashed">
+                        <span className="text-muted-foreground font-semibold">Total Akhir</span>
+                        <span className="text-2xl font-bold text-primary">
                             Rp {totalAmount.toLocaleString('id-ID')}
                         </span>
                     </div>
+
                     <Button 
-                        className="w-full h-12 text-lg font-semibold gap-2" 
+                        className="w-full h-12 text-lg font-semibold gap-2 shadow-md shadow-primary/20" 
                         disabled={cart.length === 0 || !selectedCustomer}
                         onClick={handleCheckout}
                     >

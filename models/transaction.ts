@@ -6,6 +6,7 @@ export class transaction {
     customer_id: number = 0;
     user_id: string = "";
     total_price: number = 0;
+    discount: number | null = null;
     created_at?: string;
 
     constructor(init?: Partial<transaction>) {
