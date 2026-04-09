@@ -54,7 +54,7 @@ export default function ExpenseList({ expenses }: { expenses: expense[] }) {
                             </p>
                         </div>
                         <div className="flex items-center gap-6">
-                            <p className="text-xl font-black text-red-600">
+                            <p className="text-xl font-extrabold text-red-600">
                                 - Rp {exp.amount.toLocaleString('id-ID')}
                             </p>
                             <Button 

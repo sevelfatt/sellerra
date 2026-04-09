@@ -9,7 +9,7 @@ import { Check } from 'lucide-react'
 
 async function InvoiceContent({ id }: { id: string }) {
     const transactionId = parseInt(id);
-    const { transaction, items } = await getTransactionById(transactionId);
+    const { transaction, items, additionalItems } = await getTransactionById(transactionId);
     
     // Fetch product details for names
     const itemsWithProducts = await Promise.all(items.map(async (item: transactionItem) => {
@@ -46,6 +46,7 @@ async function InvoiceContent({ id }: { id: string }) {
             <PrintableInvoice 
                 transaction={transaction}
                 itemsWithProducts={itemsWithProducts}
+                additionalItems={additionalItems}
                 customerData={customerData}
                 date={date}
             />

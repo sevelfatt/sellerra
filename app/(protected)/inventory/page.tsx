@@ -34,19 +34,19 @@ async function ProductsList() {
 export default function Page() {
   return (
     <div className="space-y-6 p-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Inventaris</h1>
-          <p className="text-muted-foreground">Kelola katalog produk dan tingkat stok Anda.</p>
+          <p className="text-muted-foreground mt-1">Kelola katalog produk dan tingkat stok Anda.</p>
         </div>
-        <div className="flex gap-2">
-          <Link href="/inventory/category/manage">
-            <Button variant="outline">
+        <div className="flex flex-wrap gap-2 w-full md:w-auto">
+          <Link href="/inventory/category/manage" className="flex-1 md:flex-none">
+            <Button variant="outline" className="w-full">
               Kelola Kategori
             </Button>
           </Link>
-          <Link href="/inventory/create">
-            <Button>
+          <Link href="/inventory/create" className="flex-1 md:flex-none">
+            <Button className="w-full">
               <Plus className="mr-2 h-4 w-4" /> Tambah Produk
             </Button>
           </Link>

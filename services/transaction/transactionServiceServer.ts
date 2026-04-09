@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import type { transaction, transactionItem, TransactionWithCustomer } from "@/models/transaction";
+import type { transaction, transactionItem, TransactionWithCustomer, additionalTransactionItem } from "@/models/transaction";
 import type { Product } from "@/models/product";
 
 
@@ -30,9 +30,19 @@ export async function getTransactionById(transactionId: number) {
         throw new Error(itemsError.message);
     }
 
+    const { data: additionalItemsData, error: additionalItemsError } = await supabase
+        .from("additional_transaction_items")
+        .select("*")
+        .eq("transaction_id", transactionId);
+
+    if (additionalItemsError) {
+        throw new Error(additionalItemsError.message);
+    }
+
     return {
         transaction: transactionData as transaction,
         items: itemsData as transactionItem[],
+        additionalItems: additionalItemsData as additionalTransactionItem[],
     };
 }
 export async function getMonthlySalesIncome(userId: string) {
@@ -156,10 +166,16 @@ export async function getTransactionDetails(transactionId: number) {
         throw new Error(itemsError.message);
     }
 
+    const { data: additionalItemsData } = await supabase
+        .from("additional_transaction_items")
+        .select("*")
+        .eq("transaction_id", transactionId);
+
     return {
         transaction: transactionData as TransactionWithCustomer,
         customerData: (transactionData as TransactionWithCustomer)?.customers,
         itemsWithProducts: itemsData as (transactionItem & { product: Product })[],
+        additionalItems: additionalItemsData as additionalTransactionItem[] || [],
     };
 
 

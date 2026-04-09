@@ -58,20 +58,20 @@ function POSProductCard({ product, onSelect }: { product: Product; onSelect: (pr
                         <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="absolute left-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-background/80 opacity-0 group-hover/card:opacity-100 transition-opacity z-10"
-                            onClick={nextVariant}
+                            className="absolute left-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-background/80 opacity-0 group-hover/card:opacity-100 transition-opacity z-20 cursor-pointer pointer-events-auto"
+                            onClick={prevVariant}
                         >
                             <ChevronLeft className="h-4 w-4" />
                         </Button>
                         <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-background/80 opacity-0 group-hover/card:opacity-100 transition-opacity z-10"
-                            onClick={prevVariant}
+                            className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-background/80 opacity-0 group-hover/card:opacity-100 transition-opacity z-20 cursor-pointer pointer-events-auto"
+                            onClick={nextVariant}
                         >
                             <ChevronRight className="h-4 w-4" />
                         </Button>
-                        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+                        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1 z-20 pointer-events-none">
                             {allVariants.map((_, i) => (
                                 <div 
                                     key={i} 
@@ -83,7 +83,7 @@ function POSProductCard({ product, onSelect }: { product: Product; onSelect: (pr
                 )}
 
                 {currentProduct.stocks <= 0 && (
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10 pointer-events-none">
                         <span className="bg-destructive text-destructive-foreground px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-xl ring-2 ring-white/20">
                             Stok Habis
                         </span>

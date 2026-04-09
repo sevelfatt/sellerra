@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RefreshCcw } from "lucide-react";
 import { format, subDays, startOfMonth, endOfMonth } from "date-fns";
 
 export default function TimeRangeFilters() {
@@ -39,34 +39,39 @@ export default function TimeRangeFilters() {
     };
 
     return (
-        <div className="bg-card border rounded-lg p-6 space-y-4">
-            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Filter Waktu Global</h2>
+        <div className="bg-card border rounded-lg p-6 space-y-7">
+            <div className="flex flex-col space-y-1">
+                <h2 className="text-2xl font-bold tracking-tight">Ringkasan Bisnis Global</h2>
+                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Filter Waktu Global</h3>
+            </div>
             <div className="flex flex-col md:flex-row md:items-end gap-6">
-                <div className="space-y-2 flex-1">
-                    <Label htmlFor="startDate">Tanggal Mulai</Label>
+                <div className="space-y-3 flex flex-col w-full">
+                    <Label htmlFor="startDate" className="text-base font-semibold">Tanggal Mulai</Label>
                     <Input 
+                        className="h-10"
                         id="startDate" 
                         type="date" 
                         value={startDate} 
                         onChange={(e) => updateFilters(e.target.value, endDate)}
                     />
                 </div>
-                <div className="space-y-2 flex-1">
-                    <Label htmlFor="endDate">Tanggal Akhir</Label>
+                <div className="space-y-3 flex flex-col w-full">
+                    <Label htmlFor="endDate" className="text-base font-semibold">Tanggal Akhir</Label>
                     <Input 
+                        className="h-10"
                         id="endDate" 
                         type="date" 
                         value={endDate} 
                         onChange={(e) => updateFilters(startDate, e.target.value)}
                     />
                 </div>
-                <Button variant="outline" className="w-full md:w-auto" onClick={() => updateFilters("", "")}>Atur Ulang Tanggal</Button>
+                <button className="w-fit min-w-52 flex flex-row justify-center items-center py-2 bg-indigo-100/50 space-x-5 h-fit text-sm font-semibold group hover:bg-indigo-500 hover:text-white rounded-sm" onClick={() => updateFilters("", "")}><RefreshCcw className="w-4 h-4 mr-2 text-indigo-500 group-hover:text-white " /> Atur Ulang Tanggal</button>
             </div>
             
-            <div className="flex flex-wrap gap-2">
-                <Button variant="secondary" size="sm" onClick={() => setQuickRange(7)}>7 Hari Terakhir</Button>
-                <Button variant="secondary" size="sm" onClick={() => setQuickRange(30)}>30 Hari Terakhir</Button>
-                <Button variant="secondary" size="sm" onClick={() => setThisMonth()}>Bulan Ini</Button>
+            <div className="flex flex-wrap gap-3">
+                <button className="hover:bg-primary hover:text-white p-3 rounded-sm text-black bg-gray-100" onClick={() => setQuickRange(7)}>7 Hari Terakhir</button>
+                <button className="hover:bg-primary hover:text-white p-3 rounded-sm text-black bg-gray-100" onClick={() => setQuickRange(30)}>30 Hari Terakhir</button>
+                <button className="hover:bg-primary hover:text-white p-3 rounded-sm text-black bg-gray-100" onClick={() => setThisMonth()}>Bulan Ini</button>
             </div>
         </div>
     );
