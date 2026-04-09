@@ -1,9 +1,9 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { transaction, transactionItem } from "@/models/transaction";
+import { transaction, transactionItem, additionalTransactionItem } from "@/models/transaction";
 
-export async function createTransaction(userId: string, trans: transaction, items: transactionItem[]) {
+export async function createTransaction(userId: string, trans: transaction, items: transactionItem[], additionalItems?: additionalTransactionItem[]) {
     const supabase = createClient();
 
     // 1. Insert Transaction
@@ -74,6 +74,24 @@ export async function createTransaction(userId: string, trans: transaction, item
     }
 
 
+    if (additionalItems && additionalItems.length > 0) {
+        const additionalItemsToInsert = additionalItems.map((item) => ({
+            transaction_id: transactionData.id,
+            title: item.title,
+            price: item.price,
+            user_id: userId,
+        }));
+
+        const { error: addItemsError } = await supabase
+            .from("additional_transaction_items")
+            .insert(additionalItemsToInsert);
+
+        if (addItemsError) {
+            console.error("Failed to create additional transaction items:", addItemsError.message);
+            throw new Error(addItemsError.message);
+        }
+    }
+
     return transactionData;
 }
 
@@ -99,9 +117,19 @@ export async function getTransactionById(transactionId: number) {
         throw new Error(itemsError.message);
     }
 
+    const { data: additionalItemsData, error: additionalItemsError } = await supabase
+        .from("additional_transaction_items")
+        .select("*")
+        .eq("transaction_id", transactionId);
+
+    if (additionalItemsError) {
+        throw new Error(additionalItemsError.message);
+    }
+
     return {
         transaction: transactionData,
         items: itemsData,
+        additionalItems: additionalItemsData,
     };
 }
 

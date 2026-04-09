@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { MessageSquare, Loader2 } from "lucide-react";
 import { Product } from "@/models/product";
 import { customer } from "@/models/customer";
-import { transaction, transactionItem } from "@/models/transaction";
+import { transaction, transactionItem, additionalTransactionItem } from "@/models/transaction";
 
 interface WhatsAppShareButtonProps {
     transaction: transaction;
     items: (transactionItem & { product: Product })[];
+    additionalItems?: additionalTransactionItem[];
     customerData: customer | null;
     autoSend?: boolean;
 }
@@ -17,6 +18,7 @@ interface WhatsAppShareButtonProps {
 export default function WhatsAppShareButton({ 
     transaction, 
     items, 
+    additionalItems,
     customerData, 
     autoSend = false 
 }: WhatsAppShareButtonProps) {
@@ -37,6 +39,14 @@ export default function WhatsAppShareButton({
             `• ${item.product.name} (${item.amount}x) - Rp ${item.total_price.toLocaleString('id-ID')}`
         ).join('\n');
 
+        const additionalFeesList = additionalItems && additionalItems.length > 0 
+            ? additionalItems.map(item => `• ${item.title}: Rp ${item.price.toLocaleString('id-ID')}`).join('\n')
+            : "";
+
+        const discountText = transaction.discount && transaction.discount > 0
+            ? `\n\n*Diskon:* - Rp ${transaction.discount.toLocaleString('id-ID')}`
+            : "";
+
         const message = `*STRUK #${transaction.id.toString().padStart(6, '0')}*
 SELLERRA
 
@@ -44,7 +54,7 @@ SELLERRA
 *Pelanggan:* ${customerData.name}
 
 *Barang:*
-${itemList}
+${itemList}${additionalFeesList ? `\n\n*Biaya Tambahan:*\n${additionalFeesList}` : ""}${discountText}
 
 *Total Keseluruhan: Rp ${transaction.total_price.toLocaleString('id-ID')}*
 
@@ -56,7 +66,7 @@ Terima kasih atas pembelian Anda!`;
         const formattedPhone = phoneNumber.startsWith('62') ? phoneNumber : `62${phoneNumber.startsWith('0') ? phoneNumber.slice(1) : phoneNumber}`;
 
         return `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
-    }, [customerData, transaction, items]);
+    }, [customerData, transaction, items, additionalItems]);
 
     const handleShare = useCallback(() => {
         const link = generateWhatsAppLink();

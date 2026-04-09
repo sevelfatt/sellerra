@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { transaction, transactionItem } from "@/models/transaction";
+import { transaction, transactionItem, additionalTransactionItem } from "@/models/transaction";
 import { Product } from "@/models/product";
 import { customer } from "@/models/customer";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -14,12 +14,15 @@ import DownloadInvoiceButton from "@/components/pos/DownloadInvoiceButton";
 interface PrintableInvoiceProps {
     transaction: transaction;
     itemsWithProducts: (transactionItem & { product: Product })[];
+    additionalItems?: additionalTransactionItem[];
     customerData: customer | null;
     date: string;
 }
 
-export default function PrintableInvoice({ transaction, itemsWithProducts, customerData, date }: PrintableInvoiceProps) {
+export default function PrintableInvoice({ transaction, itemsWithProducts, additionalItems, customerData, date }: PrintableInvoiceProps) {
     const invoiceRef = useRef<HTMLDivElement>(null);
+    
+    const productSubtotal = itemsWithProducts.reduce((sum, item) => sum + item.total_price, 0);
 
     return (
         <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -67,9 +70,21 @@ export default function PrintableInvoice({ transaction, itemsWithProducts, custo
 
                         <div className="pt-6 space-y-3">
                             <div className="flex justify-between text-sm">
-                                <span className="text-muted-foreground">Subtotal</span>
-                                <span>Rp {transaction.total_price.toLocaleString('id-ID')}</span>
+                                <span className="text-muted-foreground">Subtotal Produk</span>
+                                <span>Rp {productSubtotal.toLocaleString('id-ID')}</span>
                             </div>
+                            {additionalItems && additionalItems.map((fee, idx) => (
+                                <div key={idx} className="flex justify-between text-sm">
+                                    <span className="text-muted-foreground">{fee.title}</span>
+                                    <span>Rp {fee.price.toLocaleString('id-ID')}</span>
+                                </div>
+                            ))}
+                            {transaction.discount && transaction.discount > 0 ? (
+                                <div className="flex justify-between text-sm text-destructive">
+                                    <span className="font-medium">Diskon</span>
+                                    <span className="font-medium">- Rp {transaction.discount.toLocaleString('id-ID')}</span>
+                                </div>
+                            ) : null}
                             <div className="flex justify-between text-sm">
                                 <span className="text-muted-foreground">Pajak (0%)</span>
                                 <span>Rp 0</span>
@@ -96,6 +111,7 @@ export default function PrintableInvoice({ transaction, itemsWithProducts, custo
                 <WhatsAppShareButton 
                     transaction={transaction}
                     items={itemsWithProducts}
+                    additionalItems={additionalItems}
                     customerData={customerData}
                     autoSend={true}
                 />

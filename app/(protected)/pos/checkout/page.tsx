@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Product } from "@/models/product";
 import { customer } from "@/models/customer";
-import { transaction, transactionItem } from "@/models/transaction";
+import { transaction, transactionItem, additionalTransactionItem } from "@/models/transaction";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, CheckCircle2, Loader2, Receipt } from "lucide-react";
@@ -17,6 +17,7 @@ export default function CheckoutPage() {
         subTotalAmount: number;
         discountPercentage: number;
         discountValue: number;
+        additionalFees?: {title: string, price: number}[];
         totalAmount: number;
     } | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,8 +53,14 @@ export default function CheckoutPage() {
                 total_price: item.product.price * item.quantity,
                 user_id: userId
             }));
+            
+            const additionalItemsData = data.additionalFees?.map(fee => new additionalTransactionItem({
+                title: fee.title,
+                price: fee.price,
+                user_id: userId
+            })) || [];
 
-            const result = await createTransaction(userId, newTrans, items);
+            const result = await createTransaction(userId, newTrans, items, additionalItemsData);
             
             // Clear checkout data
             sessionStorage.removeItem("sellerra_checkout");
@@ -113,6 +120,17 @@ export default function CheckoutPage() {
                                         <span>Diskon ({data.discountPercentage}%)</span>
                                         <span>- Rp {data.discountValue.toLocaleString('id-ID')}</span>
                                     </div>
+                                </div>
+                            )}
+
+                            {data.additionalFees && data.additionalFees.length > 0 && (
+                                <div className="mt-4 pt-4 border-t border-dashed space-y-2">
+                                    {data.additionalFees.map((fee, idx) => (
+                                        <div key={idx} className="flex justify-between text-sm text-muted-foreground">
+                                            <span>{fee.title}</span>
+                                            <span>Rp {fee.price.toLocaleString('id-ID')}</span>
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </CardContent>

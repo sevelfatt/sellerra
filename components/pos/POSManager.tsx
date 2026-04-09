@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { Plus, X } from "lucide-react";
 import { Product } from "@/models/product";
 import { customer } from "@/models/customer";
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,9 @@ export default function POSManager({ products, categories, customers, userId }: 
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
     const [discountPercentage, setDiscountPercentage] = useState<number>(0);
+    const [additionalFees, setAdditionalFees] = useState<{title: string, price: number}[]>([]);
+    const [newFeeTitle, setNewFeeTitle] = useState("");
+    const [newFeePrice, setNewFeePrice] = useState("");
     const router = useRouter();
 
     const filteredProducts = useMemo(() => {
@@ -82,7 +86,8 @@ export default function POSManager({ products, categories, customers, userId }: 
 
     const subTotalAmount = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
     const discountValue = Math.round((subTotalAmount * discountPercentage) / 100);
-    const totalAmount = subTotalAmount - discountValue;
+    const totalAdditionalFees = additionalFees.reduce((sum, fee) => sum + fee.price, 0);
+    const totalAmount = subTotalAmount - discountValue + totalAdditionalFees;
 
     const handleCheckout = () => {
         if (cart.length === 0) return;
@@ -93,6 +98,7 @@ export default function POSManager({ products, categories, customers, userId }: 
             subTotalAmount,
             discountPercentage,
             discountValue,
+            additionalFees,
             totalAmount
         };
         
@@ -208,6 +214,58 @@ export default function POSManager({ products, categories, customers, userId }: 
                             <span>- Rp {discountValue.toLocaleString('id-ID')}</span>
                         </div>
                     )}
+
+                    <div className="mt-4 border-t pt-4">
+                        <span className="text-muted-foreground text-sm font-medium mb-2 block">Biaya Tambahan</span>
+                        <div className="flex gap-2 mb-3">
+                            <Input 
+                                placeholder="Nama Biaya" 
+                                className="h-8 text-sm"
+                                value={newFeeTitle}
+                                onChange={(e) => setNewFeeTitle(e.target.value)}
+                            />
+                            <Input 
+                                type="number"
+                                placeholder="Harga (Rp)" 
+                                className="h-8 text-sm w-24 flex-shrink-0"
+                                value={newFeePrice}
+                                onChange={(e) => setNewFeePrice(e.target.value)}
+                            />
+                            <Button 
+                                size="sm" 
+                                className="h-8 px-2"
+                                onClick={() => {
+                                    if (newFeeTitle.trim() && Number(newFeePrice) > 0) {
+                                        setAdditionalFees([...additionalFees, { title: newFeeTitle.trim(), price: Number(newFeePrice) }]);
+                                        setNewFeeTitle("");
+                                        setNewFeePrice("");
+                                    }
+                                }}
+                            >
+                                <Plus className="h-4 w-4" />
+                            </Button>
+                        </div>
+                        {additionalFees.length > 0 && (
+                            <div className="space-y-2 mb-2">
+                                {additionalFees.map((fee, idx) => (
+                                    <div key={idx} className="flex justify-between items-center text-sm">
+                                        <span className="text-muted-foreground break-words truncate max-w-[150px]">{fee.title}</span>
+                                        <div className="flex items-center gap-2">
+                                            <span className="font-medium">Rp {fee.price.toLocaleString('id-ID')}</span>
+                                            <Button 
+                                                variant="ghost" 
+                                                size="sm" 
+                                                className="h-6 w-6 p-0 text-destructive hover:bg-destructive/10"
+                                                onClick={() => setAdditionalFees(additionalFees.filter((_, i) => i !== idx))}
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
 
                     <div className="flex justify-between items-center mb-4 mt-2 pt-2 border-t border-dashed">
                         <span className="text-muted-foreground font-semibold">Total Akhir</span>
