@@ -107,9 +107,9 @@ export default function POSManager({ products, categories, customers, userId }: 
     };
 
     return (
-        <div className="flex flex-col lg:flex-row h-full">
-            <div className="flex-1 flex flex-col min-h-0 border-r bg-muted/10">
-                <div className="p-4 border-b bg-background space-y-4">
+        <div className="flex flex-col lg:flex-row h-full gap-4">
+            <div className="flex-1 flex flex-col min-h-0 bg-muted/10">
+                <div className="p-4 border- bg-background rounded-md space-y-4">
                     <div className="flex items-center justify-between">
                         <h1 className="text-xl font-bold flex items-center gap-2">
                             <ShoppingCart className="h-5 w-5 text-primary" />
@@ -138,7 +138,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                             variant={selectedCategory === null ? "default" : "outline"}
                             size="sm"
                             onClick={() => setSelectedCategory(null)}
-                            className="whitespace-nowrap rounded-full"
+                            className="whitespace-nowrap rounded-md"
                         >
                             Semua
                         </Button>
@@ -148,7 +148,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                                 variant={selectedCategory === cat.id ? "default" : "outline"}
                                 size="sm"
                                 onClick={() => setSelectedCategory(cat.id)}
-                                className="whitespace-nowrap rounded-full"
+                                className="whitespace-nowrap rounded-md"
                             >
                                 {cat.title}
                             </Button>
@@ -160,13 +160,13 @@ export default function POSManager({ products, categories, customers, userId }: 
                     <ProductList products={filteredProducts} onSelect={addToCart} />
                 </div>
             </div>
-
-            <div className="w-full lg:w-96 flex flex-col bg-background shadow-xl z-10 border-t lg:border-t-0">
-                <div className="p-4 border-b">
-                    <h2 className="font-semibold flex items-center gap-2">
+            
+            <div className="w-full lg:w-96 flex flex-col gap-4 z-10">
+                <div className="p-4 border rounded-lg bg-background">
+                    <h2 className="font-semibold flex items-center gap-2 mb-3">
                         Pelanggan
                     </h2>
-                    <div className="mt-2">
+                    <div>
                         <CustomerSelection 
                             userId={userId}
                             customers={customers} 
@@ -176,114 +176,98 @@ export default function POSManager({ products, categories, customers, userId }: 
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-4 bg-muted/5">
-                    <h2 className="font-semibold mb-4">Keranjang ({cart.length})</h2>
-                    <Cart 
-                        items={cart} 
-                        onRemove={removeFromCart} 
-                        onUpdateQuantity={updateQuantity} 
-                    />
-                </div>
-
-                <div className="p-6 border-t bg-background">
-                    {!selectedCustomer && cart.length > 0 && (
-                        <p className="text-[10px] text-destructive font-medium mb-3 text-center animate-bounce">
-                            Harap pilih pelanggan untuk melanjutkan
-                        </p>
-                    )}
-                    
-                    <div className="flex justify-between items-center mb-2">
-                        <span className="text-muted-foreground text-sm font-medium">Diskon (%)</span>
-                        <div className="relative">
-                            <Input 
-                                type="number" 
-                                min="0" 
-                                max="100" 
-                                value={discountPercentage === 0 ? '' : discountPercentage} 
-                                placeholder="0"
-                                onChange={(e) => setDiscountPercentage(Math.min(100, Math.max(0, Number(e.target.value) || 0)))} 
-                                className="w-20 h-8 text-right bg-muted/20 pr-6" 
-                            />
-                            <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">%</span>
-                        </div>
+                <div className="flex-1 border rounded-lg bg-background flex flex-col">
+                    <div className="overflow-y-auto p-4">
+                        <h2 className="font-semibold mb-4">Keranjang ({cart.length})</h2>
+                        <Cart 
+                            items={cart} 
+                            onRemove={removeFromCart} 
+                            onUpdateQuantity={updateQuantity} 
+                        />
                     </div>
 
-                    {discountPercentage > 0 && (
-                        <div className="flex justify-between items-center mb-2 text-sm text-destructive font-medium">
-                            <span>Nominal Diskon</span>
-                            <span>- Rp {discountValue.toLocaleString('id-ID')}</span>
-                        </div>
-                    )}
-
-                    <div className="mt-4 border-t pt-4">
-                        <span className="text-muted-foreground text-sm font-medium mb-2 block">Biaya Tambahan</span>
-                        <div className="flex gap-2 mb-3">
-                            <Input 
-                                placeholder="Nama Biaya" 
-                                className="h-8 text-sm"
-                                value={newFeeTitle}
-                                onChange={(e) => setNewFeeTitle(e.target.value)}
-                            />
-                            <Input 
-                                type="number"
-                                placeholder="Harga (Rp)" 
-                                className="h-8 text-sm w-24 flex-shrink-0"
-                                value={newFeePrice}
-                                onChange={(e) => setNewFeePrice(e.target.value)}
-                            />
-                            <Button 
-                                size="sm" 
-                                className="h-8 px-2"
-                                onClick={() => {
-                                    if (newFeeTitle.trim() && Number(newFeePrice) > 0) {
-                                        setAdditionalFees([...additionalFees, { title: newFeeTitle.trim(), price: Number(newFeePrice) }]);
-                                        setNewFeeTitle("");
-                                        setNewFeePrice("");
-                                    }
-                                }}
-                            >
-                                <Plus className="h-4 w-4" />
-                            </Button>
-                        </div>
-                        {additionalFees.length > 0 && (
-                            <div className="space-y-2 mb-2">
-                                {additionalFees.map((fee, idx) => (
-                                    <div key={idx} className="flex justify-between items-center text-sm">
-                                        <span className="text-muted-foreground break-words truncate max-w-[150px]">{fee.title}</span>
-                                        <div className="flex items-center gap-2">
-                                            <span className="font-medium">Rp {fee.price.toLocaleString('id-ID')}</span>
-                                            <Button 
-                                                variant="ghost" 
-                                                size="sm" 
-                                                className="h-6 w-6 p-0 text-destructive hover:bg-destructive/10"
-                                                onClick={() => setAdditionalFees(additionalFees.filter((_, i) => i !== idx))}
-                                            >
-                                                <X className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                    <div className="p-6 border-t bg-background rounded-lg mt-auto">
+                        {!selectedCustomer && cart.length > 0 && (
+                            <p className="text-[10px] text-destructive font-medium mb-3 text-center animate-bounce">
+                                Harap pilih pelanggan untuk melanjutkan
+                            </p>
                         )}
-                    </div>
+                        <div className="flex justify-between items-center mb-4">
+                            <span className="text-muted-foreground">Subtotal</span>
+                            <span className="text-lg font-bold">
+                                Rp {subTotalAmount.toLocaleString('id-ID')}
+                            </span>
+                        </div>
 
-                    <div className="flex justify-between items-center mb-4 mt-2 pt-2 border-t border-dashed">
-                        <span className="text-muted-foreground font-semibold">Total Akhir</span>
-                        <span className="text-2xl font-bold text-primary">
-                            Rp {totalAmount.toLocaleString('id-ID')}
-                        </span>
-                    </div>
+                        <div className="mt-4 border-t pt-4">
+                            <span className="text-muted-foreground text-sm font-medium mb-2 block">Biaya Tambahan</span>
+                            <div className="flex gap-2 mb-3">
+                                <Input 
+                                    placeholder="Nama Biaya" 
+                                    className="h-8 text-sm"
+                                    value={newFeeTitle}
+                                    onChange={(e) => setNewFeeTitle(e.target.value)}
+                                />
+                                <Input 
+                                    type="number"
+                                    placeholder="Harga (Rp)" 
+                                    className="h-8 text-sm w-24 flex-shrink-0"
+                                    value={newFeePrice}
+                                    onChange={(e) => setNewFeePrice(e.target.value)}
+                                />
+                                <Button 
+                                    size="sm" 
+                                    className="h-8 px-2"
+                                    onClick={() => {
+                                        if (newFeeTitle.trim() && Number(newFeePrice) > 0) {
+                                            setAdditionalFees([...additionalFees, { title: newFeeTitle.trim(), price: Number(newFeePrice) }]);
+                                            setNewFeeTitle("");
+                                            setNewFeePrice("");
+                                        }
+                                    }}
+                                >
+                                    <Plus className="h-4 w-4" />
+                                </Button>
+                            </div>
+                            {additionalFees.length > 0 && (
+                                <div className="space-y-2 mb-2">
+                                    {additionalFees.map((fee, idx) => (
+                                        <div key={idx} className="flex justify-between items-center text-sm">
+                                            <span className="text-muted-foreground break-words truncate max-w-[150px]">{fee.title}</span>
+                                            <div className="flex items-center gap-2">
+                                                <span className="font-medium">Rp {fee.price.toLocaleString('id-ID')}</span>
+                                                <Button 
+                                                    variant="ghost" 
+                                                    size="sm" 
+                                                    className="h-6 w-6 p-0 text-destructive hover:bg-destructive/10"
+                                                    onClick={() => setAdditionalFees(additionalFees.filter((_, i) => i !== idx))}
+                                                >
+                                                    <X className="h-4 w-4" />
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
 
-                    <Button 
-                        className="w-full h-12 text-lg font-semibold gap-2 shadow-md shadow-primary/20" 
-                        disabled={cart.length === 0 || !selectedCustomer}
-                        onClick={handleCheckout}
-                    >
-                        Tinjau Pesanan
-                        <ArrowRight className="h-5 w-5" />
-                    </Button>
+                        <div className="flex justify-between items-center mt-4 pt-4 border-t border-dashed mb-6">
+                            <span className="text-muted-foreground font-semibold">Total Akhir</span>
+                            <span className="text-2xl font-bold text-primary">
+                                Rp {totalAmount.toLocaleString('id-ID')}
+                            </span>
+                        </div>
+
+                        <Button 
+                            className="w-full" 
+                            size="lg"
+                            disabled={cart.length === 0 || !selectedCustomer}
+                            onClick={handleCheckout}
+                        >
+                            Checkout <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </div>
                 </div>
-
             </div>
         </div>
     );
