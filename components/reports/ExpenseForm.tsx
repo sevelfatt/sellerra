@@ -39,8 +39,8 @@ export default function ExpenseForm({ userId }: { userId: string }) {
     };
 
     return (
-        <Card className="border-2 shadow-lg">
-            <CardHeader className="bg-muted/30">
+        <Card className="border shadow-lg">
+            <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                     <Plus className="h-5 w-5 text-primary" />
                     Catat Pengeluaran Baru
@@ -50,7 +50,7 @@ export default function ExpenseForm({ userId }: { userId: string }) {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="expense-name">Nama Pengeluaran</Label>
-                        <Input
+                        <Input className="bg-gray-50 border-0"
                             id="expense-name"
                             placeholder="misalnya: Listrik, Sewa, Bahan Baku"
                             value={name}
@@ -61,6 +61,7 @@ export default function ExpenseForm({ userId }: { userId: string }) {
                     <div className="space-y-2">
                         <Label htmlFor="expense-amount">Jumlah (Rp)</Label>
                         <Input
+                            className="bg-gray-50 border-0"
                             id="expense-amount"
                             type="number"
                             placeholder="0"

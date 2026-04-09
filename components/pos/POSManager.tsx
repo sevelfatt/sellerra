@@ -95,9 +95,9 @@ export default function POSManager({ products, categories, customers, userId }: 
     };
 
     return (
-        <div className="flex flex-col lg:flex-row h-full">
-            <div className="flex-1 flex flex-col min-h-0 border-r bg-muted/10">
-                <div className="p-4 border-b bg-background space-y-4">
+        <div className="flex flex-col lg:flex-row h-full gap-4">
+            <div className="flex-1 flex flex-col min-h-0 bg-muted/10">
+                <div className="p-4 border bg-background rounded-md space-y-4">
                     <div className="flex items-center justify-between">
                         <h1 className="text-xl font-bold flex items-center gap-2">
                             <ShoppingCart className="h-5 w-5 text-primary" />
@@ -126,7 +126,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                             variant={selectedCategory === null ? "default" : "outline"}
                             size="sm"
                             onClick={() => setSelectedCategory(null)}
-                            className="whitespace-nowrap rounded-full"
+                            className="whitespace-nowrap rounded-md"
                         >
                             Semua
                         </Button>
@@ -136,7 +136,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                                 variant={selectedCategory === cat.id ? "default" : "outline"}
                                 size="sm"
                                 onClick={() => setSelectedCategory(cat.id)}
-                                className="whitespace-nowrap rounded-full"
+                                className="whitespace-nowrap rounded-md"
                             >
                                 {cat.title}
                             </Button>
@@ -148,13 +148,13 @@ export default function POSManager({ products, categories, customers, userId }: 
                     <ProductList products={filteredProducts} onSelect={addToCart} />
                 </div>
             </div>
-
-            <div className="w-full lg:w-96 flex flex-col bg-background shadow-xl z-10 border-t lg:border-t-0">
-                <div className="p-4 border-b">
-                    <h2 className="font-semibold flex items-center gap-2">
+            
+            <div className="w-full lg:w-96 flex flex-col gap-4 z-10">
+                <div className="p-4 border rounded-lg bg-background">
+                    <h2 className="font-semibold flex items-center gap-2 mb-3">
                         Pelanggan
                     </h2>
-                    <div className="mt-2">
+                    <div>
                         <CustomerSelection 
                             userId={userId}
                             customers={customers} 
@@ -164,37 +164,38 @@ export default function POSManager({ products, categories, customers, userId }: 
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-4 bg-muted/5">
-                    <h2 className="font-semibold mb-4">Keranjang ({cart.length})</h2>
-                    <Cart 
-                        items={cart} 
-                        onRemove={removeFromCart} 
-                        onUpdateQuantity={updateQuantity} 
-                    />
-                </div>
-
-                <div className="p-6 border-t bg-background">
-                    {!selectedCustomer && cart.length > 0 && (
-                        <p className="text-[10px] text-destructive font-medium mb-3 text-center animate-bounce">
-                            Harap pilih pelanggan untuk melanjutkan
-                        </p>
-                    )}
-                    <div className="flex justify-between items-center mb-4">
-                        <span className="text-muted-foreground">Total</span>
-                        <span className="text-2xl font-bold">
-                            Rp {totalAmount.toLocaleString('id-ID')}
-                        </span>
+                <div className="flex-1 border rounded-lg bg-background flex flex-col">
+                    <div className="overflow-y-auto p-4">
+                        <h2 className="font-semibold mb-4">Keranjang ({cart.length})</h2>
+                        <Cart 
+                            items={cart} 
+                            onRemove={removeFromCart} 
+                            onUpdateQuantity={updateQuantity} 
+                        />
                     </div>
-                    <Button 
-                        className="w-full h-12 text-lg font-semibold gap-2" 
-                        disabled={cart.length === 0 || !selectedCustomer}
-                        onClick={handleCheckout}
-                    >
-                        Tinjau Pesanan
-                        <ArrowRight className="h-5 w-5" />
-                    </Button>
-                </div>
 
+                    <div className="p-6 border-t bg-background rounded-lg mt-auto">
+                        {!selectedCustomer && cart.length > 0 && (
+                            <p className="text-[10px] text-destructive font-medium mb-3 text-center animate-bounce">
+                                Harap pilih pelanggan untuk melanjutkan
+                            </p>
+                        )}
+                        <div className="flex justify-between items-center mb-4">
+                            <span className="text-muted-foreground">Total</span>
+                            <span className="text-2xl font-bold">
+                                Rp {totalAmount.toLocaleString('id-ID')}
+                            </span>
+                        </div>
+                        <Button 
+                            className="w-full h-12 text-lg font-semibold gap-2" 
+                            disabled={cart.length === 0 || !selectedCustomer}
+                            onClick={handleCheckout}
+                        >
+                            Tinjau Pesanan
+                            <ArrowRight className="h-5 w-5" />
+                        </Button>
+                    </div>
+                </div>
             </div>
         </div>
     );
