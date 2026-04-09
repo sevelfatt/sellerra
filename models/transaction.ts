@@ -36,3 +36,15 @@ export type TransactionItemWithProduct = transactionItem & {
     product: Product | null;
 };
 
+export class additionalTransactionItem {
+    id: number = 0;
+    transaction_id: number = 0;
+    title: string = "";
+    price: number = 0;
+    user_id: string = "";
+
+    constructor(init?: Partial<additionalTransactionItem>) {
+        Object.assign(this, init);
+    }
+}
+
