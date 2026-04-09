@@ -16,6 +16,7 @@ import TopProductsChart from "@/components/reports/TopProductsChart";
 import TopCustomersChart from "@/components/reports/TopCustomersChart";
 import { Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Package, Users, Wallet } from "lucide-react";
 
 async function ReportsDashboard({ 
     userId, 
@@ -52,50 +53,61 @@ async function ReportsDashboard({
             {/* Section 1: Global Business Overview */}
             <div className="space-y-8">
                 <div className="flex flex-col gap-4">
-                    <h2 className="text-2xl font-bold tracking-tight">Ringkasan Bisnis Global</h2>
                     <TimeRangeFilters />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Card>
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Pendapatan (Periode)</CardTitle>
+                        <CardHeader className=" flex flex-row items-center space-x-3 w-2/3">
+                            <div className="p-3 rounded-2xl h-fit bg-blue-100">
+                                <Wallet className="text-blue-500 w-6 h-6" />
+                            </div>
+                            <CardTitle className="text-lg font-semibold leading-tight w-1/2">Total Pendapatan (Periode)</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-bold text-primary">
+                            <div className="text-3xl font-bold">
                                 {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalIncome)}
                             </div>
                         </CardContent>
                     </Card>
 
                     <Card>
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Pengeluaran (Periode)</CardTitle>
+                        <CardHeader className="flex flex-row items-center space-x-3 w-2/3">
+                            <div className="p-3 rounded-2xl h-fit bg-red-100">
+                                <Wallet className="text-red-500 w-6 h-6" />
+                            </div>
+                            <CardTitle className="text-lg font-semibold leading-tight w-1/2">Total Pengeluaran (Periode)</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-bold text-red-600">
+                            <div className="text-3xl font-bold">
                                 {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalExpenses)}
                             </div>
                         </CardContent>
                     </Card>
 
-                    <Card className="bg-primary/5">
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Pendapatan Bersih</CardTitle>
+                    <Card>
+                        <CardHeader className="flex flex-row items-center space-x-3 w-2/3">
+                            <div className="p-3 rounded-2xl h-fit bg-blue-100">
+                                <Wallet className="text-blue-500 w-6 h-6" />
+                            </div>
+                            <CardTitle className="text-lg font-semibold leading-tight w-1/2">Pendapatan Bersih (Periode)</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-black text-primary">
+                            <div className="text-3xl font-bold">
                                 {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(totalIncome - totalExpenses)}
                             </div>
                         </CardContent>
                     </Card>
 
                     <Card>
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Stok Inventaris</CardTitle>
+                        <CardHeader className="flex flex-row items-center space-x-3 w-2/3">
+                            <div className="p-3 rounded-2xl h-fit bg-green-100">
+                                <Package className="text-green-500 w-6 h-6" />
+                            </div>
+                            <CardTitle className="text-lg font-semibold leading-tight w-1/2">Total Stok Inventaris</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-bold text-blue-600">
+                            <div className="text-3xl font-bold text-green-600">
                                 {totalStocks.toLocaleString('id-ID')} Unit
                             </div>
                         </CardContent>
@@ -117,30 +129,25 @@ async function ReportsDashboard({
             <hr className="my-8 border-t" />
 
             {/* Section 2: Customer Insights */}
-            <div className="space-y-8 pb-10">
-                <div className="flex flex-col gap-4">
-                    <h2 className="text-2xl font-bold tracking-tight">Wawasan Pelanggan</h2>
+            <h2 className="text-2xl font-bold tracking-tight">Wawasan Pelanggan</h2>
+            <div className="space-x-4 pb-10 flex flex-row">
+                <div className="flex flex-col gap-4 w-2/3">
                     <CustomerFilter customers={customers} />
                 </div>
 
                 {customerId ? (
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div className="w-1/2 gap-8">
                         <TopProductsChart 
                             data={customerTopProducts} 
                             title={`Produk Teratas untuk ${customers.find(c => c.id === customerId)?.name || 'Pelanggan Terpilih'}`} 
                         />
-                        <Card className="col-span-full lg:col-span-2 bg-muted/30">
-                            <CardHeader>
-                                <CardTitle>Analisis Nilai Pelanggan</CardTitle>
-                            </CardHeader>
-                            <CardContent className="flex items-center justify-center p-12 text-center text-muted-foreground">
-                                <p>Kebiasaan pembelian mendetail dan kategori pilihan untuk pelanggan ini ditampilkan di sini berdasarkan periode waktu yang dipilih.</p>
-                            </CardContent>
-                        </Card>
                     </div>
                 ) : (
-                    <div className="h-40 flex items-center justify-center border-2 border-dashed rounded-xl text-muted-foreground">
-                        Pilih pelanggan untuk melihat wawasan pembelian spesifik.
+                    <div className="bg-card p-5 rounded-lg w-1/3 border-separate border border-gray-500 border-dashed flex flex-col justify-center items-center space-y-2">
+                        <div className="p-3 rounded-full h-fit bg-blue-100">
+                            <Users className="text-blue-500 w-10 h-10" />
+                        </div>
+                        <p className="text-muted-foreground text-xs text-center w-2/3">Pilih pelanggan untuk melihat wawasan pembelian spesifik.</p>
                     </div>
                 )}
             </div>

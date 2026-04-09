@@ -6,6 +6,7 @@ export class transaction {
     customer_id: number = 0;
     user_id: string = "";
     total_price: number = 0;
+    discount: number | null = null;
     created_at?: string;
 
     constructor(init?: Partial<transaction>) {
@@ -34,4 +35,16 @@ export class transactionItem {
 export type TransactionItemWithProduct = transactionItem & {
     product: Product | null;
 };
+
+export class additionalTransactionItem {
+    id: number = 0;
+    transaction_id: number = 0;
+    title: string = "";
+    price: number = 0;
+    user_id: string = "";
+
+    constructor(init?: Partial<additionalTransactionItem>) {
+        Object.assign(this, init);
+    }
+}
 

@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, Package, Menu, X, Store, TrendingUp, ScrollText, ShoppingCart, Archive } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ThemeSwitcher } from "./theme-switcher";
 
 const navItems = [
   { label: "Beranda", href: "/dashboard", icon: LayoutDashboard },
@@ -75,11 +74,7 @@ export function Sidebar({ authButton }: { authButton?: React.ReactNode }) {
             ))}
           </nav>
 
-          <div className="mt-auto pt-6 border-t border-border/50 space-y-6">
-            <div className="flex items-center justify-between px-2">
-              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Tampilan</span>
-              <ThemeSwitcher />
-            </div>
+          <div className="mt-auto pt-6">
             <div className="px-2 pb-2">
                {authButton}
             </div>

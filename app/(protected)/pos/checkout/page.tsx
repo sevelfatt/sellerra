@@ -14,6 +14,9 @@ export default function CheckoutPage() {
     const [data, setData] = useState<{
         cart: { product: Product; quantity: number }[];
         customer: customer | null;
+        subTotalAmount: number;
+        discountPercentage: number;
+        discountValue: number;
         totalAmount: number;
     } | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,6 +42,7 @@ export default function CheckoutPage() {
             const newTrans = new transaction({
                 customer_id: data.customer?.id || 0,
                 total_price: data.totalAmount,
+                discount: data.discountValue > 0 ? data.discountValue : null,
                 user_id: userId
             });
 
@@ -98,6 +102,19 @@ export default function CheckoutPage() {
                                     </p>
                                 </div>
                             ))}
+
+                            {data.discountValue > 0 && (
+                                <div className="mt-4 pt-4 border-t border-dashed space-y-2">
+                                    <div className="flex justify-between text-sm text-muted-foreground">
+                                        <span>Subtotal</span>
+                                        <span>Rp {data.subTotalAmount.toLocaleString('id-ID')}</span>
+                                    </div>
+                                    <div className="flex justify-between text-sm text-destructive font-medium">
+                                        <span>Diskon ({data.discountPercentage}%)</span>
+                                        <span>- Rp {data.discountValue.toLocaleString('id-ID')}</span>
+                                    </div>
+                                </div>
+                            )}
                         </CardContent>
                     </Card>
 

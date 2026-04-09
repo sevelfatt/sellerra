@@ -97,7 +97,7 @@ export default function POSManager({ products, categories, customers, userId }: 
     return (
         <div className="flex flex-col lg:flex-row h-full gap-4">
             <div className="flex-1 flex flex-col min-h-0 bg-muted/10">
-                <div className="p-4 border bg-background rounded-md space-y-4">
+                <div className="p-4 border- bg-background rounded-md space-y-4">
                     <div className="flex items-center justify-between">
                         <h1 className="text-xl font-bold flex items-center gap-2">
                             <ShoppingCart className="h-5 w-5 text-primary" />

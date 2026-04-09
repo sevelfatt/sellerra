@@ -54,18 +54,18 @@ export function SignUpForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6 w-full max-w-md fade-in zoom-in duration-500 animate-in", className)} {...props}>
-      <Card className=" flex flex-col space-y-7 border shadow-2xl drop-shadow-sm rounded-xl overflow-hidden backdrop-blur-md bg-background/90 md:border-none md:shadow-none md:bg-transparent md:backdrop-blur-none transition-all">
+    <div className={cn("flex flex-col w-full max-w-md fade-in zoom-in duration-500 animate-in", className)} {...props}>
+      <Card className="flex flex-col space-y-7 border rounded-xl overflow-hidden backdrop-blur-md bg-background/90 border-none shadow-none md:bg-transparent md:backdrop-blur-none transition-all">
         <CardHeader className="pt-8 pb-4 flex flex-row justify-between">
-          <h1 className="text-3xl text-gray-700">Daftar</h1>
+          <h1 className="text-lg md:text-xl lg:text-2xl text-gray-700">Daftar</h1>
           <Link
             href="/auth/login"
-            className="underline underline-offset-4 text-blue-600"
+            className="underline text-xs md:text-base underline-offset-4 text-blue-600"
           >
             Masuk
           </Link>
         </CardHeader>
-        <CardContent className="flex flex-col space-y-6 text-lg">
+        <CardContent className="flex flex-col space-y-6 text-sm md:text-lg">
           <form onSubmit={handleSignUp} className="space-y-2">
             <div className="flex flex-col gap-5">
               <Input
@@ -75,7 +75,7 @@ export function SignUpForm({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="text-2xl transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-4 px-3"
+                  className="text-sm md:text-lg transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-2 px-2 md:py-4 md:px-3"
                 />
                 <Input
                   id="password"
@@ -84,7 +84,7 @@ export function SignUpForm({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="text-2xl transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-4 px-3"
+                  className="text-sm md:text-lg transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-2 px-2 md:py-4 md:px-3"
                 />
                 <Input
                   id="repeat-password"
@@ -93,7 +93,7 @@ export function SignUpForm({
                   required
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
-                  className="text-2xl transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-4 px-3"
+                  className="text-sm md:text-lg transition-colors hover:border-primary/50 focus-visible:ring-primary/50 h-fit py-2 px-2 md:py-4 md:px-3"
                 />
               {error && <p className="text-sm text-red-500">{error}</p>}
               <div />
