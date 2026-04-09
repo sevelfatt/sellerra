@@ -199,6 +199,31 @@ export default function POSManager({ products, categories, customers, userId }: 
                             </span>
                         </div>
 
+                        <div className="flex justify-between items-center mb-4">
+                            <span className="text-muted-foreground">Diskon (%)</span>
+                            <div className="flex items-center gap-2">
+                                <Input 
+                                    type="number"
+                                    placeholder="0" 
+                                    className="h-8 w-20 text-right"
+                                    min="0"
+                                    max="100"
+                                    value={discountPercentage === 0 ? "" : discountPercentage}
+                                    onChange={(e) => {
+                                        const val = Number(e.target.value);
+                                        if (val >= 0 && val <= 100) setDiscountPercentage(val);
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        {discountPercentage > 0 && (
+                            <div className="flex justify-between items-center mb-4 text-sm text-destructive font-medium">
+                                <span>Potongan Diskon</span>
+                                <span>- Rp {discountValue.toLocaleString('id-ID')}</span>
+                            </div>
+                        )}
+
                         <div className="mt-4 border-t pt-4">
                             <span className="text-muted-foreground text-sm font-medium mb-2 block">Biaya Tambahan</span>
                             <div className="flex gap-2 mb-3">
