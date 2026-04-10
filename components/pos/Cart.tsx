@@ -3,6 +3,8 @@
 import { Product } from "@/models/product";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import { getPublicUrl } from "@/services/product/productImageService";
+import Image from "next/image";
 
 interface CartItem {
     product: Product;
@@ -27,9 +29,16 @@ export default function Cart({ items, onRemove, onUpdateQuantity }: CartProps) {
     return (
         <div className="space-y-4">
             {items.map((item) => (
-                <div key={item.product.id} className="flex gap-3 bg-background p-3 rounded-lg border group relative">
+                <div key={item.product.id} className="flex flex-row gap-3 bg-background p-3 rounded-lg border group relative">
+                    {item.product.image_path ? (
+                        <Image src={getPublicUrl(item.product.image_path)} alt={item.product.name} width={80} height={80} className="w-20 h-20 object-cover rounded-lg" />
+                    ) : (
+                        <div className="w-20 h-20 bg-muted flex items-center justify-center rounded-lg">
+                            <span className="text-muted-foreground font-bold text-2xl">{item.product.name.charAt(0)}</span>
+                        </div>
+                    )}
                     <div className="flex-1 min-w-0">
-                        <h4 className="font-medium text-sm line-clamp-1">{item.product.name}</h4>
+                        <h4 className="font-medium text-base line-clamp-1">{item.product.name}</h4>
                         <p className="text-xs text-muted-foreground mt-0.5">
                             Rp {item.product.price.toLocaleString('id-ID')} / unit
                         </p>

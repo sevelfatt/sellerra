@@ -6,7 +6,7 @@ import { Product } from "@/models/product";
 import { customer } from "@/models/customer";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, ShoppingCart, User, ArrowRight } from "lucide-react";
+import { Search, User, ArrowRight } from "lucide-react";
 import ProductList from "./ProductList";
 import Cart from "./Cart";
 import { Category } from "@/models/category";
@@ -111,10 +111,6 @@ export default function POSManager({ products, categories, customers, userId }: 
             <div className="flex-1 flex flex-col min-h-0 bg-muted/10">
                 <div className="p-4 border- bg-background rounded-md space-y-4">
                     <div className="flex items-center justify-between">
-                        <h1 className="text-xl font-bold flex items-center gap-2">
-                            <ShoppingCart className="h-5 w-5 text-primary" />
-                            Kasir (POS)
-                        </h1>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <User className="h-4 w-4" />
                             {selectedCustomer ? selectedCustomer.name : "Pelanggan Langsung"}
