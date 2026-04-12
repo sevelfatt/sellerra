@@ -44,6 +44,7 @@ export default async function InvoicePage({ params }: PageProps) {
                     customerData={customerData}
                     itemsWithProducts={itemsWithProducts}
                     date={format(new Date(transaction.created_at!), "dd MMM yyyy HH:mm")}
+                    autoSend={false}
                 />
             </div>
         );
