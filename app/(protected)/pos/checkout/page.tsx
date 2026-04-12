@@ -169,7 +169,7 @@ export default function CheckoutPage() {
                         </CardContent>
                         <CardFooter>
                             <Button 
-                                className="w-full h-14 text-lg font-bold gap-3 shadow-lg shadow-primary/20" 
+                                className="w-full h-auto min-h-[3.5rem] py-3 text-base sm:text-lg font-bold gap-3 shadow-lg shadow-primary/20 whitespace-normal" 
                                 size="lg"
                                 onClick={handleConfirmCheckout}
                                 disabled={isSubmitting}
