@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import Link from "next/link";
 import DeleteTransactionButton from "@/components/transactions/DeleteTransactionButton";
+import { File, ListFilter, RefreshCcw, SlidersHorizontal } from "lucide-react";
 
 
 interface PageProps {
@@ -47,7 +48,7 @@ export default async function TransactionsPage({ searchParams }: PageProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg font-medium">Filter</CardTitle>
+          <CardTitle className="text-lg font-medium flex flex-row gap-2 items-center"><SlidersHorizontal className="h-5 w-5" />Filter</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 items-end">
@@ -112,9 +113,9 @@ export default async function TransactionsPage({ searchParams }: PageProps) {
 
             <div className="lg:col-span-5 flex justify-end gap-2 mt-2">
               <Button variant="outline" asChild>
-                <Link href="/transactions">Reset</Link>
+                <Link href="/transactions"><RefreshCcw className="h-4 w-4" />Reset</Link>
               </Button>
-              <Button type="submit">Terapkan Filter</Button>
+              <Button type="submit"><ListFilter className="h-4 w-4" />Terapkan Filter</Button>
             </div>
           </form>
         </CardContent>
@@ -149,7 +150,7 @@ export default async function TransactionsPage({ searchParams }: PageProps) {
                   </TableCell>
                   <TableCell className="text-right flex justify-end gap-2">
                     <Button variant="outline" size="sm" asChild>
-                      <Link href={`/transactions/${trans.id}/invoice`}>Lihat Struk</Link>
+                      <Link href={`/transactions/${trans.id}/invoice`}><File className="h-4 w-4" />Lihat Struk</Link>
                     </Button>
                     <DeleteTransactionButton transactionId={trans.id} />
                   </TableCell>
