@@ -58,7 +58,7 @@ function POSProductCard({ product, onSelect }: { product: Product; onSelect: (pr
                         <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="absolute left-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-background/80 opacity-0 group-hover/card:opacity-100 transition-opacity z-20 cursor-pointer pointer-events-auto"
+                            className="absolute left-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-background/80 opacity-100  transition-opacity z-20 cursor-pointer pointer-events-auto"
                             onClick={prevVariant}
                         >
                             <ChevronLeft className="h-4 w-4" />
@@ -66,7 +66,7 @@ function POSProductCard({ product, onSelect }: { product: Product; onSelect: (pr
                         <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-background/80 opacity-0 group-hover/card:opacity-100 transition-opacity z-20 cursor-pointer pointer-events-auto"
+                            className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-background/80 opacity-100 transition-opacity z-20 cursor-pointer pointer-events-auto"
                             onClick={nextVariant}
                         >
                             <ChevronRight className="h-4 w-4" />
