@@ -17,9 +17,10 @@ interface PrintableInvoiceProps {
     additionalItems?: additionalTransactionItem[];
     customerData: customer | null;
     date: string;
+    autoSend?: boolean;
 }
 
-export default function PrintableInvoice({ transaction, itemsWithProducts, additionalItems, customerData, date }: PrintableInvoiceProps) {
+export default function PrintableInvoice({ transaction, itemsWithProducts, additionalItems, customerData, date, autoSend = false }: PrintableInvoiceProps) {
     const invoiceRef = useRef<HTMLDivElement>(null);
     
     const productSubtotal = itemsWithProducts.reduce((sum, item) => sum + item.total_price, 0);
@@ -113,7 +114,7 @@ export default function PrintableInvoice({ transaction, itemsWithProducts, addit
                     items={itemsWithProducts}
                     additionalItems={additionalItems}
                     customerData={customerData}
-                    autoSend={true}
+                    autoSend={autoSend}
                 />
                 
                 <Link href="/pos" className="flex-1">

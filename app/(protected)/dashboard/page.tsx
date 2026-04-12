@@ -123,7 +123,7 @@ async function TransactionHistory({ userId }: { userId: string }) {
                     {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(trans.total_price)}
                   </TableCell>
                   <TableCell>
-                    <Link href={`/transactions/${trans.id}`}>
+                    <Link href={`/transactions/${trans.id}/invoice`}>
                       <Button variant="outline" size="sm">
                         Detail
                       </Button>

@@ -49,6 +49,7 @@ async function InvoiceContent({ id }: { id: string }) {
                 additionalItems={additionalItems}
                 customerData={customerData}
                 date={date}
+                autoSend={true}
             />
         </div>
     );
