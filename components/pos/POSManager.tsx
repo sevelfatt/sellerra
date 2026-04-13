@@ -109,7 +109,7 @@ export default function POSManager({ products, categories, customers, userId }: 
     return (
         <div className="flex flex-col lg:flex-row h-full gap-4">
             <div className="flex-1 flex flex-col min-h-0 bg-muted/10">
-                <div className="p-4 border- bg-background rounded-md space-y-4">
+                <div className="p-4 border bg-background rounded-md space-y-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <User className="h-4 w-4" />
@@ -201,7 +201,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                                 <Input 
                                     type="number"
                                     placeholder="0" 
-                                    className="h-8 w-20 text-right"
+                                    className="h-8 w-16 text-left text-sm"
                                     min="0"
                                     max="100"
                                     value={discountPercentage === 0 ? "" : discountPercentage}
@@ -231,8 +231,8 @@ export default function POSManager({ products, categories, customers, userId }: 
                                 />
                                 <Input 
                                     type="number"
-                                    placeholder="Harga (Rp)" 
-                                    className="h-8 text-sm w-24 flex-shrink-0"
+                                    placeholder="Harga (Rp)"
+                                    className="h-8 text-sm w-[107px] flex-shrink-0"
                                     value={newFeePrice}
                                     onChange={(e) => setNewFeePrice(e.target.value)}
                                 />

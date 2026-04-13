@@ -93,7 +93,7 @@ export default function ProductInputForm({ userId, initialProduct }: { userId: s
     }
 
     return (
-        <div className="max-w-2xl mx-auto space-y-4 p-6">
+        <div className="max-w-2xl mx-auto space-y-4 md:p-6">
             <Link href="/inventory" className="flex items-center text-sm text-muted-foreground hover:text-primary transition-colors">
                 <ChevronLeft className="h-4 w-4 mr-1" /> Kembali ke Inventaris
             </Link>
