@@ -6,7 +6,7 @@ import { getStockStatistics } from "@/services/product/productServiceServer";
 import { getTotalExpenses } from "@/services/expense/expenseServiceServer";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format } from "date-fns";
-import {ArrowUp, ArrowDown, Package} from "lucide-react";
+import { ArrowUp, ArrowDown, Package } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -50,7 +50,7 @@ async function DashboardStats({ userId }: { userId: string }) {
             </div>
             <div className="flex flex-row items-center gap-2">
               <ArrowDown className="h-7 w-7 rounded-full text-red-500" />
-              <span className="text-lg text-gray-600">Pengeluaran: </span>  
+              <span className="text-lg text-gray-600">Pengeluaran: </span>
               <span className="text-lg text-muted-foreground">{NumberFormat.format(monthlyExpenses)} </span>
             </div>
           </div>
@@ -58,13 +58,13 @@ async function DashboardStats({ userId }: { userId: string }) {
       </Card>
       <Card className="flex flex-row w-full sm:w-fit justify-between">
         <div>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-lg text-gray-600 font-medium">Stok Barang Menipis</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-black">{stockStats.lowStock} Produk</div>
-          <p className="text-xs text-muted-foreground">Produk dengan stok sedikit (1-5)</p>
-        </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-lg text-gray-600 font-medium">Stok Barang Menipis</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-black">{stockStats.lowStock} Produk</div>
+            <p className="text-xs text-muted-foreground">Produk dengan stok sedikit (1-5)</p>
+          </CardContent>
         </div>
         <div className="bg-yellow-500/20 w-fit h-fit p-3 mt-5 mr-5 rounded-3xl" >
           <Package className="h-12 w-12 text-yellow-500" />
@@ -72,14 +72,14 @@ async function DashboardStats({ userId }: { userId: string }) {
       </Card>
       <Card className="flex flex-row w-full sm:w-fit justify-between">
         <div>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-lg text-gray-600 font-medium">Stok Habis</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-black">{stockStats.outOfStock} Produk</div>
-          <p className="text-xs text-muted-foreground">Produk dengan stok kosong</p>
-        </CardContent>
-                </div>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-lg text-gray-600 font-medium">Stok Habis</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-black">{stockStats.outOfStock} Produk</div>
+            <p className="text-xs text-muted-foreground">Produk dengan stok kosong</p>
+          </CardContent>
+        </div>
         <div className="bg-red-500/20 w-fit h-fit p-3 mt-5 mr-5 rounded-3xl" >
           <Package className="h-12 w-12 text-red-500" />
         </div>
@@ -141,9 +141,9 @@ async function TransactionHistory({ userId }: { userId: string }) {
 
 export default async function DashboardPage() {
   const user = await requireUser();
-  
+
   return (
-    <div className="flex-1 flex flex-col gap-12 mx-auto w-fit">
+    <div className="flex-1 flex flex-col gap-12 mx-auto max-w-[968px] px-4 w-full">
       <Suspense fallback={<div>Memuat pesan selamat datang...</div>}>
         <UserWelcome />
       </Suspense>

@@ -130,20 +130,20 @@ async function ReportsDashboard({
 
             {/* Section 2: Customer Insights */}
             <h2 className="text-2xl font-bold tracking-tight">Wawasan Pelanggan</h2>
-            <div className="space-x-4 pb-10 flex flex-row">
-                <div className="flex flex-col gap-4 w-2/3">
+            <div className="pb-10 flex flex-col gap-4 md:gap-4 md:flex-row">
+                <div className="flex flex-col gap-4 w-full md:w-2/3">
                     <CustomerFilter customers={customers} />
                 </div>
 
                 {customerId ? (
-                    <div className="w-1/2 gap-8">
+                    <div className="w-full md:w-1/2 gap-8">
                         <TopProductsChart 
                             data={customerTopProducts} 
                             title={`Produk Teratas untuk ${customers.find(c => c.id === customerId)?.name || 'Pelanggan Terpilih'}`} 
                         />
                     </div>
                 ) : (
-                    <div className="bg-card p-5 rounded-lg w-1/3 border-separate border border-gray-500 border-dashed flex flex-col justify-center items-center space-y-2">
+                    <div className="bg-card p-5 rounded-lg w-full md:w-1/3 border-separate border border-gray-500 border-dashed flex flex-col justify-center items-center space-y-2">
                         <div className="p-3 rounded-full h-fit bg-blue-100">
                             <Users className="text-blue-500 w-10 h-10" />
                         </div>

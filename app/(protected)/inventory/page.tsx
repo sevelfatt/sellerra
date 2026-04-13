@@ -47,7 +47,7 @@ export default function Page() {
           </Link>
           <Link href="/inventory/create" className="flex-1 md:flex-none">
             <Button className="w-full">
-              <Plus className="mr-2 h-4 w-4" /> Tambah Produk
+              <Plus className="mr-2 h-4 w-4"/> Tambah Produk
             </Button>
           </Link>
         </div>
