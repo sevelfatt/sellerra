@@ -7,7 +7,7 @@ import { Category } from "@/models/category";
 import { deleteCategory } from "@/services/category/categoryServiceClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trash2, Plus, Search } from "lucide-react";
+import { Trash2, Plus, Search, Pencil } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 interface CategoryTableProps {
@@ -78,6 +78,17 @@ export function CategoryTable({ initialCategories }: CategoryTableProps) {
                     <td className="p-4 align-middle font-mono text-xs">{category.id}</td>
                     <td className="p-4 align-middle font-medium">{category.title}</td>
                     <td className="p-4 align-middle text-right space-x-2">
+                      <Link href={`/inventory/category/manage/edit/${category.id}`}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8"
+                          disabled={isDeleting === category.id}
+                        >
+                          <Pencil className="h-4 w-4 text-blue-500" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                      </Link>
                       <Button
                         variant="ghost"
                         size="icon"
