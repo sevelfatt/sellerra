@@ -108,7 +108,7 @@ export default function POSManager({ products, categories, customers, userId }: 
 
     return (
         <div className="flex flex-col lg:flex-row h-full gap-4">
-            <div className="flex-1 flex flex-col min-h-0 bg-muted/10">
+            <div className="flex-1 flex flex-col min-h-0 min-w-0 bg-muted/10">
                 <div className="p-4 border bg-background rounded-md space-y-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -129,7 +129,7 @@ export default function POSManager({ products, categories, customers, userId }: 
                         </div>
                     </div>
 
-                    <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+                    <div className="flex gap-2 overflow-x-auto w-full pb-1 no-scrollbar">
                         <Button 
                             variant={selectedCategory === null ? "default" : "outline"}
                             size="sm"

@@ -15,7 +15,7 @@ async function ProtectedLayout({ children }: { children: React.ReactNode }) {
           </Suspense>
         } 
       />
-      <main className="flex-1 w-full lg:pl-0 lg:ml-64 mt-16 lg:mt-0 transition-all duration-300">
+      <main className="flex-1 w-full min-w-0 lg:pl-0 lg:ml-64 mt-16 lg:mt-0 transition-all duration-300">
         <div className="p-4 md:p-6 lg:p-8">
           {children}
         </div>

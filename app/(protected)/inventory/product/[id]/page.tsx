@@ -122,9 +122,16 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                             </div>
                             <div className="flex items-center justify-between py-2 border-b">
                                 <span className="text-muted-foreground">Current Stock</span>
-                                <span className={`font-bold ${product.stocks <= 5 ? 'text-orange-500' : ''}`}>
-                                    {product.stocks} units
-                                </span>
+                                <div className="text-right">
+                                    <div className={`font-bold ${product.stocks <= 5 ? 'text-orange-500' : ''}`}>
+                                        {product.stocks} units
+                                    </div>
+                                    {!product.parent_product_id && product.variants && product.variants.length > 0 && (
+                                        <div className="text-xs text-blue-600 font-medium mt-1">
+                                            {product.stocks + (product.variants?.reduce((acc, v) => acc + v.stocks, 0) || 0)} total (with variants)
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                             {product.parent_product_id && (
                                 <div className="flex items-center justify-between py-2 border-b">
