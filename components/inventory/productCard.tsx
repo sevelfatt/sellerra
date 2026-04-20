@@ -78,10 +78,15 @@ export default function ProductCard({ product }: ProductCardProps) {
                     </>
                 )}
 
-                <div className="absolute top-2 right-2 z-10">
+                <div className="absolute top-2 right-2 z-10 flex flex-col items-end gap-1">
                     <span className={`px-2 py-1 rounded-full text-xs font-semibold ${currentProduct.stocks > 0 ? 'bg-green-100/90 text-green-700 shadow-sm' : 'bg-red-100/90 text-red-700 shadow-sm'}`}>
                         {currentProduct.stocks} stok
                     </span>
+                    {currentIndex === 0 && allVariants.length > 1 && (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100/90 text-blue-700 shadow-sm">
+                            {allVariants.reduce((sum, v) => sum + v.stocks, 0)} total
+                        </span>
+                    )}
                 </div>
             </div>
             

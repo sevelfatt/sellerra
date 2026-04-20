@@ -40,13 +40,13 @@ export function CategoryForm({ initialData, userId }: CategoryFormProps) {
       } else {
         await createCategory({ title, user_id: userId });
       }
-      router.push("/inventory/category/manage");
-      router.refresh();
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Terjadi kesalahan. Silakan coba lagi.";
       setError(errorMessage);
     } finally {
       setIsLoading(false);
+      router.push("/inventory/category/manage");
+      router.refresh();
     }
   };
 
